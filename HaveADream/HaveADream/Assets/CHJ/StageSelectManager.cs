@@ -9,6 +9,7 @@ public class StageSelectManager : MonoBehaviour
         sm = SceneManager.Instance;
     }
 
+    [SerializeField]
     public void Stage1Button_OnClick()
     {
         sm.Scene_Change_GamePlay();

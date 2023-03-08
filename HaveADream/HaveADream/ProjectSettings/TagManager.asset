@@ -42,3 +42,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: WorldMap
+    uniqueID: 2442859343
+    locked: 0
+  - name: EpisodeMap
+    uniqueID: 3119363325
+    locked: 0
+  - name: HomeUI
+    uniqueID: 1370536213
+    locked: 0
