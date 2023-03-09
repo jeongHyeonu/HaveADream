@@ -20,5 +20,6 @@ public class Jewel : MonoBehaviour
             if (this.jewelType == Jewel_type.blue) { SkillManager.Instance.GetBlueJewel(); }
             if (this.jewelType == Jewel_type.red) { SkillManager.Instance.GetRedJewel(); }
         }
+        Destroy(this);
     }
 }
