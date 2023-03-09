@@ -34,16 +34,19 @@ public class SceneManager : Singleton<SceneManager>
     public void Scene_Change_Home()    // 홈 씬으로 전환
     {
         Scene_init();
+        UIGroupManager.Instance.TopUI_On();
         HomeScene.SetActive(true);
     }
     public void Scene_Change_StageSelect()    // 스테이지 선택 씬으로 전환
     {
         Scene_init();
+        UIGroupManager.Instance.TopUI_On();
         StageSelectScene.SetActive(true);
     }
     public void Scene_Change_GamePlay()    // 게임플레이 씬으로 전환
     {
         Scene_init();
+        UIGroupManager.Instance.TopUI_Off();
         PlayScene.SetActive(true);
     }
     public void Scene_Change_Result()    // 결과화면 씬으로 전환
