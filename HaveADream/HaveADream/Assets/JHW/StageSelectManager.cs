@@ -20,16 +20,21 @@ namespace JHW
             sm.Scene_Change_Home();
         }
 
-        [SerializeField]
-        public void EpisodeButton_OnClick(int episodeNumber) // 에피소드 클릭시
+        
+        public void EpisodeButton_OnClick([SerializeField] int episodeNumber) // 에피소드 클릭시
         {
             this.transform.GetChild(episodeNumber).gameObject.SetActive(true);
         }
 
-        [SerializeField]
-        public void WorldButton_OnClick(int currentEpisodeNumber) // 월드로 돌아가기 버튼 클릭시
+        
+        public void WorldButton_OnClick([SerializeField] int currentEpisodeNumber) // 월드로 돌아가기 버튼 클릭시
         {
             this.transform.GetChild(currentEpisodeNumber).gameObject.SetActive(false);
+        }
+
+        public void StageButton_OnClick([SerializeField] int currentStageNumber) // 스테이지 버튼 클릭시
+        {
+            sm.Scene_Change_GamePlay();
         }
     }
 }
