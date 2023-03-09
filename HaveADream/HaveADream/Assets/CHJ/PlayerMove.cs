@@ -2,58 +2,45 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+
+    // private Rigidbody rb;
     //스피드 조절
     [SerializeField] float speed;
-
-    private int flickerTimer;
-    private int flickerDuration;
-    private float alpha = 200.0f;
-    private int sign = -1;
+    bool isTouching = false;
 
 
+    void Start()
+    {
+        //rb = GetComponent<Rigidbody>();
+    }
     void Update()
     {
-        //터치 시 상하 구현 확인 필요 , 움직임
-        float v = Input.GetAxisRaw("Vertical");
-        Vector2 curPos = transform.position;
-        Vector2 nextPos = new Vector2(0, v) * speed * Time.deltaTime;
-
-        transform.position = curPos + nextPos;
-        /* if (Input.touchCount > 0)
-         {
-
-         }*/
-
-        //플리커
-        if (flickerTimer >= 0 && flickerDuration <= 0)
-        {
-            flickerTimer--;
-            gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, alpha / 255);
-            alpha += sign * 70;
-            sign *= -1;
-            flickerDuration = 10;
-        }
-        else if (flickerTimer < 0)
-        {
-            gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-        }
-        flickerDuration--;
+        if (Input.GetMouseButton(0))
+            isTouching = true;
+        else
+            isTouching = false;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void FixedUpdate()
     {
-        if (collision.gameObject.tag.CompareTo("Block") == 0)
+        if (isTouching == false)
         {
-            Flicker();
+            this.GetComponent<Rigidbody2D>().AddForce(Vector3.down * 20f);
+        }
+        else
+        {
+            this.GetComponent<Rigidbody2D>().AddForce(Vector3.up * 20f);
         }
     }
-
-    //Flicker = 깜빡대는 기능
-    private void Flicker()
+    /*void FixedUpdate()
     {
-        flickerDuration = 10;
-        sign = -1;
-        alpha = 200.0f;
-        flickerTimer = 6;
-    }
+
+        if (Input.GetMouseButton(0))
+
+        {
+            GetComponent<Rigidbody2D>() = new Vector3(0, speed, 0);
+        }
+
+    }*/
+
 }
