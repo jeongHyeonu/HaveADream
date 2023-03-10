@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIGroupManager : Singleton<UIGroupManager>
@@ -26,5 +27,11 @@ public class UIGroupManager : Singleton<UIGroupManager>
         GoldUI.SetActive(true);
         DiamodUI.SetActive(true);
         OptionUI.SetActive(true);
+    }
+
+    public void ChangeHeartUI()
+    {
+        GameObject userHeart_text = HeartUI.transform.GetChild(0).GetChild(0).gameObject;
+        userHeart_text.GetComponent<TextMeshProUGUI>().text = UserDataManager.Instance.GetUserData_heart().ToString() + "/" + UserDataManager.Instance.GetUserData_maxHeart().ToString();
     }
 }

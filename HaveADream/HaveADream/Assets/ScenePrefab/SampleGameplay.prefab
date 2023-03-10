@@ -244,6 +244,7 @@ GameObject:
   - component: {fileID: 8022885532841056661}
   - component: {fileID: 1471781766154400488}
   - component: {fileID: 4150336204232884830}
+  - component: {fileID: 219123795}
   m_Layer: 0
   m_Name: BG
   m_TagString: Untagged
@@ -269,7 +270,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2.99, y: 1.68}
+  m_SizeDelta: {x: 1.43, y: 1.68}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1471781766154400488
 CanvasRenderer:
@@ -292,7 +293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -309,6 +310,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!223 &219123795
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996810945169721482}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: -10
+  m_TargetDisplay: 0
 --- !u!1 &1996810945408677339
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,7 +649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6476abc8f870de04b936295f4fed8359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 1
 --- !u!1 &1996810945739389006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2400,6 +2422,18 @@ PrefabInstance:
     - target: {fileID: 1202410529603635683, guid: 231b73e826d0b2d4f8ca3a43c77db38f, type: 3}
       propertyPath: m_Name
       value: JewelPool
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798272838129952471, guid: 231b73e826d0b2d4f8ca3a43c77db38f, type: 3}
+      propertyPath: m_Color.b
+      value: 0.1292436
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798272838129952471, guid: 231b73e826d0b2d4f8ca3a43c77db38f, type: 3}
+      propertyPath: m_Color.g
+      value: 0.07843137
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798272838129952471, guid: 231b73e826d0b2d4f8ca3a43c77db38f, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 231b73e826d0b2d4f8ca3a43c77db38f, type: 3}

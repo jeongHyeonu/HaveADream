@@ -17,4 +17,9 @@ public class ResultManager : MonoBehaviour
             sm.Scene_Change_Result();
         }
     }
+
+    public void ReturnHomeBtn_OnClick()
+    {
+        sm.Scene_Change_Home();
+    }
 }
