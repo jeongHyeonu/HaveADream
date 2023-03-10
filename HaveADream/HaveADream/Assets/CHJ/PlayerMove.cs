@@ -1,18 +1,29 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : Singleton<PlayerMove>
 {
-    //½ºÇÇµå Á¶Àý
-    [SerializeField] float speed;
+    //ï¿½ï¿½ï¿½Çµï¿½ ï¿½ï¿½ï¿½ï¿½
+    [SerializeField] float speed =1;
     [SerializeField] GameObject HpBar;
     [SerializeField] Image HpBarFilled;
 
     bool isTouching = false;
+    bool isSkillBtn = false; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ç¿©ï¿½ï¿½
     Rigidbody2D rb;
     SpriteRenderer sr;
 
     private SceneManager sm = null;
+
+    public void ChangeSpeed(float speed = 1)
+    {
+        this.speed = speed;
+    }
+
+    public void setIsSkillBtn(bool flag)
+    {
+        isSkillBtn = flag;
+    }
 
     void Awake()
     {
@@ -22,7 +33,7 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
-        // ½Ì±ÛÅæ ¹Þ¾Æ¿À±â
+        // ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
         sm = SceneManager.Instance;
         HpBarFilled.fillAmount = 1.0f;
 
@@ -30,18 +41,19 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0)) isTouching = true;
+        // È­ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+        if (Input.GetMouseButton(0) && !isSkillBtn) isTouching = true; 
         else isTouching = false;
     }
     private void FixedUpdate()
     {
         if (isTouching == false)
         {
-            this.GetComponent<Rigidbody2D>().AddForce(Vector3.down * 20f);
+            this.GetComponent<Rigidbody2D>().AddForce(Vector3.down * 20f *speed);
         }
         else
         {
-            this.GetComponent<Rigidbody2D>().AddForce(Vector3.up * 20f);
+            this.GetComponent<Rigidbody2D>().AddForce(Vector3.up * 20f * speed);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -56,19 +68,19 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
-    //¹«Àû ±â´É, ÇÃ¸®Ä¿
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½Ã¸ï¿½Ä¿
     void OnDamaged()
     {
-        //¹«Àû ±â´É
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         gameObject.layer = 21;
-        //»ö»ó º¯°æ
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         sr.color = new Color(1, 1, 1, 0.4f);
 
         Invoke("OffDamaged", 1);
 
     }
 
-    //¹«Àû ±â´É Ç®±â
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½
     void OffDamaged()
     {
         gameObject.layer = 20;
