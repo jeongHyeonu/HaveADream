@@ -1,17 +1,31 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMove : MonoBehaviour
 {
     //스피드 조절
     [SerializeField] float speed;
+    [SerializeField] GameObject HpBar;
+    [SerializeField] Image HpBarFilled;
+
     bool isTouching = false;
     Rigidbody2D rb;
     SpriteRenderer sr;
+
+    private SceneManager sm = null;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+    }
+
+    void Start()
+    {
+        // 싱글톤 받아오기
+        sm = SceneManager.Instance;
+        HpBarFilled.fillAmount = 1.0f;
+
     }
 
     void Update()
@@ -35,6 +49,11 @@ public class PlayerMove : MonoBehaviour
         if (collision.gameObject.tag == "Block")
         {
             OnDamaged();
+            HpBarFilled.fillAmount -= 0.1f;
+            if (HpBarFilled.fillAmount == 0.0f)
+            {
+                sm.Scene_Change_Result();
+            }
         }
     }
     //무적 기능, 플리커

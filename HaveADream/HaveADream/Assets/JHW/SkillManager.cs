@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +11,7 @@ public class SkillManager : Singleton<SkillManager>
 
     private const int maxJewelCnt = 5;
     private int jewelCnt = 0;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +31,7 @@ public class SkillManager : Singleton<SkillManager>
     public void GetRedJewel()
     {
         jewelCnt = 5;
-        for(int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)
         {
             this.transform.GetChild(i).GetComponent<Button>().interactable = true;
         }
