@@ -840,7 +840,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Episode1
+  m_text: Episode3
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1559,8 +1559,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 103507399842175229}
   m_HandleRect: {fileID: 7576324970908808659}
   m_Direction: 0
-  m_Value: -0.0000002152916
-  m_Size: 0.5830883
+  m_Value: -0.00000021529155
+  m_Size: 0.5830882
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5704,7 +5704,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3990300450622426359}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.3874039
+  m_Size: 0.3874031
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7561,7 +7561,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Episode1
+  m_text: Episode2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
