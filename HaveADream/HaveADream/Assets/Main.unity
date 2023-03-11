@@ -271,6 +271,14 @@ PrefabInstance:
       propertyPath: speed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3496426090269171640, guid: 86b3ebb8bcc82fd43b59bb68f51a6db6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3496426090269171640, guid: 86b3ebb8bcc82fd43b59bb68f51a6db6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3697556125596005942, guid: 86b3ebb8bcc82fd43b59bb68f51a6db6, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -347,10 +355,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8393683105286817204, guid: 86b3ebb8bcc82fd43b59bb68f51a6db6, type: 3}
+      propertyPath: m_Name
+      value: RedJewelPool
+      objectReference: {fileID: 0}
     - target: {fileID: 8465039574873050708, guid: 86b3ebb8bcc82fd43b59bb68f51a6db6, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8500792899391925349, guid: 86b3ebb8bcc82fd43b59bb68f51a6db6, type: 3}
+      propertyPath: RedJewelPool
+      value: 
+      objectReference: {fileID: 465930752}
+    - target: {fileID: 8500792899391925349, guid: 86b3ebb8bcc82fd43b59bb68f51a6db6, type: 3}
+      propertyPath: BlueJewelPool
+      value: 
+      objectReference: {fileID: 775739032}
     - target: {fileID: 8581206805136765152, guid: 86b3ebb8bcc82fd43b59bb68f51a6db6, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -479,6 +499,11 @@ PrefabInstance:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 472588388793373335, guid: a190d9bdb9bc585478eccf8a6e0b9d4b, type: 3}
   m_PrefabInstance: {fileID: 865128809}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &465930752 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8393683105286817204, guid: 86b3ebb8bcc82fd43b59bb68f51a6db6, type: 3}
+  m_PrefabInstance: {fileID: 135904275}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
@@ -708,6 +733,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &775739032 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5020999460740262729, guid: 86b3ebb8bcc82fd43b59bb68f51a6db6, type: 3}
+  m_PrefabInstance: {fileID: 135904275}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &846023189 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1901292484899372125, guid: 9febd6a0988d67c4b97752948f4a4118, type: 3}
