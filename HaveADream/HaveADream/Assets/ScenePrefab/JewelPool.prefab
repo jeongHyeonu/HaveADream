@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1202410529603635682}
+  - component: {fileID: 6184283529862134335}
   m_Layer: 0
   m_Name: JewelPool
   m_TagString: Untagged
@@ -28,18 +29,22 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5386064881242262386}
-  - {fileID: 1849452473341228333}
-  - {fileID: 7947489094921064888}
-  - {fileID: 5136319279802278339}
-  - {fileID: 4665052195544013559}
-  - {fileID: 3021538031809211001}
-  - {fileID: 74176520762436218}
-  - {fileID: 3245773742757914482}
-  - {fileID: 3370592622046058934}
+  - {fileID: 3199064259406194551}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6184283529862134335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202410529603635683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 484c9ddc3d6db4547b62a6861740f91b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1403509774668537964
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,8 +76,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1202410529603635682}
-  m_RootOrder: 3
+  m_Father: {fileID: 3199064259406194551}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3171738241826810252
 SpriteRenderer:
@@ -186,8 +191,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1202410529603635682}
-  m_RootOrder: 0
+  m_Father: {fileID: 3199064259406194551}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4558772426221624899
 SpriteRenderer:
@@ -301,8 +306,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1202410529603635682}
-  m_RootOrder: 1
+  m_Father: {fileID: 3199064259406194551}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3130868369136714424
 SpriteRenderer:
@@ -416,8 +421,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1202410529603635682}
-  m_RootOrder: 6
+  m_Father: {fileID: 3199064259406194551}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3737269458272300985
 SpriteRenderer:
@@ -531,8 +536,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1202410529603635682}
-  m_RootOrder: 8
+  m_Father: {fileID: 3199064259406194551}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5608421288336630308
 SpriteRenderer:
@@ -646,8 +651,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1202410529603635682}
-  m_RootOrder: 5
+  m_Father: {fileID: 3199064259406194551}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6105892968667967948
 SpriteRenderer:
@@ -761,7 +766,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1202410529603635682}
+  m_Father: {fileID: 3199064259406194551}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1552400953575618598
@@ -876,8 +881,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1202410529603635682}
-  m_RootOrder: 2
+  m_Father: {fileID: 3199064259406194551}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6082318224894702258
 SpriteRenderer:
@@ -960,6 +965,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jewelType: 0
+--- !u!1 &7315028219278261523
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3199064259406194551}
+  m_Layer: 0
+  m_Name: BlueJewelPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3199064259406194551
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7315028219278261523}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3370592622046058934}
+  - {fileID: 3245773742757914482}
+  - {fileID: 74176520762436218}
+  - {fileID: 3021538031809211001}
+  - {fileID: 4665052195544013559}
+  - {fileID: 5136319279802278339}
+  - {fileID: 7947489094921064888}
+  - {fileID: 1849452473341228333}
+  - {fileID: 5386064881242262386}
+  m_Father: {fileID: 1202410529603635682}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7908368554312520133
 GameObject:
   m_ObjectHideFlags: 0
@@ -991,8 +1036,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1202410529603635682}
-  m_RootOrder: 7
+  m_Father: {fileID: 3199064259406194551}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4798272838129952471
 SpriteRenderer:

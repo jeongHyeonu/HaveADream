@@ -1,6 +1,10 @@
 {
     "maxHeart": 30,
+
     "heart": 16,
+
+    "heart": -13,
+
     "gold": 0,
     "epi1Data": [],
     "epi2Data": [],
