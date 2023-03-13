@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class PlayerMove : Singleton<PlayerMove>
 {
     //���ǵ� ����
-    [SerializeField] float speed =1;
+    [SerializeField] float speed = 1;
     [SerializeField] GameObject HpBar;
     [SerializeField] Image HpBarFilled;
 
@@ -29,27 +29,29 @@ public class PlayerMove : Singleton<PlayerMove>
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        //씬 시작 시 Hp바 초기화 되도록
+        HpBarFilled.fillAmount = 1.0f;
     }
 
     void Start()
     {
         // �̱��� �޾ƿ���
         sm = SceneManager.Instance;
-        HpBarFilled.fillAmount = 1.0f;
+
 
     }
 
     void Update()
     {
-        // ȭ���� Ŭ���ϰ� ������ ��ų ��ư�� ������ �ʾҴٸ� ����
-        if (Input.GetMouseButton(0) && !isSkillBtn) isTouching = true; 
+        // 주석이 다 이상해졌는데 ȭ���� Ŭ���ϰ� ������ ��ų ��ư�� ������ �ʾҴٸ� ����
+        if (Input.GetMouseButton(0) && !isSkillBtn) isTouching = true;
         else isTouching = false;
     }
     private void FixedUpdate()
     {
         if (isTouching == false)
         {
-            this.GetComponent<Rigidbody2D>().AddForce(Vector3.down * 20f *speed);
+            this.GetComponent<Rigidbody2D>().AddForce(Vector3.down * 20f * speed);
         }
         else
         {
@@ -68,19 +70,14 @@ public class PlayerMove : Singleton<PlayerMove>
             }
         }
     }
-    //���� ���, �ø�Ŀ
     void OnDamaged()
     {
-        //���� ���
+        //layer 바꿔서 충돌하지 않도록 임시로 바꿈
         gameObject.layer = 21;
-        //���� ����
         sr.color = new Color(1, 1, 1, 0.4f);
-
         Invoke("OffDamaged", 1);
-
     }
 
-    //���� ��� Ǯ��
     void OffDamaged()
     {
         gameObject.layer = 20;

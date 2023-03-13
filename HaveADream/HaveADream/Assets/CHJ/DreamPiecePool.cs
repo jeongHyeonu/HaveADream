@@ -1,61 +1,54 @@
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 
-[System.Serializable]
+/*[System.Serializable]
 //오브젝트 풀링 클래스
 public class ObjectInfo
 {
     public GameObject DpPrefab;
     public int count;
     public Transform tfPoolParent;
-}
+}*/
 
 public class DreamPiecePool : MonoBehaviour
 {
-    public static DreamPiecePool instance;
+    [SerializeField] GameObject DPPool;
 
-    [SerializeField] ObjectInfo[] objectInfo = null;
-    [SerializeField] Transform DpAppear = null;
-
-
-    //큐타입으로 만들어 선입선출로 제작
-    public Queue<GameObject> DpQueue = new Queue<GameObject>();
-
-    void Start()
+    private void OnEnable()
     {
-        instance = this;
-        DpQueue = InsertQueue(objectInfo[0]);
+        StartCoroutine(DP_Randominstantiate());
     }
 
-    Queue<GameObject> InsertQueue(ObjectInfo p_objectInfo)
+    IEnumerator DP_Randominstantiate()
     {
-        Queue<GameObject> t_queue = new Queue<GameObject>();
-        for (int i = 0; i < p_objectInfo.count; i++)
+        float randomSpawnDelay = Random.Range(2f, 4f);
+        yield return new WaitForSeconds(randomSpawnDelay);
+
+        // 랜덤 생성 위치 지정
+        // Block (Cbstacle) 충돌 일어나지 않게 추가 구현
+        float height = 2 * Camera.main.orthographicSize;
+        float width = height * Camera.main.aspect;
+
+        float playerDistance = GameObject.Find("Player").transform.position.x - this.transform.position.x;
+        float randomY = Random.Range(-height / 4, height / 4);
+        Vector2 vec2 = new Vector2(width + playerDistance, randomY);
+
+        // 오브젝트 풀링
+        GameObject DP;
+        for (int i = 0; i < DPPool.transform.childCount; i++)
         {
-            GameObject t_clone = Instantiate(p_objectInfo.DpPrefab, transform.position, Quaternion.identity);
-            t_clone.SetActive(false);       //바로 비활성화
-            if (p_objectInfo.tfPoolParent != null)
-                t_clone.transform.SetParent(p_objectInfo.tfPoolParent);
-            else
-                t_clone.transform.SetParent(this.transform);
-
-            /*if(t_clone==null)
+            DP = DPPool.transform.GetChild(i).gameObject;
+            if (DP.activeSelf != true)
             {
-                Debug.Log("fuck");
-            }*/
-
-            t_queue.Enqueue(t_clone);
-
-
+                DP.SetActive(true);
+                DP.transform.localPosition = vec2;
+                break;
+            }
         }
-        return t_queue;
-    }
-    void Update()
-    {
-        GameObject t_dp = DreamPiecePool.instance.DpQueue.Dequeue();
-        t_dp.transform.position = DpAppear.position;
-        t_dp.SetActive(true);
+
+        // 재귀함수로 반복실행
+        StartCoroutine(DP_Randominstantiate());
     }
 
 }
