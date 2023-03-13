@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class PlayerMove : Singleton<PlayerMove>
 {
-    //���ǵ� ����
+    //���ǵ� ���� 주석 왜이래
     [SerializeField] float speed = 1;
     [SerializeField] GameObject HpBar;
     [SerializeField] Image HpBarFilled;
@@ -63,6 +63,7 @@ public class PlayerMove : Singleton<PlayerMove>
         if (collision.gameObject.tag == "Block")
         {
             OnDamaged();
+            //체력바 감소
             HpBarFilled.fillAmount -= 0.1f;
             if (HpBarFilled.fillAmount == 0.0f)
             {
