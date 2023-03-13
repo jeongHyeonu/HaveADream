@@ -34,9 +34,8 @@ namespace JHW
 
         public void StageButton_OnClick([SerializeField] int currentStageNumber) // 스테이지 버튼 클릭시
         {
-            // 유저 데이터에서 하트 수 감소시키고 데이터 저장 후 UI 변경
+            // 유저 데이터에서 하트 수 감소시킨후 UI 변경
             UserDataManager.Instance.SetUserData_heart(-1);
-            UserDataManager.Instance.SaveData();
             UIGroupManager.Instance.ChangeHeartUI();
 
             // 게임플레이로 전환
