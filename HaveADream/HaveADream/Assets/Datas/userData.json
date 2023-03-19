@@ -2,7 +2,7 @@
     "userID": "4WOB3G5IR7M06Z6A",
     "userName": "",
     "maxHeart": 30,
-    "heart": 30,
+    "heart": 0,
     "gold": 0,
     "userCurrentStage": "1-1",
     "epi1Data": [
@@ -24,7 +24,7 @@
         {
             "mapName": "1-4",
             "isClearStage": true,
-            "star": 3
+            "star": 2
         },
         {
             "mapName": "1-5",
@@ -34,12 +34,12 @@
         {
             "mapName": "1-6",
             "isClearStage": true,
-            "star": 3
+            "star": 2
         },
         {
             "mapName": "1-7",
             "isClearStage": true,
-            "star": 3
+            "star": 2
         },
         {
             "mapName": "1-8",
@@ -54,17 +54,17 @@
         {
             "mapName": "1-10",
             "isClearStage": true,
-            "star": 1
+            "star": 2
         },
         {
             "mapName": "1-11",
             "isClearStage": true,
-            "star": 2
+            "star": 1
         },
         {
             "mapName": "1-12",
             "isClearStage": true,
-            "star": 1
+            "star": 2
         },
         {
             "mapName": "1-13",
@@ -80,13 +80,13 @@
         },
         {
             "mapName": "2-2",
-            "isClearStage": false,
-            "star": 0
+            "isClearStage": true,
+            "star": 2
         },
         {
             "mapName": "2-3",
-            "isClearStage": false,
-            "star": 0
+            "isClearStage": true,
+            "star": 3
         },
         {
             "mapName": "2-4",
