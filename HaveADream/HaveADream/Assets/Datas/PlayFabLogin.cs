@@ -7,11 +7,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 partial class PlayFabLogin : Singleton<PlayFabLogin>
 {
     [SerializeField] private string userID = "";
+    public bool isLogined = false;
+
+    private void Start()
+    {
+        isLogined = false;
+    }
 }
 
 #region 메서드
@@ -151,155 +159,118 @@ partial class PlayFabLogin {
 #endregion
 
 
-#region JSON 저장/로드
+#region LeaderBoard
 partial class PlayFabLogin
 {
-    public string entityType; // entityType representing the logged in player
-    private readonly Dictionary<string, string> _entityFileJson = new Dictionary<string, string>();
-    private readonly Dictionary<string, string> _tempUpdates = new Dictionary<string, string>();
-    public string ActiveUploadFileName;
-    public string NewFileName;
-    // GlobalFileLock provides is a simplistic way to avoid file collisions, specifically designed for this example.
-    public int GlobalFileLock = 0;
-
-    void OnSharedFailure(PlayFabError error)
+    public void SendLeaderboad(int score)
     {
-        Debug.LogError(error.GenerateErrorReport());
-        GlobalFileLock -= 1;
-    }
-
-    //void OnGUI() { }
-
-
-    void Login()
-    {
-        var request = new PlayFab.ClientModels.LoginWithCustomIDRequest
+        var request = new UpdatePlayerStatisticsRequest
         {
-            CustomId = SystemInfo.deviceUniqueIdentifier,
-            CreateAccount = true,
-        };
-        PlayFabClientAPI.LoginWithCustomID(request, OnLogin, OnSharedFailure);
-    }
-
-    void OnLogin(PlayFab.ClientModels.LoginResult result)
-    {
-        userID = result.EntityToken.Entity.Id;
-        entityType = result.EntityToken.Entity.Type;
-    }
-
-    void LoadAllFiles()
-    {
-        if (GlobalFileLock != 0)
-            throw new Exception("This example overly restricts file operations for safety. Careful consideration must be made when doing multiple file operations in parallel to avoid conflict.");
-
-        GlobalFileLock += 1; // Start GetFiles
-        var request = new PlayFab.DataModels.GetFilesRequest { Entity = new PlayFab.DataModels.EntityKey { Id = userID, Type = entityType } };
-        PlayFabDataAPI.GetFiles(request, OnGetFileMeta, OnSharedFailure);
-    }
-
-    void OnGetFileMeta(PlayFab.DataModels.GetFilesResponse result)
-    {
-        Debug.Log("Loading " + result.Metadata.Count + " files");
-
-        _entityFileJson.Clear();
-        foreach (var eachFilePair in result.Metadata)
-        {
-            _entityFileJson.Add(eachFilePair.Key, null);
-            GetActualFile(eachFilePair.Value);
-        }
-        GlobalFileLock -= 1; // Finish GetFiles
-    }
-
-    void GetActualFile(PlayFab.DataModels.GetFileMetadata fileData)
-    {
-        GlobalFileLock += 1; // Start Each SimpleGetCall
-        PlayFabHttp.SimpleGetCall(fileData.DownloadUrl,
-            result => { _entityFileJson[fileData.FileName] = Encoding.UTF8.GetString(result); GlobalFileLock -= 1; }, // Finish Each SimpleGetCall
-            error => { Debug.Log(error); }
-        );
-    }
-
-    void UploadFile(string fileName)
-    {
-        if (GlobalFileLock != 0)
-            throw new Exception("This example overly restricts file operations for safety. Careful consideration must be made when doing multiple file operations in parallel to avoid conflict.");
-
-        ActiveUploadFileName = fileName;
-
-        GlobalFileLock += 1; // Start InitiateFileUploads
-        var request = new PlayFab.DataModels.InitiateFileUploadsRequest
-        {
-            Entity = new PlayFab.DataModels.EntityKey { Id = userID, Type = entityType },
-            FileNames = new List<string> { ActiveUploadFileName },
-        };
-        PlayFabDataAPI.InitiateFileUploads(request, OnInitFileUpload, OnInitFailed);
-    }
-
-    void OnInitFailed(PlayFabError error)
-    {
-        if (error.Error == PlayFabErrorCode.EntityFileOperationPending)
-        {
-            // This is an error you should handle when calling InitiateFileUploads, but your resolution path may vary
-            GlobalFileLock += 1; // Start AbortFileUploads
-            var request = new PlayFab.DataModels.AbortFileUploadsRequest
+            Statistics = new List<StatisticUpdate>
             {
-                Entity = new PlayFab.DataModels.EntityKey { Id = userID, Type = entityType },
-                FileNames = new List<string> { ActiveUploadFileName },
-            };
-            PlayFabDataAPI.AbortFileUploads(request, (result) => { GlobalFileLock -= 1; UploadFile(ActiveUploadFileName); }, OnSharedFailure); GlobalFileLock -= 1; // Finish AbortFileUploads
-            GlobalFileLock -= 1; // Failed InitiateFileUploads
-        }
-        else
-            OnSharedFailure(error);
-    }
-
-    void OnInitFileUpload(PlayFab.DataModels.InitiateFileUploadsResponse response)
-    {
-        string payloadStr;
-        if (!_entityFileJson.TryGetValue(ActiveUploadFileName, out payloadStr))
-            payloadStr = "{}";
-        var payload = Encoding.UTF8.GetBytes(payloadStr);
-
-        GlobalFileLock += 1; // Start SimplePutCall
-        PlayFabHttp.SimplePutCall(response.UploadDetails[0].UploadUrl,
-            payload,
-            FinalizeUpload,
-            error => { Debug.Log(error); }
-        );
-        GlobalFileLock -= 1; // Finish InitiateFileUploads
-    }
-
-    void FinalizeUpload(byte[] data)
-    {
-        GlobalFileLock += 1; // Start FinalizeFileUploads
-        var request = new PlayFab.DataModels.FinalizeFileUploadsRequest
-        {
-            Entity = new PlayFab.DataModels.EntityKey { Id = userID, Type = entityType },
-            FileNames = new List<string> { ActiveUploadFileName },
-        };
-        PlayFabDataAPI.FinalizeFileUploads(request, OnUploadSuccess, OnSharedFailure);
-        GlobalFileLock -= 1; // Finish SimplePutCall
-    }
-    void OnUploadSuccess(PlayFab.DataModels.FinalizeFileUploadsResponse result)
-    {
-        Debug.Log("File upload success: " + ActiveUploadFileName);
-        GlobalFileLock -= 1; // Finish FinalizeFileUploads
-    }
-
-
-    public void GetUserData()
-    {
-        var request = new GetUserDataRequest() { PlayFabId = userID };
-        PlayFabClientAPI.GetUserData(request, (result) =>
-        {
-            foreach (var eachData in result.Data)
-            {
-                string key = eachData.Key;
-
-                Debug.Log(eachData + " " + key);
+                new StatisticUpdate
+                {
+                    StatisticName = "PlatformScore",
+                    Value = score
+                }
             }
+        };
+        PlayFabClientAPI.UpdatePlayerStatistics(request, OnLeaderboardUpdate, OnError);
+    }
 
-        }, DisplayPlayfabError);
+    void OnLeaderboardUpdate(UpdatePlayerStatisticsResult res)
+    {
+        Debug.Log("리더보드 전송 성공!");
+    }
+
+    void OnError(PlayFabError error)
+    {
+        Debug.Log("에러 : " +error.ErrorMessage);
+    }
+
+    public void GetLeaderboad()
+    {
+        var request = new GetLeaderboardRequest
+        {
+            StatisticName = "PlatformScore",
+            StartPosition = 0,
+            MaxResultsCount = 10
+        };
+        PlayFabClientAPI.GetLeaderboard(request, OnLeaderboardGet, OnError);
+    }
+
+    void OnLeaderboardGet(GetLeaderboardResult res)
+    {
+        foreach(var item in res.Leaderboard)
+        {
+            Debug.Log(item.Position + " " + item.PlayFabId + " " + item.StatValue);
+        }
+    }
+}
+#endregion
+
+
+#region CloudScript
+partial class PlayFabLogin
+{
+    Dictionary<string, string> datas;
+
+    public void ReadTitleNews()
+    {
+        PlayFabClientAPI.GetTitleNews(new GetTitleNewsRequest(), result => {
+            BroadcastManager.Instance.OpenBroadcastUI();
+            if (BroadcastManager.Instance.BroadcastUI.transform.GetChild(0).GetChild(0).GetChild(0).childCount > 0) return;
+            for(int i = 0; i < result.News.Count; i++)
+            {
+                BroadcastManager.Instance.CreateBroadcastItem(result.News[i]);
+            }
+        }, error => Debug.LogError(error.GenerateErrorReport()));
+
+        //var req = new ExecuteCloudScriptRequest
+        //{
+        //    FunctionName = "broadcast"
+        //};
+        //PlayFabClientAPI.ExecuteCloudScript(req, OnExecuteSuccess, OnError);
+    }
+
+    void OnExecuteSuccess(ExecuteCloudScriptResult res)
+    {
+        Debug.Log(res.FunctionResult);
+        Dictionary<string,string> s = (Dictionary<string, string>)res.FunctionResult;
+        BroadcastManager.Instance.broadCast = s;
+    }
+}
+#endregion
+
+# region virtual currency
+partial class PlayFabLogin
+{
+
+
+    public void GetVirtualCurrencies()
+    {
+        PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), OnGetUserInventorySuccess, OnError);
+    }
+
+    public void AddHeart(int Amount = 1) // 하트 수량 증가
+    {
+        var request = new AddUserVirtualCurrencyRequest() { VirtualCurrency = "HT", Amount = Amount };
+        PlayFabClientAPI.AddUserVirtualCurrency(request, (res) => { }, OnError);
+    }
+
+    public void SubtractHeart(int Amount = 1) // 하트 수량 감소
+    {
+        var request = new SubtractUserVirtualCurrencyRequest() { VirtualCurrency = "HT", Amount = Amount };
+        PlayFabClientAPI.SubtractUserVirtualCurrency(request, (res)=> { },OnError);
+    }
+
+    void OnGetUserInventorySuccess(GetUserInventoryResult res)
+    {
+        int heart = res.VirtualCurrency["HT"];
+        UserDataManager.Instance.SetUserData_heart(heart);
+        HeartManager.Instance.secondsLeftToRefresh = res.VirtualCurrencyRechargeTimes["HT"].SecondsToRecharge;
+        if (heart != 0) { HeartManager.Instance.isHeartZero = false; HeartManager.Instance.heartText.text = heart.ToString() + "/" + UserDataManager.Instance.GetUserData_maxHeart(); }
+        else { HeartManager.Instance.isHeartZero = true; }
     }
 }
 #endregion
