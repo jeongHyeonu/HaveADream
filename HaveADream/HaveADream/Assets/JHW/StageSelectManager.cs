@@ -1,6 +1,5 @@
-using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,7 +55,7 @@ namespace JHW
             sm.Scene_Change_Home();
         }
 
-        
+
         public void EpisodeButton_OnClick([SerializeField] int episodeNumber) // 에피소드 클릭시
         {
             // 정보창 열려있으면 끄기
@@ -77,7 +76,7 @@ namespace JHW
             Init_StageSelect_By_UserInfo(episodeNumber);
         }
 
-        
+
         public void WorldButton_OnClick() // 월드로 돌아가기 버튼 클릭시
         {
             // 정보창 열려있으면 끄기
@@ -87,13 +86,13 @@ namespace JHW
             returnToWorldBtn.SetActive(false);
 
             // 유저가 누른 스테이지 버튼 다시 원상태로
-            if(userClickedStage!=null)
-            userClickedStage.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
+            if (userClickedStage != null)
+                userClickedStage.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
 
             // 쥐제리 위치
             DOTween.KillAll();
             userMarker.transform.localPosition = Vector2.zero;
-            
+
 
             GameObject TargetButton = this.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1).gameObject;
             // 유저 에피소드 클리어 여부 검사
@@ -171,7 +170,7 @@ namespace JHW
             {
                 case 1:
                     List<Episode1Data> episode1Datas = UserDataManager.Instance.GetUserData_userEpi1Data();
-                     _stageIdx = 0;
+                    _stageIdx = 0;
 
                     foreach (Episode1Data it in episode1Datas)
                     {
@@ -180,7 +179,7 @@ namespace JHW
                         targetStage.transform.GetChild(_stageIdx).GetComponent<Button>().interactable = true;
                         targetStage.transform.GetChild(_stageIdx).GetChild(0).gameObject.SetActive(true);
                         // 별 개수
-                        for (int i = 0; i < it.star; i++) 
+                        for (int i = 0; i < it.star; i++)
                         {
                             targetStage.transform.GetChild(_stageIdx).GetChild(2).GetChild(i).GetChild(0).gameObject.SetActive(true);
                         }
@@ -267,7 +266,7 @@ namespace JHW
 
             // 유저 데이터에서 하트 감소(서버 데이터 및 prefab 데이터 둘 다) 감소시킨후 UI 변경
             PlayFabLogin.Instance.SubtractHeart();
-            UserDataManager.Instance.SetUserData_heart(UserDataManager.Instance.GetUserData_heart()-1);
+            UserDataManager.Instance.SetUserData_heart(UserDataManager.Instance.GetUserData_heart() - 1);
             UIGroupManager.Instance.ChangeHeartUI();
         }
 
@@ -286,7 +285,7 @@ namespace JHW
     #region 에피소드 이전/다음 버튼
     partial class StageSelectManager
     {
-        
+
         public void prevButton_OnClick()
         {
             // 정보창 활성화상태면 끄기
@@ -324,7 +323,7 @@ namespace JHW
             // 플레이어 위치는 걍 n-1 로 고정
             UserDataManager.Instance.setUserData_userCurrentStage(currentEpiNum.ToString() + "-1");
             userMarker.transform.SetParent(this.transform.GetChild(currentEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1));
-            
+
             ratTween.Kill();
 
             userMarker.transform.DOLocalMove(Vector2.zero, 0f); // 원래 위치로
