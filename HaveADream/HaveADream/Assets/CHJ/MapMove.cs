@@ -3,7 +3,7 @@ using UnityEngine;
 public class MapMove : Singleton<MapMove>
 {
     //플레이어 상하 이동, 맵이 왼쪽으로 움직임
-    [SerializeField] float mapSpeed;
+    public float mapSpeed;
 
     private void OnEnable()
     {

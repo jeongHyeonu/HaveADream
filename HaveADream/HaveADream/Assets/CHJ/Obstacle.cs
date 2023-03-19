@@ -10,8 +10,6 @@ public class Obstacle : MonoBehaviour
     {
         if (collision.gameObject.tag.CompareTo("Player") == 0)
         {
-            DataManager.Instance.HealthCurrent -= 2.0f;
-
 
         }
     }

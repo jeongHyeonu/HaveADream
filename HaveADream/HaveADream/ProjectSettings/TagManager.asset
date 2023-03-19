@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Block
+  - MagneticField
   layers:
   - Default
   - TransparentFX
@@ -25,10 +26,10 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Obstacle
   - Player
-  - 
-  - 
+  - PlayerDamaged
+  - MagneticField
   - 
   - 
   - 

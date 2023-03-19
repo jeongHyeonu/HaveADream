@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class SkillManager : Singleton<SkillManager>
 {
+    SpriteRenderer sr;
+    [SerializeField] private Color newColor; // 변경할 색상
+
     [SerializeField] GameObject speedSkill;
     [SerializeField] GameObject invinsibleSkill;
     [SerializeField] GameObject healSkill;
@@ -12,8 +15,11 @@ public class SkillManager : Singleton<SkillManager>
 
     [SerializeField] GameObject jewelCntText;
 
+    [SerializeField] GameObject Player;
+
     private const int maxJewelCnt = 5;
     private int jewelCnt = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +29,8 @@ public class SkillManager : Singleton<SkillManager>
         healSkill.GetComponent<Button>().interactable = false;
         absorbSkill.GetComponent<Button>().interactable = false;
         shieldSkill.GetComponent<Button>().interactable = false;
+
+
     }
 
     public void GetBlueJewel()
@@ -68,33 +76,67 @@ public class SkillManager : Singleton<SkillManager>
     public void SpeedSkill_OnClick()
     {
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
-        PlayerMove.Instance.ChangeSpeed(5f);
+        PlayerMove.Instance.ChangeSpeed(2f);
         Invoke("SpeedSkill_RollBack", 3f);
         ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
     }
+    private void InvinsibleSkill_RollBack()
+    {
+        Player.layer = 20;
+        MapMove.Instance.mapSpeed = 5f;
+        Renderer renderer = Player.GetComponent<Renderer>(); // Renderer 컴포넌트 가져오기
+        renderer.material.color = newColor; // 색상 변경
+
+        PlayerMove.Instance.isInvisible = false;
+
+
+    }
+
     public void InvinsibleSkill_OnClick()
     {
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+        PlayerMove.Instance.ChangeInvisible();
+        Invoke("InvinsibleSkill_RollBack", 1f);
+
         ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
     }
     public void HealSkill_OnClick()
     {
+        PlayerMove.Instance.ChangeHealth();
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
         ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+    }
+    private void AbsorbSkill_RollBack()
+    {
+        PlayerMove.Instance.MagneticField.SetActive(false);
     }
     public void AbsorbSkill_OnClick()
     {
+        PlayerMove.Instance.Magnet();
+        Invoke("AbsorbSkill_RollBack", 3f);
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
         ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
     }
+
+    private void ShieldSkill_RollBack()
+    {
+        Player.layer = 20;
+        Renderer renderer = Player.GetComponent<Renderer>(); // Renderer 컴포넌트 가져오기
+        renderer.material.color = newColor; // 색상 변경
+    }
     public void ShieldSkill_OnClick()
     {
+        PlayerMove.Instance.Shield();
+        if (PlayerMove.Instance.isShield == true)
+        {
+            Invoke("ShieldSkill_RollBack", 0f);
+        }
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
@@ -105,7 +147,7 @@ public class SkillManager : Singleton<SkillManager>
 
     public void UI_On()
     {
-        for(int i = 0; i < this.transform.childCount; i++)
+        for (int i = 0; i < this.transform.childCount; i++)
         {
             this.transform.GetChild(i).gameObject.SetActive(true);
         }
