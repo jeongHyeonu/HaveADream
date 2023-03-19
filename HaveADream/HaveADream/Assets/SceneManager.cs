@@ -21,6 +21,15 @@ public class SceneManager : Singleton<SceneManager>
         hm = HomeManager.Instance;
     }
 
+    public bool GetIsHomeSceneActive()
+    {
+        return HomeScene.activeSelf;
+    }
+
+    public bool GetIsStageSelectSceneActive()
+    {
+        return StageSelectScene.activeSelf;
+    }
 
     private void Scene_init()    // 씬 모두 비활성화
     {
@@ -42,6 +51,7 @@ public class SceneManager : Singleton<SceneManager>
         Scene_init();
         UIGroupManager.Instance.TopUI_On();
         StageSelectScene.SetActive(true);
+        JHW.StageSelectManager.Instance.OnEnableStageSelect();
     }
     public void Scene_Change_GamePlay()    // 게임플레이 씬으로 전환
     {

@@ -5,6 +5,7 @@ using System.IO;
 using System;
 using PlayFab;
 using PlayFab.ClientModels;
+using TMPro;
 
 [System.Serializable]
 public class UserData
@@ -14,6 +15,7 @@ public class UserData
     public int maxHeart = 30;
     public int heart = 20;
     public int gold = 100;
+    public string userCurrentStage = "1-1";
 
     public List<Episode1Data> epi1Data;
     public List<Episode2Data> epi2Data;
@@ -44,13 +46,14 @@ public class Episode3Data
     public int star; // 유저가 달성한 별 개수
 }
 
-public class UserDataManager : Singleton<UserDataManager>
+partial class UserDataManager : Singleton<UserDataManager>
 {
     [SerializeField] private string userID;
     [SerializeField] private string userName;
     [SerializeField] private int maxHeart;
     [SerializeField] private int heart;
     [SerializeField] private int gold;
+    [SerializeField] private string userCurrentStage;
 
     [SerializeField] private List<Episode1Data> epi1Data;
     [SerializeField] private List<Episode2Data> epi2Data;
@@ -58,6 +61,7 @@ public class UserDataManager : Singleton<UserDataManager>
 
     public string path;
 
+    #region Getter/Setter
     public string GetUserData_userID()
     {
         return this.userID;
@@ -72,6 +76,25 @@ public class UserDataManager : Singleton<UserDataManager>
     {
         return this.heart;
     }
+    public string GetUserData_userCurrentStage()
+    {
+        return this.userCurrentStage;
+    }
+
+    public List<Episode1Data> GetUserData_userEpi1Data()
+    {
+        return this.epi1Data;
+    }
+    public List<Episode2Data> GetUserData_userEpi2Data()
+    {
+        return this.epi2Data;
+    }
+    public List<Episode3Data> GetUserData_userEpi3Data()
+    {
+        return this.epi3Data;
+    }
+
+
     public void SetUserData_maxHeart(int maxHeart)
     {
         this.maxHeart = maxHeart;
@@ -79,12 +102,32 @@ public class UserDataManager : Singleton<UserDataManager>
 
     public void SetUserData_heart(int heart)
     {
-        this.heart += heart;
+        this.heart = heart;
     }
     public void SetUserData_userID(String ID)
     {
         this.userID = ID;
     }
+    public void setUserData_userCurrentStage(string stageInfo)
+    {
+        this.userCurrentStage = stageInfo;
+    }
+    public void setUserData_epi1Data(string _stageName,bool _clearFlag,int _userGainStar)
+    {
+        Episode1Data data = epi1Data.Find(x=>x.mapName == _stageName);
+        data.isClearStage = _clearFlag;
+        data.star = _userGainStar;
+    }
+    public void setUserData_epi2Data(string stageInfo)
+    {
+        this.userCurrentStage = stageInfo;
+    }
+    public void setUserData_epi3Data(string stageInfo)
+    {
+        this.userCurrentStage = stageInfo;
+    }
+
+    #endregion
 
     void Awake()
     {
@@ -95,6 +138,8 @@ public class UserDataManager : Singleton<UserDataManager>
         // 플레이어 데이터 불러오고 로컬파일에 저장
         LoadData();
 
+        // 로딩창 활성화
+        this.transform.GetChild(0).gameObject.SetActive(true);
     }
 
     void OnApplicationQuit()
@@ -128,17 +173,31 @@ public class UserDataManager : Singleton<UserDataManager>
 
     public void LoadDataOnComplete(UserData Data) // 위에서 (서버에 있는 유저정보) json 읽어오고 다시 userdatamanager에 저장
     {
+        // 서버에 있는 데이터 다 불러오면 실행하는 함수.
+        // UserData 게임오브젝트 인스턴스에 유저 데이터들을 넣습니다.
+
         UserDataManager.Instance.userName = Data.userName;
         UserDataManager.Instance.maxHeart = Data.maxHeart;
         UserDataManager.Instance.heart = Data.heart;
         UserDataManager.Instance.gold = Data.gold;
+        UserDataManager.Instance.userCurrentStage = Data.userCurrentStage;
 
         UserDataManager.Instance.epi1Data = Data.epi1Data;
         UserDataManager.Instance.epi2Data = Data.epi2Data;
         UserDataManager.Instance.epi3Data = Data.epi3Data;
 
+
         // 데이터 불러오고 상단 Heart UI 변경
         UIGroupManager.Instance.ChangeHeartUI();
+
+        // 홈 화면 해금한 동물 오픈
+        HomeManager.Instance.Home_OpenAnials();
+
+        // 로딩창 비활성화
+        this.transform.GetChild(0).gameObject.SetActive(false);
+
+        // 플레이어 로그인여부
+        PlayFabLogin.Instance.isLogined = true;
     }
 
     public void SaveData(UserData userData) // userData를 null 로 줄 경우 UserData의 데이터를 새로 json으로 저장, null 아니면 지정된 값으로 데이터 저장
@@ -152,6 +211,7 @@ public class UserDataManager : Singleton<UserDataManager>
             userData.maxHeart = UserDataManager.Instance.maxHeart;
             userData.heart = UserDataManager.Instance.heart;
             userData.gold = UserDataManager.Instance.gold;
+            userData.userCurrentStage = UserDataManager.Instance.userCurrentStage;
 
             userData.epi1Data = UserDataManager.Instance.epi1Data;
             userData.epi2Data = UserDataManager.Instance.epi2Data;
@@ -179,5 +239,23 @@ public class UserDataManager : Singleton<UserDataManager>
             Debug.Log(error.GenerateErrorReport());
         });
     }
+
+    
 }
 
+
+partial class UserDataManager
+{
+    //[SerializeField] private TextMeshProUGUI heartText;
+    //[SerializeField] private TextMeshProUGUI heartRechargeTimeText;
+
+    float secondsLeftToRefresh = 1200f;
+    // 하트 수 변경
+
+
+    public void HeartChange()
+    {
+        PlayFabLogin.Instance.GetVirtualCurrencies();
+    }
+    
+}
