@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class SkillManager : Singleton<SkillManager>
 {
-    SpriteRenderer sr;
-    [SerializeField] private Color newColor; // 변경할 색상
+
 
     [SerializeField] GameObject speedSkill;
     [SerializeField] GameObject invinsibleSkill;
@@ -82,22 +81,19 @@ public class SkillManager : Singleton<SkillManager>
     }
     private void InvinsibleSkill_RollBack()
     {
-        Player.layer = 20;
+
         MapMove.Instance.mapSpeed = 5f;
-        Renderer renderer = Player.GetComponent<Renderer>(); // Renderer 컴포넌트 가져오기
-        renderer.material.color = newColor; // 색상 변경
-
-        PlayerMove.Instance.isInvisible = false;
-
+        PlayerMove.Instance.ChangeLayer(Player, 20);
+        PlayerMove.Instance.ChangeColor();
 
     }
 
     public void InvinsibleSkill_OnClick()
     {
-        this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
-        this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
         PlayerMove.Instance.ChangeInvisible();
         Invoke("InvinsibleSkill_RollBack", 1f);
+        this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+        this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
 
         ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
     }
@@ -126,9 +122,7 @@ public class SkillManager : Singleton<SkillManager>
 
     private void ShieldSkill_RollBack()
     {
-        Player.layer = 20;
-        Renderer renderer = Player.GetComponent<Renderer>(); // Renderer 컴포넌트 가져오기
-        renderer.material.color = newColor; // 색상 변경
+        //PlayerMove.Instance.ChangeColor();
     }
     public void ShieldSkill_OnClick()
     {

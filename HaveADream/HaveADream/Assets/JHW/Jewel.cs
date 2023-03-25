@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Jewel : MonoBehaviour
 {
+    [SerializeField] GameObject target;
+    [SerializeField] float speed = 5.0f;
     public enum Jewel_type
     {
         blue,
@@ -25,23 +27,30 @@ public class Jewel : MonoBehaviour
     private void OnDisable()
     {
         // 보석 먹어서 disable되면 위에 15초뒤 비활성화되는거 해제
-        CancelInvoke("SetActiveFalseJewel"); 
+        CancelInvoke("SetActiveFalseJewel");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag.CompareTo("Player") == 0)
         {
-            if (this.jewelType == Jewel_type.blue) 
-            { 
+            if (this.jewelType == Jewel_type.blue)
+            {
                 SkillManager.Instance.GetBlueJewel();
                 this.gameObject.SetActive(false);
             }
-            if (this.jewelType == Jewel_type.red) 
-            { 
+            if (this.jewelType == Jewel_type.red)
+            {
                 SkillManager.Instance.GetRedJewel();
                 this.gameObject.SetActive(false);
             }
+
+        }
+        if (collision.gameObject.tag.CompareTo("MagneticField") == 0)
+        {
+            //매끄럽게 움직이게 하기
+            Vector3 pos = Vector3.Lerp(transform.position, target.transform.position, Time.deltaTime * speed * 1.5f);
+            transform.position = pos;
 
         }
     }

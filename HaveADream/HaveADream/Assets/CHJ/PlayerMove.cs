@@ -2,17 +2,20 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerMove : Singleton<PlayerMove>
+
 {
-    //���ǵ� ����
+
+    //스피드 변수
     [SerializeField] float speed = 1;
+
+
     [SerializeField] GameObject HpBar;
     [SerializeField] Image HpBarFilled;
 
     bool isTouching = false;
-    bool isSkillBtn = false; // ������ ��ų ��ư �������� �˻翩��
+    bool isSkillBtn = false;
 
     public bool isShield = false;
-    public bool isInvisible = false;
 
 
     Rigidbody2D rb;
@@ -27,7 +30,6 @@ public class PlayerMove : Singleton<PlayerMove>
     private Vector3 velocity = Vector3.zero; // 보간용 변수
 
     public GameObject MagneticField;
-    [SerializeField] float magnetForce = 10f;
 
     [SerializeField] GameObject Player;
 
@@ -35,7 +37,23 @@ public class PlayerMove : Singleton<PlayerMove>
     [SerializeField] GameObject BJW;
     //[SerializeField] GameObject RJW;
 
+    //날개 스킬 변수
+    private const int maxWingCnt = 4;
+    public int wingCnt = 0;
 
+    public int resultStarCnt = 0;
+
+    //스킬 사용중 무적 상태를 위한 함수
+    public void ChangeLayer(GameObject obj, int newLayer)
+    {
+        obj.layer = newLayer;
+    }
+
+    //색상 변화 함수
+    public void ChangeColor()
+    {
+        this.sr.color = new Color(1, 1, 1, 1);
+    }
 
 
     //스킬1 : 스피드 상승
@@ -47,11 +65,12 @@ public class PlayerMove : Singleton<PlayerMove>
     //스킬2 : 안 보이게 되는 무적 부스터
     public void ChangeInvisible()
     {
-        gameObject.layer = 21;
+        //this.gameObject.layer = 21;
+        ChangeLayer(Player, 21);
+
         //Debug.Log("21로 전환되었나?");
         sr.color = new Color(0.7f, 0.4f, 0.4f, 1f);
         MapMove.Instance.mapSpeed = 10f;
-        isInvisible = true;
 
     }
 
@@ -69,10 +88,12 @@ public class PlayerMove : Singleton<PlayerMove>
         //MagneticField.layer = 21;
         MagneticField.SetActive(true);
     }
+
     //스킬5 : 방어막 (구현 완료, 건드리지 말 것)
     public void Shield()
     {
-        gameObject.layer = 21;
+        //this.gameObject.layer = 21;
+
         //실드 작동 확인
         sr.color = new Color(0.3f, 0.4f, 0.7f, 1f);
         isShield = true;
@@ -93,7 +114,7 @@ public class PlayerMove : Singleton<PlayerMove>
 
     void Start()
     {
-        // �̱��� �޾ƿ���
+
         sm = SceneManager.Instance;
         targetPosition = transform.position + Vector3.right * 2f; // 목표 위치 설정
 
@@ -118,28 +139,41 @@ public class PlayerMove : Singleton<PlayerMove>
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //상자 충돌
         if (collision.gameObject.tag == "Block")
         {
             OnDamaged();
-
+            //hp바
             if (HpBarFilled.fillAmount <= 0.0f)
             {
                 sm.Scene_Change_Result();
             }
-            if (isInvisible)
-            {
-                HpBarFilled.fillAmount += 0.25f;
-                DataManager.Instance.HealthCurrent += 2.5f;
-
-            }
+            //실드
             if (isShield)
             {
                 HpBarFilled.fillAmount += 0.25f;
                 DataManager.Instance.HealthCurrent += 2.5f;
                 isShield = false;
             }
-
-
+        }
+        //날개 충돌
+        if (collision.gameObject.tag == "Wing")
+        {
+            if (wingCnt < maxWingCnt)
+            {
+                wingCnt++;
+                // 아이템을 먹는 코드 추가
+                MapMove.Instance.mapSpeed += 1.5f;
+            }
+        }
+        //결과창
+        if (collision.gameObject.tag == "Result1Star")
+        {
+            DataManager.Instance.ResultStars += 1;
+        }
+        if (collision.gameObject.tag == "Result2Star")
+        {
+            DataManager.Instance.ResultStars += 1;
         }
     }
     void OnDamaged()
@@ -150,7 +184,16 @@ public class PlayerMove : Singleton<PlayerMove>
         HpBarFilled.fillAmount -= 0.25f;
         //데이터상 감소
         DataManager.Instance.HealthCurrent -= 2.5f;
+        //맵 속도 조절
+        if (isShield)
+        {
 
+        }
+        else
+        {
+            MapMove.Instance.mapSpeed = 5f;
+            wingCnt = 0;
+        }
 
         sr.color = new Color(1, 1, 1, 0.4f);
         Invoke("OffDamaged", 2f);

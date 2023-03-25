@@ -3,6 +3,7 @@ using UnityEngine;
 public class ResultManager : MonoBehaviour
 {
     private SceneManager sm = null;
+
     void Start()
     {
         // ΩÃ±€≈Ê
@@ -16,6 +17,7 @@ public class ResultManager : MonoBehaviour
         {
             sm.Scene_Change_Result();
         }
+
     }
 
     public void ReturnHomeBtn_OnClick()

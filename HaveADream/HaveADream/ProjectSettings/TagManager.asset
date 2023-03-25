@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Block
   - MagneticField
+  - Wing
+  - Result1Star
+  - Result2Star
   layers:
   - Default
   - TransparentFX

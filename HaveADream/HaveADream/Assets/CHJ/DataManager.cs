@@ -29,6 +29,8 @@ public class DataManager : MonoBehaviour
     //실제 꿈조각 모은 양 저장
     public int DreamPieceScore = 0;
     public float HealthCurrent = 0.0f;
+    public int ResultStars = 0;
+
 
 
 }

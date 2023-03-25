@@ -3,11 +3,15 @@ using UnityEngine;
 public class Magnet : MonoBehaviour
 {
 
-    /*private void OnTriggerEnter2D(Collider2D collision)
+
+    /*[SerializeField] GameObject player;
+
+    void Update()
     {
-        if(collision.gameObject.TryGetComponent<DreamPiece>(out DreamPiece dp))
-        {
-           
-        }
+        // 플레이어의 위치를 가져옴
+        Vector3 targetPosition = player.transform.position;
+
+        // 필드를 플레이어 위치로 이동
+        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime);
     }*/
 }

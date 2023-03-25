@@ -20,7 +20,7 @@ public class DreamPiece : MonoBehaviour
         if (collision.gameObject.tag.CompareTo("MagneticField") == 0)
         {
             //매끄럽게 움직이게 하기
-            Vector3 pos = Vector3.Lerp(transform.position, target.transform.position, Time.deltaTime * speed * 1f);
+            Vector3 pos = Vector3.Lerp(transform.position, target.transform.position, Time.deltaTime * speed * 1.5f);
             transform.position = pos;
 
         }
