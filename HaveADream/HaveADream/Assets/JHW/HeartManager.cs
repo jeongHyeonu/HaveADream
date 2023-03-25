@@ -3,15 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HeartManager : Singleton<HeartManager>
 {
-    [SerializeField] public TextMeshProUGUI heartText;
+    [SerializeField] public TextMeshProUGUI topUIheartText; // 화면 상단 UI 내 하트 텍스트
+
+    [SerializeField] public TextMeshProUGUI inUIheartText; // 상단 UI 하트 이미지 클릭시 등장하는 UI에 나오는 텍스트
     [SerializeField] public TextMeshProUGUI heartRechargeTimeText;
-    public float secondsLeftToRefresh = 1f;
+
+    [SerializeField] public Button adsButton; // 광고 버튼
+
+    [SerializeField] public GameObject HeartUI;
+
+    public float secondsLeftToRefresh = 0f;
     public bool isHeartClicked;
     private bool isDataLoaded;
     public bool isHeartZero;
+
+    private int userHeartCnt = 0;
 
     UserDataManager udm = null;
     PlayFabLogin pfl = null;
@@ -25,37 +35,63 @@ public class HeartManager : Singleton<HeartManager>
         isHeartZero = false;
     }
 
-    // Update is called once per frame
+    public void BackgroundClick()
+    {
+        HeartUI.SetActive(false);
+    }
+
+    // 서버로부터 하트 수와 최대 하트 불러오기, 일정 주기마다 실행
+    IEnumerator getUserHeartPeriod()
+    {
+        yield return new WaitForSeconds(1f);
+        PlayFabLogin.Instance.GetVirtualCurrencies();
+        StartCoroutine("getUserHeartPeriod");
+    }
+
     void Update()
     {
         secondsLeftToRefresh -= Time.deltaTime;
 
         if (pfl.isLogined == false) return; // 로그인안되있으면 실행X
-        if (!isDataLoaded) { PlayFabLogin.Instance.GetVirtualCurrencies(); isDataLoaded = true; } // 데이터 로드 안했다면 서버로부터 데이터 불러오기
+        if (!isDataLoaded) { StartCoroutine("getUserHeartPeriod"); isDataLoaded = true; } // 데이터 로드 안했다면 서버로부터 데이터 불러오기 // ? 코루틴으로 일정주기 실행해야하나..?
+
+
+        if (UserDataManager.Instance.GetUserData_heart() >= UserDataManager.Instance.GetUserData_maxHeart()) // 하트가 최대 하트수를 넘는경우 실행 X
+        {
+            secondsLeftToRefresh = 0;
+            heartRechargeTimeText.text = "00:00";
+            adsButton.GetComponent<Button>().interactable = false;
+            return;
+        }
+        else // 하트가 최대 수 안넘는경우
+        {
+            adsButton.GetComponent<Button>().interactable = true;
+        }
 
         if (!SceneManager.Instance.GetIsHomeSceneActive() && !SceneManager.Instance.GetIsStageSelectSceneActive()) return; // 홈, 스테이지 셀렉트 씬 아니면 실행 X
 
         heartRechargeTimeText.gameObject.SetActive(isHeartClicked);
         if (isHeartClicked) // 유저가 하트 이미지 클릭 시
         {
-            if (udm.GetUserData_heart() >= udm.GetUserData_maxHeart()) // 현재 유저가 가진 하트 체크 후 최대 체력이면 텍스트 변경 X
-            {
-                heartRechargeTimeText.gameObject.SetActive(false);
-                return;
-            }
-            else
-            {
-                TimeSpan time = TimeSpan.FromSeconds(secondsLeftToRefresh);
-                heartRechargeTimeText.text = time.ToString("mm':'ss");
-                heartRechargeTimeText.gameObject.SetActive(isHeartClicked);
-            }
+            TimeSpan time = TimeSpan.FromSeconds(secondsLeftToRefresh);
+            heartRechargeTimeText.text = time.ToString("mm':'ss");
+            heartRechargeTimeText.gameObject.SetActive(isHeartClicked);
+            inUIheartText.text = UserDataManager.Instance.GetUserData_heart().ToString() + "/" + UserDataManager.Instance.GetUserData_maxHeart(); 
         }
         if (isHeartZero) // 유저 데이터의 하트가 0이면
         {
             TimeSpan time = TimeSpan.FromSeconds(secondsLeftToRefresh);
-            heartText.text = time.ToString("mm':'ss");
+            topUIheartText.text = time.ToString("mm':'ss");
+            inUIheartText.text = "0/15";
         }
 
-        if (secondsLeftToRefresh < 0) PlayFabLogin.Instance.GetVirtualCurrencies();
+        if (secondsLeftToRefresh < 0) ; //PlayFabLogin.Instance.GetVirtualCurrencies();
+    }
+
+    IEnumerator GetHeartOneSecond()
+    {
+        
+        PlayFabLogin.Instance.GetVirtualCurrencies();
+        yield return new WaitForSeconds(1f);
     }
 }

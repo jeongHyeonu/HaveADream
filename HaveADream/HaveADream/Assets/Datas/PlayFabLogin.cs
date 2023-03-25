@@ -269,7 +269,7 @@ partial class PlayFabLogin
         int heart = res.VirtualCurrency["HT"];
         UserDataManager.Instance.SetUserData_heart(heart);
         HeartManager.Instance.secondsLeftToRefresh = res.VirtualCurrencyRechargeTimes["HT"].SecondsToRecharge;
-        if (heart != 0) { HeartManager.Instance.isHeartZero = false; HeartManager.Instance.heartText.text = heart.ToString() + "/" + UserDataManager.Instance.GetUserData_maxHeart(); }
+        if (heart != 0) { HeartManager.Instance.isHeartZero = false; HeartManager.Instance.inUIheartText.text = heart.ToString() + "/" + UserDataManager.Instance.GetUserData_maxHeart(); HeartManager.Instance.topUIheartText.text = heart.ToString() + "/" + UserDataManager.Instance.GetUserData_maxHeart(); }
         else { HeartManager.Instance.isHeartZero = true; }
     }
 }
