@@ -44,11 +44,16 @@ public class UIGroupManager : Singleton<UIGroupManager>
         CollectionManager.Instance.BackgroundClick();
         BroadcastManager.Instance.BackgroundClick();
         OptionManager.Instance.BackgroundClick();
+        HeartManager.Instance.BackgroundClick();
+        if (HeartManager.Instance.isHeartClicked == true) HeartManager.Instance.isHeartClicked = false;
         BackgroundUI.SetActive(false);
     }
 
     public void HeartImg_OnClick()
     {
+        
+        HeartManager.Instance.HeartUI.SetActive(true);
+        BackgroundUI.SetActive(true);
         HeartManager.Instance.isHeartClicked = !HeartManager.Instance.isHeartClicked;
     }
 
