@@ -70,7 +70,7 @@ public class PlayerMove : Singleton<PlayerMove>
 
         //Debug.Log("21로 전환되었나?");
         sr.color = new Color(0.7f, 0.4f, 0.4f, 1f);
-        MapMove.Instance.mapSpeed = 10f;
+        MapMove.Instance.mapSpeed = 12f;
 
     }
 
@@ -155,6 +155,7 @@ public class PlayerMove : Singleton<PlayerMove>
                 DataManager.Instance.HealthCurrent += 2.5f;
                 isShield = false;
             }
+
         }
         //날개 충돌
         if (collision.gameObject.tag == "Wing")
@@ -185,15 +186,12 @@ public class PlayerMove : Singleton<PlayerMove>
         //데이터상 감소
         DataManager.Instance.HealthCurrent -= 2.5f;
         //맵 속도 조절
-        if (isShield)
-        {
-
-        }
-        else
+        if (!isShield)
         {
             MapMove.Instance.mapSpeed = 5f;
             wingCnt = 0;
         }
+
 
         sr.color = new Color(1, 1, 1, 0.4f);
         Invoke("OffDamaged", 2f);

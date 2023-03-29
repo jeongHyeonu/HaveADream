@@ -1,9 +1,17 @@
+using System.Collections;
 using UnityEngine;
 
 public class ResultManager : MonoBehaviour
 {
     private SceneManager sm = null;
+    [SerializeField] GameObject textBossWarning; //보스 등장 텍스트
+    [SerializeField] GameObject boss;   //보스 경고
 
+    private void Awake()
+    {
+        textBossWarning.SetActive(false);
+        boss.SetActive(false);
+    }
     void Start()
     {
         // 싱글톤
@@ -15,13 +23,21 @@ public class ResultManager : MonoBehaviour
     {
         if (collision.gameObject.tag.CompareTo("Player") == 0)
         {
-            sm.Scene_Change_Result();
+            StartCoroutine("SpawnBoss");
+
+            //sm.Scene_Change_Result();
         }
 
     }
 
-    public void ReturnHomeBtn_OnClick()
+    private IEnumerator SpawnBoss()
     {
-        sm.Scene_Change_Home();
+        textBossWarning.SetActive(true);    //보스 등장 문구
+        yield return new WaitForSeconds(1.0f);  //1초 대기
+        textBossWarning.SetActive(false);   //문구 사라짐
+        boss.SetActive(true);               //보스 등장
+        boss.GetComponent<Boss>().ChangeState(BossState.MoveToAppearPoint);
+        //yield return new WaitForSeconds(5.0f);
     }
+
 }

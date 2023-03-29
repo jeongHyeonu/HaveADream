@@ -296,7 +296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1830347703754427780}
-  - component: {fileID: 8700071820526547549}
+  - component: {fileID: 6478832770351477939}
   m_Layer: 0
   m_Name: Result
   m_TagString: Untagged
@@ -320,7 +320,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8700071820526547549
+--- !u!114 &6478832770351477939
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1830347703754427781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d83f9b0c08aa7488a5adc7864113ab, type: 3}
+  m_Script: {fileID: 11500000, guid: 10de52de13c934f47900f2e3ad9de6d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2785025461683177572
@@ -576,13 +576,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8700071820526547549}
-        m_TargetAssemblyTypeName: ResultManager, Assembly-CSharp
-        m_MethodName: ReturnHomeBtn_OnClick
+      - m_Target: {fileID: 11500000, guid: 10de52de13c934f47900f2e3ad9de6d6, type: 3}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

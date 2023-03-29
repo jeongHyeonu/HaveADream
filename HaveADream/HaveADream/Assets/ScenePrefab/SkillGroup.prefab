@@ -759,6 +759,8 @@ MonoBehaviour:
   healSkill: {fileID: 2016958532849272368}
   absorbSkill: {fileID: 2162454702650427854}
   shieldSkill: {fileID: 9027579739031125544}
+  jewelCntText: {fileID: 472588388793373335}
+  Player: {fileID: 0}
 --- !u!1 &6180883386085323101
 GameObject:
   m_ObjectHideFlags: 0

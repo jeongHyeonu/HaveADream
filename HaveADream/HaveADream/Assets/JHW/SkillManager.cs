@@ -82,7 +82,27 @@ public class SkillManager : Singleton<SkillManager>
     private void InvinsibleSkill_RollBack()
     {
 
-        MapMove.Instance.mapSpeed = 5f;
+        if (PlayerMove.Instance.wingCnt == 0)
+        {
+            MapMove.Instance.mapSpeed = 6f;
+        }
+        else if (PlayerMove.Instance.wingCnt == 1)
+        {
+            MapMove.Instance.mapSpeed = 7.5f;
+        }
+        else if (PlayerMove.Instance.wingCnt == 2)
+        {
+            MapMove.Instance.mapSpeed = 9f;
+        }
+        else if (PlayerMove.Instance.wingCnt == 3)
+        {
+            MapMove.Instance.mapSpeed = 11.5f;
+        }
+        else if (PlayerMove.Instance.wingCnt == 4)
+        {
+            MapMove.Instance.mapSpeed = 13f;
+        }
+
         PlayerMove.Instance.ChangeLayer(Player, 20);
         PlayerMove.Instance.ChangeColor();
 
