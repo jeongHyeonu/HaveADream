@@ -45,6 +45,9 @@ public class Jewel : MonoBehaviour
                 this.gameObject.SetActive(false);
             }
 
+            // 효과음 및 이펙트
+            EffectManager.Instance.PlayVFX(EffectManager.VFX_list.SPARK1, this.gameObject);
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.JEWEL_GET);
         }
         if (collision.gameObject.tag.CompareTo("MagneticField") == 0)
         {

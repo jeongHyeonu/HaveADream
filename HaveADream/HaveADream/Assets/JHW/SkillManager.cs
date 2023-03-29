@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillManager : Singleton<SkillManager>
+partial class SkillManager : Singleton<SkillManager>
 {
 
 
@@ -13,13 +13,12 @@ public class SkillManager : Singleton<SkillManager>
     [SerializeField] GameObject shieldSkill;
 
     [SerializeField] GameObject jewelCntText;
+    [SerializeField] GameObject SkillSlider;
 
     [SerializeField] GameObject Player;
 
     private const int maxJewelCnt = 5;
     private int jewelCnt = 0;
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -29,12 +28,15 @@ public class SkillManager : Singleton<SkillManager>
         absorbSkill.GetComponent<Button>().interactable = false;
         shieldSkill.GetComponent<Button>().interactable = false;
 
-
+        
+        ChangeSkillUIAddress(); // 스킬 좌/우 위치 변경
     }
 
     public void GetBlueJewel()
     {
         if (maxJewelCnt <= jewelCnt) return;
+
+
         this.transform.GetChild(0).GetChild(jewelCnt++).GetComponent<Button>().interactable = true;
         ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
     }
@@ -64,7 +66,11 @@ public class SkillManager : Singleton<SkillManager>
 
     private void ChangeJewelCntText()
     {
-        jewelCntText.GetComponent<TextMeshProUGUI>().text = jewelCnt + " / " + maxJewelCnt;
+        // 텍스트 변경
+        jewelCntText.GetComponent<TextMeshProUGUI>().text = "x" + jewelCnt;
+
+        // 슬라이더 변경
+        SkillSlider.GetComponent<Slider>().value = (float)jewelCnt/maxJewelCnt;
     }
 
     private void SpeedSkill_RollBack()
@@ -163,3 +169,23 @@ public class SkillManager : Singleton<SkillManager>
         }
     }
 }
+
+# region 옵션창
+partial class SkillManager
+{
+    public void ChangeSkillUIAddress(int _dirrection=1)
+    {
+        _dirrection = PlayerPrefs.GetInt("isSkillUI_Right", 1);
+        switch (_dirrection)
+        {
+            case 0:
+                Vector3 vec = new Vector3(-this.transform.GetChild(0).GetComponent<RectTransform>().rect.width/1.7f, 0f, 0f);
+                this.transform.GetChild(0).transform.localPosition = vec;
+                break;
+            case 1:
+                this.transform.GetChild(0).transform.localPosition = Vector3.zero;
+                break;
+        }
+    }
+}
+#endregion

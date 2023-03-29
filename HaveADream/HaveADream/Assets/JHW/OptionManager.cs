@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OptionManager : Singleton<OptionManager>
+partial class OptionManager : Singleton<OptionManager>
 {
     [SerializeField] GameObject OptionUI;
     [SerializeField] Slider MusicSlider;
@@ -55,3 +55,28 @@ public class OptionManager : Singleton<OptionManager>
         OptionUI.SetActive(false);
     }
 }
+
+#region SkillUI
+partial class OptionManager
+{
+    // 유저 왼쪽/오른쪽 설정 버튼
+    public int isSkillUI_Right;
+
+    // 옵션 - 스킬 UI 왼쪽변경 버튼
+    public void SkillUIButton_Left_OnClick()
+    {
+        isSkillUI_Right = 0;
+        PlayerPrefs.SetInt("isSkillUI_Right", isSkillUI_Right);
+        SkillManager.Instance.ChangeSkillUIAddress();
+    }
+
+    // 옵션 - 스킬 UI 오른쪽변경 버튼
+    public void SkillUIButton_Right_OnClick()
+    {
+        isSkillUI_Right = 1;
+        PlayerPrefs.SetInt("isSkillUI_Right", isSkillUI_Right);
+        SkillManager.Instance.ChangeSkillUIAddress();
+    }
+
+}
+#endregion

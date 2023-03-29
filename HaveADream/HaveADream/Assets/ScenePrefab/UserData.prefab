@@ -413,8 +413,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baece4b60b0b3d649abfb291cb0fe385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heartText: {fileID: 0}
+  topUIheartText: {fileID: 0}
+  inUIheartText: {fileID: 0}
   heartRechargeTimeText: {fileID: 0}
+  adsButton: {fileID: 0}
+  HeartUI: {fileID: 0}
   secondsLeftToRefresh: 1
   isHeartClicked: 0
   isHeartZero: 0

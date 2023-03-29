@@ -16,6 +16,11 @@ public class DreamPiece : MonoBehaviour
             DataManager.Instance.DreamPieceScore += 1;
             //화면에서 끄기
             gameObject.SetActive(false);
+
+            // 사운드 및 이펙트
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.GOLD_GET);
+            EffectManager.Instance.PlayVFX(EffectManager.VFX_list.FLASH1, this.gameObject);
+
         }
         if (collision.gameObject.tag.CompareTo("MagneticField") == 0)
         {

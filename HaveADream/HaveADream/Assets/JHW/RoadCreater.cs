@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class RoadCreater : MonoBehaviour
 {
-    [SerializeField] List<GameObject> StageList;
+    [SerializeField] public List<GameObject> StageList;
     [SerializeField] GameObject roadObject;
     [SerializeField] GameObject roadList;
 

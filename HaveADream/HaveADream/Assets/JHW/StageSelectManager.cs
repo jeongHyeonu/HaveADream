@@ -18,6 +18,8 @@ namespace JHW
         [SerializeField] private GameObject returnToWorldBtn = null;
         [SerializeField] private GameObject StageInfo = null;
 
+        private bool isMarkerMoving = false; // 쥐제리 이동중인지 검사
+        private Animator jerryAnim; // 쥐제리 애니메이션
         // Start is called before the first frame update
         void Start()
         {
@@ -25,6 +27,11 @@ namespace JHW
             sm = SceneManager.Instance;
             userClickedStage = null;
             ratTween = DOTween.Sequence();
+
+            // 쥐제리 이동 애니메이션
+            jerryAnim = userMarker.GetComponent<Animator>();
+            userMarker.SetActive(true);
+            jerryAnim.SetBool("isJerryMoving", false);
         }
 
         public void OnEnableStageSelect() // 스테이지 선택 씬 활성화시
@@ -39,13 +46,16 @@ namespace JHW
             this.transform.GetChild(int.Parse(userCurrentStages[0].ToCharArray())).gameObject.SetActive(true); // 에피소드 맵 활성화
             userMarker.transform.SetParent(GameObject.Find("Stage" + userCurrentStage).transform); // 스테이지 버튼에 쥐제리 위치
             userMarker.transform.localPosition = Vector2.zero;
-            userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
+            //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
 
             Init_StageSelect_By_UserInfo(int.Parse(userCurrentStages[0].ToCharArray())); // 스테이지 정보 불러오기
         }
 
         public void HomeButton_OnClick() // 홈 화면으로 복귀
         {
+            // 플레이어 마크(쥐제리)이동중이면 실행X
+            if (isMarkerMoving == true) return;
+
             // 정보창 열려있으면 끄기
             StageInfo.SetActive(false);
 
@@ -58,6 +68,9 @@ namespace JHW
 
         public void EpisodeButton_OnClick([SerializeField] int episodeNumber) // 에피소드 클릭시
         {
+            // 플레이어 마크(쥐제리)이동중이면 실행X
+            if (isMarkerMoving == true) return;
+
             // 정보창 열려있으면 끄기
             StageInfo.SetActive(false);
 
@@ -69,7 +82,7 @@ namespace JHW
             userMarker.transform.SetParent(this.transform.GetChild(episodeNumber).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1));
 
             userMarker.transform.DOLocalMove(Vector2.zero, 0f); // 원래 위치로
-            userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
+            //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
 
             this.transform.GetChild(episodeNumber).gameObject.SetActive(true);
             this.transform.GetChild(0).gameObject.SetActive(false);
@@ -79,6 +92,9 @@ namespace JHW
 
         public void WorldButton_OnClick() // 월드로 돌아가기 버튼 클릭시
         {
+            // 플레이어 마크(쥐제리)이동중이면 실행X
+            if (isMarkerMoving == true) return;
+
             // 정보창 열려있으면 끄기
             StageInfo.SetActive(false);
 
@@ -112,6 +128,12 @@ namespace JHW
 
         public void StageButton_OnClick([SerializeField] int currentStageNumber) // 스테이지 버튼 클릭시
         {
+            // 플레이어 마크(쥐제리)이동중이면 실행X
+            if (isMarkerMoving == true) return;
+
+            // 정보창 닫기
+            StageInfo.SetActive(false);
+
             // 유저가 현재 클릭한 스테이지 string 값으로 저장 및 에피소드 번호 체크
             curEpiNum = GetCurrentEpisodeNumber();
 
@@ -122,23 +144,45 @@ namespace JHW
             }
             userClickedStage = this.transform.GetChild(curEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(currentStageNumber).gameObject;
             userClickedStage.transform.DOScale(1.4f, 0.5f);
+
             //UX - 쥐제리 아이콘
-            userMarker.transform.SetParent(userClickedStage.transform.parent);
-            Vector2 originPos = userMarker.transform.localPosition;
-            ratTween.Append(userMarker.transform.DOLocalMove(userClickedStage.transform.localPosition, 2f).From(originPos, false));// ()=> { userMarker.transform.position = originVec; }); // 쥐제리 이동
+            //for(int i=)
+            //userMarker.transform.SetParent(userClickedStage.transform.parent);
+            //Vector2 originPos = userMarker.transform.localPosition;
+            //ratTween.Append(userMarker.transform.DOLocalMove(userClickedStage.transform.localPosition, 2f).From(originPos, false));// ()=> { userMarker.transform.position = originVec; }); // 쥐제리 이동
+            GetButtonObjectToMove(currentStageNumber);
+            UserMarkerMove();
 
             userCurStage = curEpiNum.ToString() + "-" + currentStageNumber.ToString();
             UserDataManager.Instance.setUserData_userCurrentStage(userCurStage); // 유저가 마지막으로 선택한 스테이지 위치
+
+            // 이펙트
+            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.SetParent(userMarker.transform);
+            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.localScale = Vector3.one;
+            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.localPosition = new Vector3(0, 0, -1);
+            if (!isJerryRight) EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).GetComponent<Transform>().localScale = new Vector3(-1, 1,1); 
+            else EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).GetComponent<Transform>().localScale = Vector3.one;
+            EffectManager.Instance.PlayParticle(EffectManager.particle_list.FlyEffectParticle3);
+            // 이펙트
+            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.SetParent(userMarker.transform);
+            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.localScale = Vector3.one;
+            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.localPosition = new Vector3(0, 0, -1);
+            if (!isJerryRight) EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).GetComponent<Transform>().localScale = new Vector3(-1, 1, 1);
+            else EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).GetComponent<Transform>().localScale = Vector3.one;
+            EffectManager.Instance.PlayParticle(EffectManager.particle_list.FlyEffectParticle2);
 
             // 게임플레이로 전환
             // sm.Scene_Change_GamePlay();
 
             // 스테이지 정보창 오픈
-            OpenStageInfoPanel();
+            //OpenStageInfoPanel();
         }
 
         public void BackToEpisode_OnClick()
         {
+            // 플레이어 마크(쥐제리)이동중이면 실행X
+            if (isMarkerMoving == true) return;
+
             // 정보창 열려있으면 끄기
             StageInfo.SetActive(false);
 
@@ -288,6 +332,9 @@ namespace JHW
 
         public void prevButton_OnClick()
         {
+            // 제리 이동중이면 실행X
+            if (isMarkerMoving == true) return;
+
             // 정보창 활성화상태면 끄기
             if (StageInfo.activeSelf == true) StageInfo.SetActive(false);
 
@@ -296,20 +343,26 @@ namespace JHW
             this.transform.GetChild(currentEpiNum).gameObject.SetActive(false); // 현재 오픈된거 닫고
             this.transform.GetChild(--currentEpiNum).gameObject.SetActive(true); // 그 이전꺼 오픈
 
-            DOTween.KillAll();
-
             // 플레이어 위치는 걍 n-1 로 고정
             UserDataManager.Instance.setUserData_userCurrentStage(currentEpiNum.ToString() + "-1");
-            userMarker.transform.SetParent(this.transform.GetChild(currentEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1));
+            userMarker.transform.SetParent(this.transform.GetChild(currentEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0),false);
 
-            userMarker.transform.DOLocalMove(Vector2.zero, 0f); // 원래 위치로
-            userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
+            // 이펙트 출력되는 경우가 있어서.. 끄기
+            EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle2);
+            EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle3);
+
+            userMarker.transform.DOLocalMove(this.transform.GetChild(currentEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1).transform.localPosition, 0f); // 원래 위치로
+            //userMarker.transform.localScale = new Vector3(70f, 70f, 70f); // 가끔 사이즈가 1이 되서 안보이게 되는 경우가 있어서.. ㅠ
+            //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
 
             Init_StageSelect_By_UserInfo(currentEpiNum);
         }
 
         public void nextButton_OnClick()
         {
+            // 제리 이동중이면 실행X
+            if (isMarkerMoving == true) return;
+
             // 정보창 활성화상태면 끄기
             if (StageInfo.activeSelf == true) StageInfo.SetActive(false);
 
@@ -318,18 +371,101 @@ namespace JHW
             this.transform.GetChild(currentEpiNum).gameObject.SetActive(false); // 현재 오픈된거 닫고
             this.transform.GetChild(++currentEpiNum).gameObject.SetActive(true); // 그 다음꺼 오픈
 
-            DOTween.KillAll();
-
             // 플레이어 위치는 걍 n-1 로 고정
             UserDataManager.Instance.setUserData_userCurrentStage(currentEpiNum.ToString() + "-1");
-            userMarker.transform.SetParent(this.transform.GetChild(currentEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1));
+            userMarker.transform.SetParent(this.transform.GetChild(currentEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0), false);
 
-            ratTween.Kill();
+            // 이펙트 출력되는 경우가 있어서.. 끄기
+            EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle2);
+            EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle3);
 
-            userMarker.transform.DOLocalMove(Vector2.zero, 0f); // 원래 위치로
-            userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
+            userMarker.transform.DOLocalMove(this.transform.GetChild(currentEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1).transform.localPosition, 0f); // 원래 위치로
+            //userMarker.transform.localScale = new Vector3(70f, 70f, 70f); // 가끔 사이즈가 1이 되서 안보이게 되는 경우가 있어서.. ㅠ
+            //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
 
             Init_StageSelect_By_UserInfo(currentEpiNum);
+        }
+    }
+    #endregion
+
+    #region 플레이어 UX 관련
+    partial class StageSelectManager
+    {
+        [Header("===== Episode-Stage List ======")]
+
+        [SerializeField] public GameObject Episode1_Content; // 에피소드 1 버튼 리스트들
+        [SerializeField] public GameObject Episode2_Content; // 에피소드 2 버튼 리스트들
+
+        Queue<GameObject> userMarkerPositionList = new Queue<GameObject>();
+        bool isJerryRight; // 쥐제리 이동방향
+
+        // 현재 스테이지 위치에서부터 클릭한 스테이지까지 GameObject 리스트들 리턴하는 함수, 움직일 버튼들 리스트 리턴
+        public Queue<GameObject> GetButtonObjectToMove(int _userClickedStage)
+        {
+            int currentEpisode = GetCurrentEpisodeNumber();
+            
+            int userCurrentStageNumber = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[1]);
+            
+            if (userCurrentStageNumber == _userClickedStage) return userMarkerPositionList;
+
+            // 제리 이동방향 결정
+            if (userCurrentStageNumber < _userClickedStage) isJerryRight = true;
+            else isJerryRight = false;
+
+            switch (currentEpisode)
+            {
+                case 1:
+                    if (userCurrentStageNumber < _userClickedStage) 
+                        for (int i = userCurrentStageNumber + 1; i <= _userClickedStage; i++)
+                            userMarkerPositionList.Enqueue(Episode1_Content.transform.GetChild(i).gameObject);
+                    else
+                        for (int i = userCurrentStageNumber - 1; i >= _userClickedStage; i--)
+                            userMarkerPositionList.Enqueue(Episode1_Content.transform.GetChild(i).gameObject);
+                    break;
+                case 2:
+                    if (userCurrentStageNumber < _userClickedStage)
+                        for (int i = userCurrentStageNumber + 1; i <= _userClickedStage; i++)
+                            userMarkerPositionList.Enqueue(Episode2_Content.transform.GetChild(i).gameObject);
+                    else
+                        for (int i = userCurrentStageNumber - 1; i >= _userClickedStage; i--)
+                            userMarkerPositionList.Enqueue(Episode2_Content.transform.GetChild(i).gameObject);
+                    break;
+            }
+            return userMarkerPositionList;
+        }
+
+        // 쥐제리 marker 를 큐에 담긴 오브젝트 위치로 이동
+        private void UserMarkerMove()
+        {
+            // Marker가 다 움직일 경우
+            if (userMarkerPositionList.Count == 0) { 
+                isMarkerMoving = false; 
+                jerryAnim.SetBool("isJerryMoving", isMarkerMoving);
+                // 이펙트 제거
+                EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle3);
+                EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle2);
+                // 스테이지 정보창 오픈
+                OpenStageInfoPanel();
+                return; 
+            }
+
+            // 제리 이동방향
+            if (isJerryRight) userMarker.GetComponent<SpriteRenderer>().flipX = true;
+            else userMarker.GetComponent<SpriteRenderer>().flipX = false;
+
+            // 움직임 애니메이션
+            isMarkerMoving = true;
+            jerryAnim.SetBool("isJerryMoving", isMarkerMoving);
+            GameObject _dest = userMarkerPositionList.Dequeue();
+            float moveTime = 0.5f;
+
+            // 길 따라서 이동
+            userMarker.transform.SetParent(_dest.transform.parent);
+            Vector2 originPos = userMarker.transform.localPosition;
+            userMarker.transform.DOLocalMove(_dest.transform.localPosition, moveTime).From(originPos, false).SetEase(Ease.Linear)
+                .OnComplete(()=> { _dest.transform.DOShakeScale(1f,0.5f); });// ()=> { userMarker.transform.position = originVec; }); // 쥐제리 이동
+
+            Invoke("UserMarkerMove", moveTime);
         }
     }
     #endregion
