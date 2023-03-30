@@ -30,6 +30,7 @@ public class DataManager : MonoBehaviour
     public int DreamPieceScore = 0;
     public float HealthCurrent = 0.0f;
     public int ResultStars = 0;
+    public int bossAttackScore = 0;
 
 
 

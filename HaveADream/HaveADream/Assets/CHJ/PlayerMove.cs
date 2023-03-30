@@ -43,6 +43,11 @@ public class PlayerMove : Singleton<PlayerMove>
 
     public int resultStarCnt = 0;
 
+    [SerializeField] GameObject bossProjectile;
+
+    [SerializeField] int maxBulletsPerShot = 10; // 발사할 총알 수 제한
+    private int bulletsFired = 0; // 발사된 총알 수
+
     //스킬 사용중 무적 상태를 위한 함수
     public void ChangeLayer(GameObject obj, int newLayer)
     {
@@ -108,6 +113,10 @@ public class PlayerMove : Singleton<PlayerMove>
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+
+    }
+    private void OnEnable()
+    {
         //씬 시작 시 Hp바 초기화
         HpBarFilled.fillAmount = 1.0f;
     }
@@ -175,6 +184,9 @@ public class PlayerMove : Singleton<PlayerMove>
         if (collision.gameObject.tag == "Result2Star")
         {
             DataManager.Instance.ResultStars += 1;
+            ShootBullet();
+
+
         }
     }
     void OnDamaged()
@@ -201,5 +213,33 @@ public class PlayerMove : Singleton<PlayerMove>
     {
         gameObject.layer = 20;
         sr.color = new Color(1, 1, 1, 1);
+    }
+
+    void shootBossProjectile()
+    {
+        GameObject projectile = Instantiate(bossProjectile, transform.position, transform.rotation);
+        Rigidbody2D rigid = projectile.GetComponent<Rigidbody2D>();
+        rigid.AddForce(Vector2.right * 10f, ForceMode2D.Impulse);
+        bulletsFired++;
+        if (bulletsFired > maxBulletsPerShot)
+        {
+            CancelInvoke("shootBossProjectile");
+
+        }
+
+    }
+    void ShootBullet()
+    {
+        if (bulletsFired < maxBulletsPerShot)
+        {
+            InvokeRepeating("shootBossProjectile", 2f, 0.25f);
+
+        }
+        //이게 한번만 호출되서 그런듯?
+        else
+        {
+            CancelInvoke("shootBossProjectile");
+        }
+
     }
 }

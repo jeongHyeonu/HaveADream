@@ -7,8 +7,11 @@ public class ResultStar : Singleton<ResultStar>
     [SerializeField] GameObject Star2;
     [SerializeField] GameObject Star3;
 
+    [SerializeField] int DPScore;
+
     void Start()
     {
+        //CancelInvoke("shootBossProjectile");
         gameObject.SetActive(true);
         CheckStar();
         //별 0개인 경우
@@ -36,7 +39,7 @@ public class ResultStar : Singleton<ResultStar>
             Star2.gameObject.SetActive(true);
             Star3.gameObject.SetActive(false);
         }
-        else if (DataManager.Instance.ResultStars == 2 && DataManager.Instance.DreamPieceScore >= 6)
+        else if (DataManager.Instance.ResultStars == 2 && DataManager.Instance.DreamPieceScore >= DPScore)
         {
             Star1.SetActive(true);
             Star2.gameObject.SetActive(true);

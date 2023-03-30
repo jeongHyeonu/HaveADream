@@ -1417,6 +1417,7 @@ MonoBehaviour:
   Star1: {fileID: 6950528740412903970}
   Star2: {fileID: 8921827259146771524}
   Star3: {fileID: 4151974699184874515}
+  DPScore: 6
 --- !u!1 &8921827259146771524
 GameObject:
   m_ObjectHideFlags: 0

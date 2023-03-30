@@ -7,6 +7,8 @@ public class ResultManager : MonoBehaviour
     [SerializeField] GameObject textBossWarning; //보스 등장 텍스트
     [SerializeField] GameObject boss;   //보스 경고
 
+
+
     private void Awake()
     {
         textBossWarning.SetActive(false);
@@ -16,6 +18,7 @@ public class ResultManager : MonoBehaviour
     {
         // 싱글톤
         sm = SceneManager.Instance;
+
     }
 
     // Update is called once per frame
@@ -37,7 +40,9 @@ public class ResultManager : MonoBehaviour
         textBossWarning.SetActive(false);   //문구 사라짐
         boss.SetActive(true);               //보스 등장
         boss.GetComponent<Boss>().ChangeState(BossState.MoveToAppearPoint);
-        //yield return new WaitForSeconds(5.0f);
+        /* yield return new WaitForSeconds(5f);
+         GotoResult();*/
+
     }
 
 }

@@ -9,6 +9,8 @@ TagManager:
   - Wing
   - Result1Star
   - Result2Star
+  - BossProjectile
+  - Boss
   layers:
   - Default
   - TransparentFX

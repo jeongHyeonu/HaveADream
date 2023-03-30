@@ -7,6 +7,7 @@ public class ResultSceneManager : MonoBehaviour
     {
         // ΩÃ±€≈Ê
         sm = SceneManager.Instance;
+
     }
     public void ReturnHomeBtn_OnClick()
     {
