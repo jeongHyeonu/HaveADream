@@ -463,7 +463,9 @@ namespace JHW
             userMarker.transform.SetParent(_dest.transform.parent);
             Vector2 originPos = userMarker.transform.localPosition;
             userMarker.transform.DOLocalMove(_dest.transform.localPosition, moveTime).From(originPos, false).SetEase(Ease.Linear)
-                .OnComplete(()=> { _dest.transform.DOShakeScale(1f,0.5f); });// ()=> { userMarker.transform.position = originVec; }); // 零力府 捞悼
+                .OnComplete(()=> {
+                    if (_dest != userClickedStage) _dest.transform.DOShakeScale(1f,0.5f); 
+                });// ()=> { userMarker.transform.position = originVec; }); // 零力府 捞悼
 
             Invoke("UserMarkerMove", moveTime);
         }

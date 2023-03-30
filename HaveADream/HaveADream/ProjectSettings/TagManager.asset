@@ -21,10 +21,10 @@ TagManager:
   - 
   - Background
   - Outside
-  - 
-  - 
-  - 
-  - 
+  - MapFloor
+  - MapPresetStartPoint
+  - MapPresetEndPoint
+  - MovingObstacleSpawnPoint
   - 
   - 
   - 
