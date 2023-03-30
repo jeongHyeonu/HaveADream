@@ -43,6 +43,9 @@ public class PlayerMove : Singleton<PlayerMove>
 
     public int resultStarCnt = 0;
 
+    // 스피드 값 리턴
+    public float GetPlayerSpeed() { return speed; }
+
     //스킬 사용중 무적 상태를 위한 함수
     public void ChangeLayer(GameObject obj, int newLayer)
     {
@@ -140,7 +143,7 @@ public class PlayerMove : Singleton<PlayerMove>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //상자 충돌
-        if (collision.gameObject.tag == "Block")
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
             OnDamaged();
             //hp바
