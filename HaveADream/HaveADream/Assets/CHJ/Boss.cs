@@ -64,18 +64,24 @@ public class Boss : MonoBehaviour
         hudText.transform.position = hudPos.position;
         hudText.GetComponent<DamageText>().damage = damage;
 
-    }
-
-    public void OnDie()
-    {
 
         if (DataManager.Instance.bossAttackScore == projectile)
         {
-            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-        }
+            //Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            //Destroy(explosionPrefab);
 
+            Destroy(gameObject);
+
+            sm.Scene_Change_Result();
+        }
     }
+
+    /*    public void OnDie()
+        {
+
+
+
+        }*/
     //ÆÄ±« ½Ã ¾ÀÃ¼ÀÎÁö È£Ãâ
     private void OnDestroy()
     {

@@ -40,7 +40,7 @@ public class DreamPiece : MonoBehaviour
         {
             //꿈조각 카운트
             DataManager.Instance.DreamPieceScore += 1;
-            //GetComponent<DreamPieceUI>().currentScore++;
+
             //화면에서 끄기
             gameObject.SetActive(false);
 

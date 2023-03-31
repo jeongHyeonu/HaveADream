@@ -223,7 +223,7 @@ public class PlayerMove : Singleton<PlayerMove>
         Rigidbody2D rigid = projectile.GetComponent<Rigidbody2D>();
         rigid.AddForce(Vector2.right * 10f, ForceMode2D.Impulse);
         bulletsFired++;
-        if (bulletsFired > maxBulletsPerShot)
+        if (bulletsFired >= maxBulletsPerShot)
         {
             CancelInvoke("shootBossProjectile");
 
@@ -232,12 +232,12 @@ public class PlayerMove : Singleton<PlayerMove>
     }
     void ShootBullet()
     {
-        if (bulletsFired < maxBulletsPerShot)
+        if (bulletsFired <= maxBulletsPerShot)
         {
             InvokeRepeating("shootBossProjectile", 2f, 0.25f);
 
         }
-        //이게 한번만 호출되서 그런듯?
+        //멈추기
         else
         {
             CancelInvoke("shootBossProjectile");
