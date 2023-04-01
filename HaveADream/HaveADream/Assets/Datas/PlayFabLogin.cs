@@ -79,6 +79,14 @@ partial class PlayFabLogin {
                     //UserDataManager.Instance.SaveData(content);
                 }
             }
+
+            if (result.Data.Count == 0) // 유저데이터가 없다면 새로 등록
+            {
+                Debug.Log("?");
+                UserDataManager.Instance.SaveData(content);
+                UserDataManager.Instance.LoadDataOnComplete(content);
+            }
+
         }, (error) => {
             Debug.Log("Got error retrieving user data:");
             Debug.Log(error.GenerateErrorReport());
@@ -107,7 +115,7 @@ partial class PlayFabLogin {
             CreateAccount = true
         }, result =>
         {
-            OnLoginSuccess(result);
+            OnLoginSuccess(result); // 저장된 아이디대로 로그인
         }, error =>
         {
             Debug.LogError("Login Fail - Guest");

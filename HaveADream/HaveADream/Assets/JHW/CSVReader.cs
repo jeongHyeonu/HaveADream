@@ -20,7 +20,7 @@ public class CSVReader
 		if (lines.Length <= 1) return list;
 
 		var header = Regex.Split(lines[0], SPLIT_RE);
-		for (var i = 1; i < lines.Length; i++)
+		for (var i = 3; i < lines.Length; i++)
 		{
 
 			var values = Regex.Split(lines[i], SPLIT_RE);

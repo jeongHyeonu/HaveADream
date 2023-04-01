@@ -175,17 +175,18 @@ partial class UserDataManager : Singleton<UserDataManager>
     {
         // 서버에 있는 데이터 다 불러오면 실행하는 함수.
         // UserData 게임오브젝트 인스턴스에 유저 데이터들을 넣습니다.
+        if (Data != null)
+        {
+            UserDataManager.Instance.userName = Data.userName;
+            UserDataManager.Instance.maxHeart = Data.maxHeart;
+            UserDataManager.Instance.heart = Data.heart;
+            UserDataManager.Instance.gold = Data.gold;
+            UserDataManager.Instance.userCurrentStage = Data.userCurrentStage;
 
-        UserDataManager.Instance.userName = Data.userName;
-        UserDataManager.Instance.maxHeart = Data.maxHeart;
-        UserDataManager.Instance.heart = Data.heart;
-        UserDataManager.Instance.gold = Data.gold;
-        UserDataManager.Instance.userCurrentStage = Data.userCurrentStage;
-
-        UserDataManager.Instance.epi1Data = Data.epi1Data;
-        UserDataManager.Instance.epi2Data = Data.epi2Data;
-        UserDataManager.Instance.epi3Data = Data.epi3Data;
-
+            UserDataManager.Instance.epi1Data = Data.epi1Data;
+            UserDataManager.Instance.epi2Data = Data.epi2Data;
+            UserDataManager.Instance.epi3Data = Data.epi3Data;
+        }
 
         // 데이터 불러오고 상단 Heart UI 변경
         UIGroupManager.Instance.ChangeHeartUI();
