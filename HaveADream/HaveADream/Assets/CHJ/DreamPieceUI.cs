@@ -4,12 +4,24 @@ using UnityEngine.UI;
 public class DreamPieceUI : MonoBehaviour
 {
 
-    [SerializeField] Image BackgroundBar;
-    [SerializeField] int GoalScore;
-    public float currentScore;
+    [SerializeField] Image DpBar;
+    [SerializeField] float GoalScore;
+    public float DpScore;
 
-    private void Update()
+
+    void Awake()
     {
-        BackgroundBar.fillAmount = currentScore / GoalScore;
+        DpBar.GetComponent<Image>();
+        //DataManager.Instance.DreamPieceScore = DpScore;
+        DpScore = 0.0f;
+    }
+
+    void Update()
+    {
+        if (DpBar != null)
+        {
+            //DpBar.fillAmount += 0.1f;
+            DpBar.fillAmount = DataManager.Instance.DreamPieceScore / GoalScore;
+        }
     }
 }
