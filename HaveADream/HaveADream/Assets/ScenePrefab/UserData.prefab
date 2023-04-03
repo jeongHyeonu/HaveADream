@@ -247,8 +247,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4587611351618009513}
   - component: {fileID: 4587611351618009512}
-  - component: {fileID: 1300929161}
   - component: {fileID: 1221885186}
+  - component: {fileID: 4833084560821002325}
   m_Layer: 0
   m_Name: UserData
   m_TagString: Untagged
@@ -286,8 +286,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userID: 
   userName: 
-  maxHeart: 30
-  heart: 30
+  maxHeart: 15
+  heart: 15
   gold: 0
   userCurrentStage: 1-1
   epi1Data:
@@ -387,20 +387,6 @@ MonoBehaviour:
     star: 0
   epi3Data: []
   path: 
---- !u!114 &1300929161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4587611351618009511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 900f6626c45545447aac5ccdbafca2fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  userID: 
-  isLogined: 0
 --- !u!114 &1221885186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -421,6 +407,20 @@ MonoBehaviour:
   secondsLeftToRefresh: 1
   isHeartClicked: 0
   isHeartZero: 0
+--- !u!114 &4833084560821002325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4587611351618009511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6ed68b197f74db40882ba1fa8ff35d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  userID: 
+  isLogined: 0
 --- !u!1 &5737132710626817596
 GameObject:
   m_ObjectHideFlags: 0

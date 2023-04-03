@@ -227,6 +227,7 @@ namespace JHW
                         {
                             targetStage.transform.GetChild(_stageIdx).GetChild(2).GetChild(i).GetChild(0).gameObject.SetActive(true);
                         }
+                        if (it.star != 3) break;// 별 3개 아니면 담스테이지 못넘어감
                         if (it.isClearStage == false) break;
 
                         // 도로 수 +1
@@ -253,6 +254,8 @@ namespace JHW
                         {
                             targetStage.transform.GetChild(_stageIdx).GetChild(2).GetChild(i).GetChild(0).gameObject.SetActive(true);
                         }
+
+                        if (it.star != 3) break;// 별 3개 아니면 담스테이지 못넘어감
                         if (it.isClearStage == false) break;
 
                         // 도로 수 +1
@@ -292,6 +295,11 @@ namespace JHW
             for (int i = 0; i < starCnt; i++) { StageInfo.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(i).GetChild(0).gameObject.SetActive(true); }
 
             StageInfo.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = userCurStage; // 스테이지 번호
+
+            // 보스거리
+            int bossDistance = (int)StageDataManager.Instance.GetStageInfo(UserDataManager.Instance.GetUserData_userCurrentStage())["boss_distance"];
+            GameObject bossDistanceText = StageInfo.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).gameObject;
+            bossDistanceText.GetComponent<TextMeshProUGUI>().text = bossDistance.ToString() + " m";
         }
 
         public void StageStartButton_OnClick()

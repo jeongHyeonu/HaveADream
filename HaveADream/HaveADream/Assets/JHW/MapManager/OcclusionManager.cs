@@ -48,7 +48,7 @@ public class OcclusionManager : Singleton<OcclusionManager>
 
 
             // 맵 프리셋 301~309
-            if (stageNum < 13) return; // 스테이지에 따라 301~309 장애물 소환 x
+            if (stageNum < 10) return; // 스테이지에 따라 301~309 장애물 소환 x
             GameObject targetObject_3 = GetRandomMapPreset_3();
             targetObject_3.transform.position = MapPresetSpawnPoint.transform.position;
             targetObject_3.SetActive(true);
@@ -62,7 +62,7 @@ public class OcclusionManager : Singleton<OcclusionManager>
 
     private GameObject GetRandomMapPreset_1()
     {
-        if (stageNum <= 13) preset_1_Range = 35;
+        if (stageNum <= 10) preset_1_Range = 35;
         else preset_1_Range = 11;
 
         int randInt = Random.Range(0, preset_1_Range);
@@ -75,7 +75,7 @@ public class OcclusionManager : Singleton<OcclusionManager>
 
     private GameObject GetRandomMapPreset_3()
     {
-        if (stageNum >= 13) preset_3_Range = 8;
+        if (stageNum >= 10) preset_3_Range = 8;
 
         int randInt = Random.Range(0, preset_3_Range);
         while (MapPresets_3.transform.GetChild(randInt).gameObject.activeSelf == true) // 중복제거
