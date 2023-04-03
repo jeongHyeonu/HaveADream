@@ -71,8 +71,7 @@ public class Boss : MonoBehaviour
             //Destroy(explosionPrefab);
 
             Destroy(gameObject);
-
-            sm.Scene_Change_Result();
+            //sm.Scene_Change_Result();
         }
     }
 

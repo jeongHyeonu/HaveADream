@@ -48,6 +48,9 @@ public class PlayerMove : Singleton<PlayerMove>
     [SerializeField] int maxBulletsPerShot = 10; // 발사할 총알 수 제한
     private int bulletsFired = 0; // 발사된 총알 수
 
+    //총알 발사 카메라
+    private Camera mainCam;
+
     public float GetPlayerSpeed() { return speed; }
 
     //스킬 사용중 무적 상태를 위한 함수
@@ -111,6 +114,12 @@ public class PlayerMove : Singleton<PlayerMove>
         isSkillBtn = flag;
     }
 
+
+
+
+
+
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -128,7 +137,7 @@ public class PlayerMove : Singleton<PlayerMove>
 
         sm = SceneManager.Instance;
         targetPosition = transform.position + Vector3.right * 2f; // 목표 위치 설정
-
+        mainCam = Camera.main;
     }
 
     void Update()
@@ -175,7 +184,7 @@ public class PlayerMove : Singleton<PlayerMove>
             {
                 wingCnt++;
                 // 아이템을 먹는 코드 추가
-                MapMove.Instance.mapSpeed += 1.5f;
+                MapMove.Instance.mapSpeed += 1.0f;
             }
         }
         //결과창
@@ -219,16 +228,17 @@ public class PlayerMove : Singleton<PlayerMove>
 
     void shootBossProjectile()
     {
-        GameObject projectile = Instantiate(bossProjectile, transform.position, transform.rotation);
-        Rigidbody2D rigid = projectile.GetComponent<Rigidbody2D>();
-        rigid.AddForce(Vector2.right * 10f, ForceMode2D.Impulse);
+        var direction = Vector2.right;
+        //GameObject projectile = Instantiate(bossProjectile, transform.position, transform.rotation);
+        var bullet = BulletPool.GetObject();
+        bullet.Shoot(direction.normalized);
         bulletsFired++;
+
         if (bulletsFired >= maxBulletsPerShot)
         {
             CancelInvoke("shootBossProjectile");
 
         }
-
     }
     void ShootBullet()
     {

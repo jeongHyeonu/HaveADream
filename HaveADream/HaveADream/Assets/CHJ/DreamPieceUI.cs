@@ -20,7 +20,7 @@ public class DreamPieceUI : MonoBehaviour
     {
         if (DpBar != null)
         {
-            //DpBar.fillAmount += 0.1f;
+
             DpBar.fillAmount = DataManager.Instance.DreamPieceScore / GoalScore;
         }
     }
