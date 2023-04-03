@@ -132,8 +132,8 @@ partial class UserDataManager : Singleton<UserDataManager>
     void Awake()
     {
         // 데이터 불러오거나 저정하는 경로 설정 (단, 불러오는건 서버에서 받아올것임. 로컬에선 불러오지말것)
-        path = Path.Combine(Application.dataPath, "Datas/userData.json");
-
+        path = Path.Combine(Application.persistentDataPath +"/userData.json");
+        Debug.Log(path);
 
         // 플레이어 데이터 불러오고 로컬파일에 저장
         LoadData();
@@ -145,7 +145,7 @@ partial class UserDataManager : Singleton<UserDataManager>
     void OnApplicationQuit()
     {
         // 데이터 저장
-        path = Path.Combine(Application.dataPath, "Datas/userData.json");
+        path = Path.Combine(Application.persistentDataPath + "/userData.json");
         SaveData(null);
     }
 
@@ -159,7 +159,7 @@ partial class UserDataManager : Singleton<UserDataManager>
         {
             userID = "";
             PlayFabLogin.Instance.SetPlayerData();
-            //SaveData(null);
+            SaveData(null);
         }
         else // 플레이어 데이터 존재시 ID만 읽고 서버에서 데이터 불러온다
         {
@@ -225,7 +225,8 @@ partial class UserDataManager : Singleton<UserDataManager>
         string json = JsonUtility.ToJson(userData, true);
         File.WriteAllText(path, json);
 
-
+        // 로그인 안되있으면 리턴
+        //if (PlayFabLogin.Instance.isLogined == false) return;
 
         // playfab 서버로 데이터저장
         Dictionary<string, string> datas = new Dictionary<string, string>();
