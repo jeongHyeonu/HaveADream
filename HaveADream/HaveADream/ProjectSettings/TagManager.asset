@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Boss
+  - MagneticField
+  - Result2Star
+  - Result1Star
+  - BossProjectile
+  - Wing
+  - Block
   layers:
   - Default
   - TransparentFX
@@ -18,7 +25,7 @@ TagManager:
   - MapPresetStartPoint
   - MapPresetEndPoint
   - MovingObstacleSpawnPoint
-  - 
+  - currency
   - 
   - 
   - 

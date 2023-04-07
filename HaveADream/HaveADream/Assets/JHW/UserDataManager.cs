@@ -118,13 +118,17 @@ partial class UserDataManager : Singleton<UserDataManager>
         data.isClearStage = _clearFlag;
         data.star = _userGainStar;
     }
-    public void setUserData_epi2Data(string stageInfo)
+    public void setUserData_epi2Data(string _stageName, bool _clearFlag, int _userGainStar)
     {
-        this.userCurrentStage = stageInfo;
+        Episode1Data data = epi1Data.Find(x => x.mapName == _stageName);
+        data.isClearStage = _clearFlag;
+        data.star = _userGainStar;
     }
-    public void setUserData_epi3Data(string stageInfo)
+    public void setUserData_epi3Data(string _stageName, bool _clearFlag, int _userGainStar)
     {
-        this.userCurrentStage = stageInfo;
+        Episode1Data data = epi1Data.Find(x => x.mapName == _stageName);
+        data.isClearStage = _clearFlag;
+        data.star = _userGainStar;
     }
 
     #endregion

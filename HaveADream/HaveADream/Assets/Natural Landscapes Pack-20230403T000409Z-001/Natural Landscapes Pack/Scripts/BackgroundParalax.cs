@@ -16,8 +16,9 @@ public class BackgroundParalax : MonoBehaviour
     private Vector2 delta = Vector2.zero;
 
     private List<LinkedList<SpriteRenderer>> backgroundLayers;
+    [SerializeField] GameObject BackgroundPool;
 
-    void Start()
+    private void OnEnable()
     {
         lastPos = playerCam.position;
         backgroundLayers = new List<LinkedList<SpriteRenderer>>(backgrounds.Length);
@@ -28,7 +29,7 @@ public class BackgroundParalax : MonoBehaviour
             var childTransform = child.transform;
 
             var newObj = Instantiate(child.gameObject, childTransform.position, childTransform.rotation);
-            newObj.transform.SetParent(GameObject.Find("Gameplay/Map").transform);
+            newObj.transform.SetParent(BackgroundPool.transform);
 
             var list = new LinkedList<SpriteRenderer>();
             list.AddFirst(newObj.GetComponent<SpriteRenderer>());
@@ -164,7 +165,7 @@ public class BackgroundParalax : MonoBehaviour
         var sampleTransform = sample.transform;
 
         var newObject = Instantiate(sprite.gameObject, sampleTransform.position, sprite.transform.rotation);
-        newObject.transform.SetParent(GameObject.Find("Gameplay/Map").transform);
+        newObject.transform.SetParent(BackgroundPool.transform);
 
         var position = newObject.transform.position;
         newObject.transform.position = new Vector3(position.x, sprite.transform.position.y, position.z);

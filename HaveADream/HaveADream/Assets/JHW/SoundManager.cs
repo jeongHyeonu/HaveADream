@@ -202,7 +202,7 @@ public class SoundManager : Singleton<SoundManager>
     {
         return true;
     }
-    private void sfxStop()
+    public void sfxStop()
     {
         GameObject.Find(toStopSfx.ToString() + "Pool").transform.GetChild(0).gameObject.SetActive(false);
     }
