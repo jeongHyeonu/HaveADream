@@ -12,10 +12,10 @@ public class SceneManager : Singleton<SceneManager>
     // Start is called before the first frame update
     void Start()
     {
-        // ÃÊ±â¿¡ È¨ È­¸é ¿Ü¿¡ ¸ðµÎ ºñÈ°¼ºÈ­
+        // ï¿½Ê±â¿¡ È¨ È­ï¿½ï¿½ ï¿½Ü¿ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
         Scene_Change_Home();
 
-        // ½Ì±ÛÅæ ¹Þ¾Æ¿À±â
+        // ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
         hm = HomeManager.Instance;
     }
 
@@ -29,7 +29,13 @@ public class SceneManager : Singleton<SceneManager>
         return StageSelectScene.activeSelf;
     }
 
-    private void Scene_init()    // ¾À ¸ðµÎ ºñÈ°¼ºÈ­
+    public bool GetIsGamePlaying()
+    {
+        if (PlayScene.activeSelf == true) return true;
+        else return false;
+    }
+
+    private void Scene_init()    // ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
     {
         HomeScene.SetActive(false);
         StageSelectScene.SetActive(false);
@@ -37,35 +43,41 @@ public class SceneManager : Singleton<SceneManager>
         ResultScene.SetActive(false);
     }
 
-    public void Scene_Change_Home()    // È¨ ¾ÀÀ¸·Î ÀüÈ¯
+    public void Scene_Change_Home()    // È¨ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     {
+        if(PlayScene.activeSelf==true)BackgroundManager.Instance.EraseBackground();// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½->ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½->È¨ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½É¶ï¿½ ï¿½ï¿½ï¿½Ã¢ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
         Scene_init();
         UIGroupManager.Instance.TopUI_On();
-        SkillManager.Instance.UI_Off(); // ½ºÅ³ UI OFF
+        SkillManager.Instance.UI_Off(); // ï¿½ï¿½Å³ UI OFF
+        DistanceManager.Instance.DistanceUI_OFF(); // ï¿½Å¸ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         HomeScene.SetActive(true);
     }
-    public void Scene_Change_StageSelect()    // ½ºÅ×ÀÌÁö ¼±ÅÃ ¾ÀÀ¸·Î ÀüÈ¯
+    public void Scene_Change_StageSelect()    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     {
         Scene_init();
         UIGroupManager.Instance.TopUI_On();
         StageSelectScene.SetActive(true);
         JHW.StageSelectManager.Instance.OnEnableStageSelect();
     }
-    public void Scene_Change_GamePlay()    // °ÔÀÓÇÃ·¹ÀÌ ¾ÀÀ¸·Î ÀüÈ¯
+    public void Scene_Change_GamePlay()    // ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     {
         Scene_init();
         UIGroupManager.Instance.TopUI_Off();
-        SkillManager.Instance.UI_On(); // ½ºÅ³ UI ON
+        SkillManager.Instance.UI_On(); // ï¿½ï¿½Å³ UI ON
         DistanceManager.Instance.DistanceUI_ON();
         PlayScene.SetActive(true);
         DistanceBarManager.Instance.DistanceBarUI_ON();
+        JewelManager.Instance.StageInfo_jewel_getData(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        DreamPieceManager.Instance.StageInfo_dreamPiece_getData(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        WingManager.Instance.StageInfo_wing_getData(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
-    public void Scene_Change_Result()    // °á°úÈ­¸é ¾ÀÀ¸·Î ÀüÈ¯
+    public void Scene_Change_Result()    // ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     {
+        BackgroundManager.Instance.EraseBackground();// ï¿½ï¿½ï¿½Ã¢ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
         Scene_init();
-        SkillManager.Instance.UI_Off(); // ½ºÅ³ UI OFF
-        DistanceManager.Instance.DistanceUI_OFF();
+        SkillManager.Instance.UI_Off(); // ï¿½ï¿½Å³ UI OFF
         DistanceBarManager.Instance.DistanceBarUI_OFF();
+        DistanceManager.Instance.DistanceUI_OFF(); // ï¿½Å¸ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         ResultScene.SetActive(true);
     }
 }

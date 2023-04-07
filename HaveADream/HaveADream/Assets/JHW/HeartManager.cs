@@ -40,11 +40,12 @@ public class HeartManager : Singleton<HeartManager>
         HeartUI.SetActive(false);
     }
 
-    // 서버로부터 하트 수와 최대 하트 불러오기, 일정 주기마다 실행
+    // 서버로부터 하트 수와 최대 하트 불러오기, 일정 주기마다 실행, 홈/스테이지 아니면 실행X
     IEnumerator getUserHeartPeriod()
     {
-        yield return new WaitForSeconds(1f);
-        PlayFabLogin.Instance.GetVirtualCurrencies();
+        yield return new WaitForSeconds(5f);
+        //if (SceneManager.Instance.GetIsGamePlaying())
+            PlayFabLogin.Instance.GetVirtualCurrencies();
         StartCoroutine("getUserHeartPeriod");
     }
 

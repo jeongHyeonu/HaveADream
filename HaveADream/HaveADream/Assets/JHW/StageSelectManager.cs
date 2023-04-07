@@ -36,6 +36,7 @@ namespace JHW
 
         public void OnEnableStageSelect() // 스테이지 선택 씬 활성화시
         {
+
             // 월드버튼 활성화
             returnToWorldBtn.SetActive(true);
 
@@ -46,9 +47,23 @@ namespace JHW
             this.transform.GetChild(int.Parse(userCurrentStages[0].ToCharArray())).gameObject.SetActive(true); // 에피소드 맵 활성화
             userMarker.transform.SetParent(GameObject.Find("Stage" + userCurrentStage).transform); // 스테이지 버튼에 쥐제리 위치
             userMarker.transform.localPosition = Vector2.zero;
-            //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
+            //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 사이즈
 
             Init_StageSelect_By_UserInfo(int.Parse(userCurrentStages[0].ToCharArray())); // 스테이지 정보 불러오기
+
+            // 플레이어 위치로 지도 위치시키기
+            Invoke("PlayerPosOnMap", 0.01f);
+
+        }
+
+        private void PlayerPosOnMap()
+        {
+            // 캔버스(지도) 위치 플레이어 기준으로 설정
+            ScrollRect sr = userMarker.transform.parent.parent.parent.parent.GetComponent<ScrollRect>();
+            float user_y = -Camera.main.WorldToScreenPoint(userMarker.transform.position).y / userMarker.transform.parent.parent.parent.parent.GetComponent<ScrollRect>().content.rect.height;
+            float user_x = userMarker.transform.position.x*50 / userMarker.transform.parent.parent.parent.parent.GetComponent<ScrollRect>().content.rect.width;
+            userMarker.transform.parent.parent.parent.parent.GetComponent<ScrollRect>().horizontalScrollbar.value = user_x;
+            userMarker.transform.parent.parent.parent.parent.GetComponent<ScrollRect>().verticalScrollbar.value = 0.5f;
         }
 
         public void HomeButton_OnClick() // 홈 화면으로 복귀
@@ -154,22 +169,10 @@ namespace JHW
             UserMarkerMove();
 
             userCurStage = curEpiNum.ToString() + "-" + currentStageNumber.ToString();
-            UserDataManager.Instance.setUserData_userCurrentStage(userCurStage); // 유저가 마지막으로 선택한 스테이지 위치
+            if (UserDataManager.Instance.GetUserData_userCurrentStage() == userCurStage) return; // 선택한 스테이지 위치가 전에 선택했던 스테이지와 동일하면 실행 X
+            UserDataManager.Instance.setUserData_userCurrentStage(userCurStage); // 유저가 마지막으로 선택한 스테이지 위치 갱신
 
-            // 이펙트
-            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.SetParent(userMarker.transform);
-            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.localScale = Vector3.one;
-            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.localPosition = new Vector3(0, 0, -1);
-            if (!isJerryRight) EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).GetComponent<Transform>().localScale = new Vector3(-1, 1,1); 
-            else EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).GetComponent<Transform>().localScale = Vector3.one;
-            EffectManager.Instance.PlayParticle(EffectManager.particle_list.FlyEffectParticle3);
-            // 이펙트
-            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.SetParent(userMarker.transform);
-            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.localScale = Vector3.one;
-            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.localPosition = new Vector3(0, 0, -1);
-            if (!isJerryRight) EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).GetComponent<Transform>().localScale = new Vector3(-1, 1, 1);
-            else EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).GetComponent<Transform>().localScale = Vector3.one;
-            EffectManager.Instance.PlayParticle(EffectManager.particle_list.FlyEffectParticle2);
+
 
             // 게임플레이로 전환
             // sm.Scene_Change_GamePlay();
@@ -266,7 +269,12 @@ namespace JHW
 
                     break;
             }
+
+
+
             StartCoroutine(targetStage.GetComponent<RoadCreater>().RoadColorChange(roadCnt)); // 클리어한 스테이지 따라서 도로 노란색으로 색칠
+
+            
         }
     }
 
@@ -312,6 +320,9 @@ namespace JHW
 
             // 게임 플레이로 전환
             sm.Scene_Change_GamePlay();
+
+            // 맵 생성
+            BackgroundManager.Instance.GenerateBackground(curEpiNum);
 
             // 클릭한 버튼 크기 원래대로
             userClickedStage.transform.localScale = Vector2.one;
@@ -457,9 +468,7 @@ namespace JHW
                 return; 
             }
 
-            // 제리 이동방향
-            if (isJerryRight) userMarker.GetComponent<SpriteRenderer>().flipX = true;
-            else userMarker.GetComponent<SpriteRenderer>().flipX = false;
+
 
             // 움직임 애니메이션
             isMarkerMoving = true;
@@ -467,6 +476,17 @@ namespace JHW
             GameObject _dest = userMarkerPositionList.Dequeue();
             float moveTime = 0.5f;
 
+            // 제리 이동방향
+            if (userMarker.gameObject.transform.position.x - _dest.transform.position.x < 0)
+            {
+                isJerryRight = true;
+                userMarker.GetComponent<SpriteRenderer>().flipX = true;
+            }
+            else
+            {
+                isJerryRight = false;
+                userMarker.GetComponent<SpriteRenderer>().flipX = false;
+            }
             // 길 따라서 이동
             userMarker.transform.SetParent(_dest.transform.parent);
             Vector2 originPos = userMarker.transform.localPosition;
@@ -474,6 +494,21 @@ namespace JHW
                 .OnComplete(()=> {
                     if (_dest != userClickedStage) _dest.transform.DOShakeScale(1f,0.5f); 
                 });// ()=> { userMarker.transform.position = originVec; }); // 쥐제리 이동
+
+            // 이펙트
+            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.SetParent(userMarker.transform);
+            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.localScale = Vector3.one;
+            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.localPosition = new Vector3(0, 0, -1);
+            if (!isJerryRight) EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).GetComponent<Transform>().localScale = new Vector3(-1, 1, 1);
+            else EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).GetComponent<Transform>().localScale = Vector3.one;
+            EffectManager.Instance.PlayParticle(EffectManager.particle_list.FlyEffectParticle3);
+            // 이펙트
+            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.SetParent(userMarker.transform);
+            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.localScale = Vector3.one;
+            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.localPosition = new Vector3(0, 0, -1);
+            if (!isJerryRight) EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).GetComponent<Transform>().localScale = new Vector3(-1, 1, 1);
+            else EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).GetComponent<Transform>().localScale = Vector3.one;
+            EffectManager.Instance.PlayParticle(EffectManager.particle_list.FlyEffectParticle2);
 
             Invoke("UserMarkerMove", moveTime);
         }

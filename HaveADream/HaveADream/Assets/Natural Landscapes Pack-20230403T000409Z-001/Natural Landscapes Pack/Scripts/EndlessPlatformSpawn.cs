@@ -8,14 +8,14 @@ public class EndlessPlatformSpawn : MonoBehaviour
     //just list of available platform types
     public Transform[] platforms;
     public Transform playerCam;
-    [SerializeField] public GameObject GameplayMap;
+    [SerializeField] public GameObject BackgroundPool;
 
     private Vector2 lastPos = Vector2.zero;
     private Vector2 delta = Vector2.zero;
 
     private LinkedList<SpriteRenderer> platformList;
 
-    void Start()
+    private void OnEnable()
     {
         platformList = new LinkedList<SpriteRenderer>();
         lastPos = playerCam.position;
@@ -27,12 +27,13 @@ public class EndlessPlatformSpawn : MonoBehaviour
 
         var randomStart = getRandomSprite();
         var newObj = Instantiate(randomStart, randomStart.transform.position, randomStart.transform.rotation);
-        newObj.transform.SetParent(GameplayMap.transform);
+        newObj.transform.SetParent(BackgroundPool.transform);
         newObj.SetActive(true);
         platformList.AddLast(newObj.GetComponent<SpriteRenderer>());
 
         spawnInView();
     }
+
     private void updateDelta()
     {
         delta = (Vector2)playerCam.position - lastPos;
@@ -100,7 +101,7 @@ public class EndlessPlatformSpawn : MonoBehaviour
         var sampleTransform = sample.transform;
 
         var newObject = Instantiate(sprite.gameObject, sampleTransform.position, sprite.transform.rotation);
-        newObject.transform.SetParent(GameplayMap.transform);
+        newObject.transform.SetParent(BackgroundPool.transform);
 
         var position = newObject.transform.position;
 

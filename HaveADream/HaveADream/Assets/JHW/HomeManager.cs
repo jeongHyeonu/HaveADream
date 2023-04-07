@@ -91,24 +91,30 @@ partial class HomeManager : Singleton<HomeManager>
         // 뒷배경 활성화상태면 실행X
         if (AnimalsBackground.activeSelf == true) return;
 
-        // 1초뒤 배경 누를 수 있게 활성화
-        Invoke("Background_Interactable_true", 1f);
+        // 0.5초뒤 배경 누를 수 있게 활성화
+        Invoke("Background_Interactable_true", .5f);
 
         // 동물 클릭시
-        curAnimal = AnimalObject; // 현재 선택한 동물 오브젝트
-        curAnimal.transform.SetAsLastSibling(); // 계층 순서 변경
-        curAnimal.transform.GetChild(1).gameObject.SetActive(true); // 텍스트 활성화
-        curAnimal.transform.DOScale(3f, UX_Duration); // 동물 이미지 크기 크게
-        AnimalsBackground.gameObject.SetActive(true); // 동물 클릭시 뒷배경
-        AnimalsBackground.GetComponent<Image>()
-            .DOFade(0.2f, UX_Duration)
-            .OnStart( ()=> { AnimalsBackground.GetComponent<Image>().color = new Color(0, 0, 0, 0f); } );
+        //curAnimal = AnimalObject; // 현재 선택한 동물 오브젝트
+        //curAnimal.transform.SetAsLastSibling(); // 계층 순서 변경
+        //curAnimal.transform.GetChild(1).gameObject.SetActive(true); // 텍스트 활성화
+        //curAnimal.transform.DOScale(3f, UX_Duration); // 동물 이미지 크기 크게
+        //AnimalsBackground.gameObject.SetActive(true); // 동물 클릭시 뒷배경
+        //AnimalsBackground.GetComponent<Image>()
+        //    .DOFade(0.2f, UX_Duration)
+        //    .OnStart( ()=> { AnimalsBackground.GetComponent<Image>().color = new Color(0, 0, 0, 0f); } );
 
-        // 동물 중앙 확대, 이때 tempVec2에 동물위치 임시저장 후 뒷배경클릭시 원래장소로 이동
-        tempVec2 = curAnimal.transform.position;
-        float height = 2 * Camera.main.orthographicSize;
-        float width = height * Camera.main.aspect;
-        curAnimal.transform.DOLocalMove(new Vector2(width / 2, height / 2), UX_Duration);
+        //// 동물 중앙 확대, 이때 tempVec2에 동물위치 임시저장 후 뒷배경클릭시 원래장소로 이동
+        //tempVec2 = curAnimal.transform.position;
+        //float height = 2 * Camera.main.orthographicSize;
+        //float width = height * Camera.main.aspect;
+        //curAnimal.transform.DOLocalMove(new Vector2(width / 2, height / 2), UX_Duration);
+
+        curAnimal = AnimalObject; // 현재 선택한 동물 오브젝트
+        curAnimal.transform.GetChild(1).gameObject.SetActive(true); // 텍스트 활성화
+        Animals.transform.DOLocalMove(new Vector2(-curAnimal.transform.localPosition.x, -curAnimal.transform.localPosition.y), UX_Duration); // UI canvas 이동
+        AnimalsBackground.gameObject.SetActive(true); // 동물 클릭시 뒷배경
+        curAnimal.transform.DOScale(1.4f, UX_Duration); // 동물 이미지 크기 크게
     }
 
     public void Click_AnimalBackground() // 동물 확대된 후 뒷배경 클릭시
@@ -117,15 +123,16 @@ partial class HomeManager : Singleton<HomeManager>
         if (_isClicked == true) return;
         _isClicked = true;
 
-        // 1초뒤 배경 누를 수 있게 비활성화
-        Invoke("Background_Interactable_false", 1f);
+        // 0.5초뒤 배경 누를 수 있게 비활성화
+        Invoke("Background_Interactable_false", .5f);
 
         // 동물 클릭 후 뒷배경 클릭시
         curAnimal.transform.GetChild(1).gameObject.SetActive(false); // 텍스트 비활성화
         AnimalsBackground.GetComponent<Image>().DOFade(0f, UX_Duration).OnComplete(() => { AnimalsBackground.gameObject.SetActive(false); } );
 
         // 원래 좌표로 이동 및 크기 작게
-        curAnimal.transform.DOMove(tempVec2, UX_Duration);
+        //curAnimal.transform.DOMove(tempVec2, UX_Duration);
+        Animals.transform.DOLocalMove(Vector2.zero, UX_Duration); // UI canvas 이동
         curAnimal.transform.DOScale(1f, UX_Duration);
     }
 

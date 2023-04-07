@@ -11,6 +11,11 @@ public class DistanceManager : Singleton<DistanceManager>
     public bool isGamePlaying = false;
     public bool isBossArrived = false; // 보스까지 도착시 true
 
+    public float GetBossDistance()
+    {
+        return bossDistance;
+    }
+
     public void DistanceUI_ON()
     {
         DistanceUI.SetActive(true);
