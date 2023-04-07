@@ -25,6 +25,13 @@ public class DataManager : MonoBehaviour
             DestroyObject(gameObject);
         }
     }
+    public void OnEnable()
+    {
+        DreamPieceScore = 0;
+        HealthCurrent = 0.0f;
+        ResultStars = 0;
+        bossAttackScore = 0;
+    }
 
     //실제 꿈조각 모은 양 저장
     public float DreamPieceScore = 0;

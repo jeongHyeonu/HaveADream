@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class DistanceManager : Singleton<DistanceManager>
 {
@@ -33,10 +30,12 @@ public class DistanceManager : Singleton<DistanceManager>
         isGamePlaying = false;
     }
 
+
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (isGamePlaying == false || isBossArrived==true) return; // 게임 실행중이면 실행X / 또는 보스까지 도착했을시 실행 X
+        if (isGamePlaying == false || isBossArrived == true) return; // 게임 실행중이면 실행X / 또는 보스까지 도착했을시 실행 X
 
         distance += MapMove.Instance.mapSpeed * Time.deltaTime * 3f;
         if (bossDistance <= distance)// 보스까지 도달시
@@ -46,6 +45,6 @@ public class DistanceManager : Singleton<DistanceManager>
             distance_text.SetText(bossDistance.ToString() + " m");
         }
 
-        distance_text.SetText(Mathf.Round(distance).ToString()+" m");
+        distance_text.SetText(Mathf.Round(distance).ToString() + " m");
     }
 }

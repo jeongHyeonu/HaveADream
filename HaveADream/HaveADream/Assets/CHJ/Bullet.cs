@@ -18,10 +18,10 @@ public class Bullet : MonoBehaviour
             Invoke("DestroyBullet", 0f);
         }
     }
-    public void Shoot(Vector2 dir)
+    public void Shoot()
     {
-        direction = dir;
-        dir = Vector2.right;
+        /*direction = dir;
+        dir = Vector2.right;*/
         Invoke("DestroyBullet", 3f);
     }
     private void DestroyBullet()

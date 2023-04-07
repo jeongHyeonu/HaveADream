@@ -13,6 +13,10 @@ public class PauseMenuManager : Singleton<PauseMenuManager>
 
     }
 
+    private void OnDisable()
+    {
+        PauseMenuUI_OFF();
+    }
     public void PauseMenuUI_ON()
     {
         Time.timeScale = 0;

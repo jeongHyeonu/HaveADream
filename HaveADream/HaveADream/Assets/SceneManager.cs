@@ -58,12 +58,14 @@ public class SceneManager : Singleton<SceneManager>
         SkillManager.Instance.UI_On(); // 스킬 UI ON
         DistanceManager.Instance.DistanceUI_ON();
         PlayScene.SetActive(true);
+        DistanceBarManager.Instance.DistanceBarUI_ON();
     }
     public void Scene_Change_Result()    // 결과화면 씬으로 전환
     {
         Scene_init();
         SkillManager.Instance.UI_Off(); // 스킬 UI OFF
         DistanceManager.Instance.DistanceUI_OFF();
+        DistanceBarManager.Instance.DistanceBarUI_OFF();
         ResultScene.SetActive(true);
     }
 }

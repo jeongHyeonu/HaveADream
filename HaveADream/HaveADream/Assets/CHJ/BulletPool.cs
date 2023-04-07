@@ -12,7 +12,7 @@ public class BulletPool : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        Initialize(10);
+        Initialize(20);
     }
     private Bullet CreateNewBullet()
     {

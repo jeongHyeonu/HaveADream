@@ -6,6 +6,7 @@ public class DreamPieceUI : MonoBehaviour
 
     [SerializeField] Image DpBar;
     [SerializeField] float GoalScore;
+    [SerializeField] int DpValue;
     public float DpScore;
 
 
@@ -13,6 +14,11 @@ public class DreamPieceUI : MonoBehaviour
     {
         DpBar.GetComponent<Image>();
         //DataManager.Instance.DreamPieceScore = DpScore;
+        DpScore = 0.0f;
+    }
+    private void OnDisable()
+    {
+        DpBar.fillAmount = 0.0f;
         DpScore = 0.0f;
     }
 

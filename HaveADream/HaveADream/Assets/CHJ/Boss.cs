@@ -11,6 +11,8 @@ public class Boss : MonoBehaviour
     private BossState bossState = BossState.MoveToAppearPoint;
     private Movement2D movement2D;
 
+    [SerializeField] Transform returnTransform;
+
     [SerializeField] GameObject hudDamageText;
     [SerializeField] Transform hudPos;
 
@@ -25,8 +27,12 @@ public class Boss : MonoBehaviour
     {
         // ½Ì±ÛÅæ
         sm = SceneManager.Instance;
-
-
+    }
+    private void OnDisable()
+    {
+        Vector2 temp = new Vector2(13.0f, 0);
+        gameObject.SetActive(false);
+        gameObject.transform.Translate(temp);
     }
     public void ChangeState(BossState newState)
     {
@@ -70,21 +76,9 @@ public class Boss : MonoBehaviour
             //Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             //Destroy(explosionPrefab);
 
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            sm.Scene_Change_Result();
             //sm.Scene_Change_Result();
         }
     }
-
-    /*    public void OnDie()
-        {
-
-
-
-        }*/
-    //ÆÄ±« ½Ã ¾ÀÃ¼ÀÎÁö È£Ãâ
-    private void OnDestroy()
-    {
-        sm.Scene_Change_Result();
-    }
-
 }

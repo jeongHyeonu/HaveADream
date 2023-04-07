@@ -8,6 +8,7 @@ public class MapMove : Singleton<MapMove>
     private void OnEnable()
     {
         this.transform.position = Vector3.zero; // 시작시 위치 초기화
+        mapSpeed = 5.0f;
     }
 
     private void Update()

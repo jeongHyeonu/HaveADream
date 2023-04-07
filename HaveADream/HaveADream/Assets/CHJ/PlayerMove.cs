@@ -130,6 +130,8 @@ public class PlayerMove : Singleton<PlayerMove>
     {
         //씬 시작 시 Hp바 초기화
         HpBarFilled.fillAmount = 1.0f;
+        wingCnt = 0;
+        bulletsFired = 0;
     }
 
     void Start()
@@ -196,8 +198,6 @@ public class PlayerMove : Singleton<PlayerMove>
         {
             DataManager.Instance.ResultStars += 1;
             ShootBullet();
-
-
         }
     }
     void OnDamaged()
@@ -228,10 +228,10 @@ public class PlayerMove : Singleton<PlayerMove>
 
     void shootBossProjectile()
     {
-        var direction = Vector2.right;
+        //var direction = Vector2.right;
         //GameObject projectile = Instantiate(bossProjectile, transform.position, transform.rotation);
         var bullet = BulletPool.GetObject();
-        bullet.Shoot(direction.normalized);
+        bullet.Shoot();
         bulletsFired++;
 
         if (bulletsFired >= maxBulletsPerShot)
