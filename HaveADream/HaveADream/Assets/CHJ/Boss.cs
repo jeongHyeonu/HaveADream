@@ -11,7 +11,7 @@ public class Boss : MonoBehaviour
     private BossState bossState = BossState.MoveToAppearPoint;
     private Movement2D movement2D;
 
-    [SerializeField] Transform returnTransform;
+    //[SerializeField] Transform returnTransform;
 
     [SerializeField] GameObject hudDamageText;
     [SerializeField] Transform hudPos;

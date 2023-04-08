@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         Rigidbody2D rigid = gameObject.GetComponent<Rigidbody2D>();
-        rigid.AddForce(Vector2.right * 10f, ForceMode2D.Force);
+        rigid.AddForce(Vector2.right * 10f, ForceMode2D.Impulse);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
