@@ -4048,6 +4048,18 @@ PrefabInstance:
       propertyPath: BackgroundPool
       value: 
       objectReference: {fileID: 3224630117003820644}
+    - target: {fileID: 4203012203300626411, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203012203300626411, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203012203300626411, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4478796569906703614, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
       propertyPath: playerCam
       value: 
@@ -4061,14 +4073,61 @@ PrefabInstance:
       value: BackgroundManager
       objectReference: {fileID: 0}
     - target: {fileID: 7647632082694212988, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
+      propertyPath: Background1
+      value: 
+      objectReference: {fileID: 9113095930254043304}
+    - target: {fileID: 7647632082694212988, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
+      propertyPath: Background3
+      value: 
+      objectReference: {fileID: 3269259699411515788}
+    - target: {fileID: 7647632082694212988, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
       propertyPath: MapBackgroundPool
       value: 
       objectReference: {fileID: 3224630117003820644}
+    - target: {fileID: 8823328829482512359, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
+      propertyPath: BackgroundPool
+      value: 
+      objectReference: {fileID: 3224630117003820644}
+    - target: {fileID: 8823328829669190101, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
+      propertyPath: overlay
+      value: 
+      objectReference: {fileID: 8823328829444353884}
+    - target: {fileID: 8823328829669190101, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
+      propertyPath: BackgroundPool
+      value: 
+      objectReference: {fileID: 3224630117003820644}
+    - target: {fileID: 8823328830553262483, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
+      propertyPath: BackgroundPool
+      value: 
+      objectReference: {fileID: 3224630117003820644}
+    - target: {fileID: 8823328830553262484, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8823328830553262484, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
 --- !u!4 &1344931071735372190 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1344931071992270154, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
+  m_PrefabInstance: {fileID: 860886228}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3269259699411515788 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3269259699693579608, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
+  m_PrefabInstance: {fileID: 860886228}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8823328829444353884 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8823328830194088840, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
+  m_PrefabInstance: {fileID: 860886228}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9113095930254043304 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9113095930500463740, guid: 6c84069bfbfea8640bf218d95482acd8, type: 3}
   m_PrefabInstance: {fileID: 860886228}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1070602716
