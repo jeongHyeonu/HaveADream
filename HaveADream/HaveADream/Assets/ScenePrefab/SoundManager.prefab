@@ -110,9 +110,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volume_BGM: 1
   volume_SFX: 1
-  BGM_datas: []
+  BGM_datas:
+  - bgm_name: 0
+    audio: {fileID: 8300000, guid: a48560b3ba2968a4682f69a1c44568b6, type: 3}
+  - bgm_name: 1
+    audio: {fileID: 8300000, guid: 94c84c5597b19274dad95863b416af4b, type: 3}
+  - bgm_name: 2
+    audio: {fileID: 8300000, guid: a3bd879b09c4802459c0a86447ada81c, type: 3}
+  - bgm_name: 3
+    audio: {fileID: 8300000, guid: 2a9e99809afb9be498114ac723a96123, type: 3}
+  - bgm_name: 4
+    audio: {fileID: 0}
   SFX_datas:
   - sfx_name: 0
     audio: {fileID: 8300000, guid: b22a2624a266ede45ab1770f93ae7f45, type: 3}
   - sfx_name: 1
     audio: {fileID: 8300000, guid: 061f56763f09a3b45a83c533c76c1758, type: 3}
+  - sfx_name: 2
+    audio: {fileID: 8300000, guid: 061f56763f09a3b45a83c533c76c1758, type: 3}
+  - sfx_name: 3
+    audio: {fileID: 8300000, guid: 82e0d809910eaa149bed811aa08bce67, type: 3}
+  - sfx_name: 4
+    audio: {fileID: 8300000, guid: 2ce7c2569b9cc4a4195ba9d33d885891, type: 3}
+  - sfx_name: 5
+    audio: {fileID: 0}
+  - sfx_name: 6
+    audio: {fileID: 8300000, guid: 040b3078182f8be4fa50ed4b7e4cfc29, type: 3}
+  - sfx_name: 7
+    audio: {fileID: 0}
+  - sfx_name: 8
+    audio: {fileID: 0}
+  - sfx_name: 5
+    audio: {fileID: 0}

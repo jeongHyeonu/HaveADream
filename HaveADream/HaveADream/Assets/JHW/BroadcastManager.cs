@@ -27,6 +27,9 @@ public class BroadcastManager : Singleton<BroadcastManager>
     {
         OpenBroadcastUI();
         PlayFabLogin.Instance.ReadTitleNews();
+
+        // »ç¿îµå
+        SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
     }
 
     public void CreateBroadcastItem(TitleNewsItem item)

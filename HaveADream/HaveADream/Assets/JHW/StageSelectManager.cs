@@ -20,6 +20,8 @@ namespace JHW
 
         private bool isMarkerMoving = false; // 쥐제리 이동중인지 검사
         private Animator jerryAnim; // 쥐제리 애니메이션
+        int currentStageNumber = 0;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -54,6 +56,9 @@ namespace JHW
             // 플레이어 위치로 지도 위치시키기
             Invoke("PlayerPosOnMap", 0.01f);
 
+            // 사운드
+            SoundManager.Instance.PlayBGM(SoundManager.BGM_list.StageSelect_BGM);
+
         }
 
         private void PlayerPosOnMap()
@@ -77,7 +82,11 @@ namespace JHW
             // 유저가 선택한 스테이지 크기 원상복귀
             if (userClickedStage != null) userClickedStage.transform.DOScale(1f, 0f);
 
+            // 사운드
+            SoundManager.Instance.PlayBGM(SoundManager.BGM_list.Home_BGM);
+
             sm.Scene_Change_Home();
+
         }
 
 
@@ -102,6 +111,9 @@ namespace JHW
             this.transform.GetChild(episodeNumber).gameObject.SetActive(true);
             this.transform.GetChild(0).gameObject.SetActive(false);
             Init_StageSelect_By_UserInfo(episodeNumber);
+
+            // 사운드
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
         }
 
 
@@ -139,12 +151,17 @@ namespace JHW
             curEpiNum = GetCurrentEpisodeNumber();
             this.transform.GetChild(curEpiNum).gameObject.SetActive(false);
             this.transform.GetChild(0).gameObject.SetActive(true);
+
+            // 사운드
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
         }
 
         public void StageButton_OnClick([SerializeField] int currentStageNumber) // 스테이지 버튼 클릭시
         {
             // 플레이어 마크(쥐제리)이동중이면 실행X
             if (isMarkerMoving == true) return;
+
+            this.currentStageNumber = currentStageNumber;
 
             // 정보창 닫기
             StageInfo.SetActive(false);
@@ -179,6 +196,9 @@ namespace JHW
 
             // 스테이지 정보창 오픈
             //OpenStageInfoPanel();
+
+            // 사운드
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
         }
 
         public void BackToEpisode_OnClick()
@@ -195,6 +215,9 @@ namespace JHW
             //지도화면 닫고 스테이지 선택창으로
             this.transform.GetChild(0).gameObject.SetActive(false);
             this.transform.GetChild(curEpiNum).gameObject.SetActive(true);
+
+            // 사운드
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
         }
 
         private int GetCurrentEpisodeNumber() // 현재 열려있는 에피소드 번호 리턴
@@ -331,6 +354,31 @@ namespace JHW
             PlayFabLogin.Instance.SubtractHeart();
             UserDataManager.Instance.SetUserData_heart(UserDataManager.Instance.GetUserData_heart() - 1);
             UIGroupManager.Instance.ChangeHeartUI();
+
+            // 사운드
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
+
+            // 음악 재생
+            switch (currentStageNumber)
+            {
+                case 1:
+                case 2:
+                case 5:
+                case 6:
+                case 9:
+                case 10:
+                case 13:
+                    SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_1);
+                    break;
+                case 3:
+                case 4:
+                case 7:
+                case 8:
+                case 11:
+                case 12:
+                    SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_2);
+                    break;
+            }
         }
 
         public void StageInfoExitButton_OnClick()
@@ -340,6 +388,9 @@ namespace JHW
 
             // 정보창 닫기
             StageInfo.SetActive(false);
+
+            // 사운드
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
         }
     }
 
@@ -375,6 +426,9 @@ namespace JHW
             //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
 
             Init_StageSelect_By_UserInfo(currentEpiNum);
+
+            // 사운드
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
         }
 
         public void nextButton_OnClick()
@@ -403,6 +457,9 @@ namespace JHW
             //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
 
             Init_StageSelect_By_UserInfo(currentEpiNum);
+
+            // 사운드
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
         }
     }
     #endregion
