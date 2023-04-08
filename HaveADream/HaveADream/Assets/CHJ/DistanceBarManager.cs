@@ -11,20 +11,14 @@ public class DistanceBarManager : Singleton<DistanceBarManager>
     public bool isGamePlaying = false;
     public bool isBossArrived = false; // 보스까지 도착시 true
 
-
+    private void OnEnable()
+    {
+        distance = 0;
+    }
     private void Start()
     {
         distanceBar.GetComponent<Image>();
     }
-
-    /*    private void OnEnable()
-        {
-            DistanceBarUI_ON();
-        }
-        private void OnDisable()
-        {
-            DistanceBarUI_OFF();
-        }*/
     public void DistanceBarUI_ON()
     {
         DistanceBarUI.SetActive(true);
@@ -64,4 +58,5 @@ public class DistanceBarManager : Singleton<DistanceBarManager>
 
         distanceBar.fillAmount = distance / bossDistance;
     }
+    
 }
