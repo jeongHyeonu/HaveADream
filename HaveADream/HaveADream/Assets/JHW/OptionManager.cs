@@ -44,6 +44,11 @@ partial class OptionManager : Singleton<OptionManager>
 
         MusicButton_ChangeColor(_flag);
         MusicSlider.value = music_volume;
+
+        SoundManager.Instance.volume_BGM = music_volume;
+
+        // 사운드
+        SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
     }
 
     public void SoundButton_OnClick([SerializeField] bool _flag)
@@ -53,6 +58,11 @@ partial class OptionManager : Singleton<OptionManager>
 
         SoundButton_ChangeColor(_flag);
         SoundSlider.value = sound_volume;
+
+        SoundManager.Instance.volume_SFX = sound_volume;
+
+        // 사운드
+        SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
     }
 
     // 음악버튼 색변경
@@ -98,6 +108,7 @@ partial class OptionManager : Singleton<OptionManager>
             BGM_OnButton.GetComponent<Image>().color = buttonOnColor;
             BGM_OffButton.GetComponent<Image>().color = buttonOffColor;
         }
+        SoundManager.Instance.volume_BGM = music_volume;
     }
 
     public void SoundSlider_OnChange()
@@ -109,12 +120,16 @@ partial class OptionManager : Singleton<OptionManager>
             SFX_OnButton.GetComponent<Image>().color = buttonOnColor;
             SFX_OffButton.GetComponent<Image>().color = buttonOffColor;
         }
+        SoundManager.Instance.volume_SFX = sound_volume;
     }
 
     public void OptionButton_OnClick()
     {
         OptionUI.SetActive(true);
         CollectionBackground.SetActive(true);
+
+        // 사운드
+        SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
     }
 
     public void BackgroundClick()
@@ -136,6 +151,9 @@ partial class OptionManager
         PlayerPrefs.SetInt("isSkillUI_Right", isSkillUI_Right);
         SkillManager.Instance.ChangeSkillUIAddress();
         SkillButtonColorChange(isSkillUI_Right);
+
+        // 사운드
+        SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
     }
 
     // 옵션 - 스킬 UI 오른쪽변경 버튼
@@ -145,6 +163,9 @@ partial class OptionManager
         PlayerPrefs.SetInt("isSkillUI_Right", isSkillUI_Right);
         SkillManager.Instance.ChangeSkillUIAddress();
         SkillButtonColorChange(isSkillUI_Right);
+
+        // 사운드
+        SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
     }
 
 

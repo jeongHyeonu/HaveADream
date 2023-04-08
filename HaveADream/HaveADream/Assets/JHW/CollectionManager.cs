@@ -26,5 +26,8 @@ public class CollectionManager : Singleton<CollectionManager>
     {
         CollectionUI.SetActive(true);
         CollectionBackground.SetActive(true);
+
+        // »ç¿îµå
+        SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
     }
 }

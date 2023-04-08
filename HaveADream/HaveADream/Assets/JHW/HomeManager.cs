@@ -16,13 +16,16 @@ partial class HomeManager : Singleton<HomeManager>
     {
         // 싱글톤 받아오기
         sm = SceneManager.Instance;
-
+        // 음악 재생
+        SoundManager.Instance.PlayBGM(SoundManager.BGM_list.Home_BGM);
     }
 
     public void PlayButton_OnClick()
     {
         sm.Scene_Change_StageSelect();
     }
+
+
 
 
     public void Home_OpenAnials()
@@ -115,6 +118,9 @@ partial class HomeManager : Singleton<HomeManager>
         Animals.transform.DOLocalMove(new Vector2(-curAnimal.transform.localPosition.x, -curAnimal.transform.localPosition.y), UX_Duration); // UI canvas 이동
         AnimalsBackground.gameObject.SetActive(true); // 동물 클릭시 뒷배경
         curAnimal.transform.DOScale(1.4f, UX_Duration); // 동물 이미지 크기 크게
+
+        // 사운드
+        SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
     }
 
     public void Click_AnimalBackground() // 동물 확대된 후 뒷배경 클릭시

@@ -55,6 +55,9 @@ public class UIGroupManager : Singleton<UIGroupManager>
         HeartManager.Instance.HeartUI.SetActive(true);
         BackgroundUI.SetActive(true);
         HeartManager.Instance.isHeartClicked = !HeartManager.Instance.isHeartClicked;
+
+        // »ç¿îµå
+        SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
     }
 
     public void FadeInOut()
