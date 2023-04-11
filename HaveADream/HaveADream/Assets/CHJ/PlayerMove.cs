@@ -215,7 +215,8 @@ public class PlayerMove : Singleton<PlayerMove>
             MapMove.Instance.mapSpeed = 5f;
             wingCnt = 0;
         }
-
+        // 사운드
+        SoundManager.Instance.PlaySFX(SoundManager.SFX_list.PlayerDamaged);
 
         sr.color = new Color(1, 1, 1, 0.4f);
         Invoke("OffDamaged", 2f);
@@ -234,7 +235,14 @@ public class PlayerMove : Singleton<PlayerMove>
         var bullet = BulletPool.GetObject();
         bullet.Shoot();
         bulletsFired++;
+
         if (bulletsFired == maxBulletsPerShot)
+
+
+            // 사운드
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.PlayerAttack);
+
+        if (bulletsFired >= maxBulletsPerShot)
         {
             CancelInvoke("shootBossProjectile");
 

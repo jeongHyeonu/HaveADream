@@ -84,6 +84,9 @@ partial class SkillManager : Singleton<SkillManager>
         PlayerMove.Instance.ChangeSpeed(2f);
         Invoke("SpeedSkill_RollBack", 3f);
         ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+
+        //사운드
+        SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Skill2);
     }
     private void InvinsibleSkill_RollBack()
     {

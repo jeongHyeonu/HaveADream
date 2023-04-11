@@ -19,7 +19,20 @@ public class Boss : MonoBehaviour
     [SerializeField] GameObject explosionPrefab;
     [SerializeField] int projectile;
 
+
     [SerializeField] GameObject ResultWindow;
+
+    // 보스 처치 시 슬로우 효과 걸리게
+    private void slowBoss_ON()
+    {
+        Time.timeScale = 0.5f;
+    }
+    private void slowBoss_OFF()
+    {
+        Time.timeScale = 1f;
+    }
+
+
 
     private void Awake()
     {
@@ -41,12 +54,14 @@ public class Boss : MonoBehaviour
         gameObject.SetActive(false);
         gameObject.transform.Translate(temp);
     }
+
     public void ChangeState(BossState newState)
     {
         StopCoroutine(bossState.ToString());
         bossState = newState;
         StartCoroutine(bossState.ToString());
     }
+
     public IEnumerator MoveToAppearPoint()
     {
         //코루틴 실행 시 1회 호출
@@ -73,17 +88,22 @@ public class Boss : MonoBehaviour
     }
     public void TakeDamage(int damage)
     {
+        //데미지 텍스트 출력
         GameObject hudText = Instantiate(hudDamageText);
         hudText.transform.position = hudPos.position;
         hudText.GetComponent<DamageText>().damage = damage;
 
-
+        //총알수=피격수 시 호출
         if (DataManager.Instance.bossAttackScore == projectile)
         {
+
             //Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             //Destroy(explosionPrefab);
             Time.timeScale = 0.5f;
             Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            //보스 슬로우 연출 추가하기
+
+
             gameObject.SetActive(false);
 
             Invoke("SetResultWindow", 2f);

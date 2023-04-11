@@ -9,8 +9,8 @@ public class SoundManager : Singleton<SoundManager>
     [SerializeField] Dictionary<BGM_list, AudioClip> BGM_audioclips = new Dictionary<BGM_list, AudioClip>();
     [SerializeField] Dictionary<SFX_list, AudioClip> SFX_audioclips = new Dictionary<SFX_list, AudioClip>();
 
-    [SerializeField] private float volume_BGM = 1f;
-    [SerializeField] private float volume_SFX = 1f;
+    [SerializeField] public float volume_BGM = 1f;
+    [SerializeField] public float volume_SFX = 1f;
 
     [SerializeField] public List<BGM_Datas> BGM_datas = new List<BGM_Datas>();
     [SerializeField] public List<SFX_Datas> SFX_datas = new List<SFX_Datas>();
@@ -46,12 +46,24 @@ public class SoundManager : Singleton<SoundManager>
     {
         GOLD_GET,
         JEWEL_GET,
+        Button,
+        PlayerAttack,
+        PlayerDamaged,
+        Skill1,
+        Skill2,
+        SKill3,
+        Skill4,
+        Skill5,
     }
 
     // 배경음 목록
     public enum BGM_list
     {
-        temp_BGM,
+        Home_BGM,
+        StageSelect_BGM,
+        GamePlayBGM_1,
+        GamePlayBGM_2,
+        GamePlayBGM_3,
     }
 
     //////////  Default Method  //////////
