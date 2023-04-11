@@ -5,7 +5,7 @@ using UnityEngine;
 public class DreamPiece : MonoBehaviour
 {
 
-    [SerializeField] GameObject target;
+    [SerializeField] GameObject Player;
 
     private float magnetStrength = 5f;
     private float distanceStretch = 7.5f;
@@ -52,17 +52,17 @@ public class DreamPiece : MonoBehaviour
         if (collision.gameObject.tag.CompareTo("MagneticField") == 0)
         {
             //자석 켜기
-            magnetTrans = collision.transform;
+            magnetTrans = Player.transform;
             magetinZone = true;
 
         }
 
     }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "MagneticField" && looseMagnet)
+    /*    private void OnTriggerExit2D(Collider2D collision)
         {
-            magetinZone = false;
-        }
-    }
+            if (collision.tag == "MagneticField" && looseMagnet)
+            {
+                magetinZone = false;
+            }
+        }*/
 }

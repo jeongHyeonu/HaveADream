@@ -32,6 +32,7 @@ public class DistanceManager : Singleton<DistanceManager>
     public void DistanceUI_OFF()
     {
         DistanceUI.SetActive(false);
+        isBossArrived = false;
         isGamePlaying = false;
     }
 

@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Jewel : MonoBehaviour
 {
-    [SerializeField] GameObject target;
-    [SerializeField] float speed = 5.0f;
+    [SerializeField] GameObject player;
     public enum Jewel_type
     {
         blue,
@@ -30,7 +29,7 @@ public class Jewel : MonoBehaviour
     }
     void Awake()
     {
-        trans = this.transform;
+        trans = transform;
         rb = trans.GetComponent<Rigidbody2D>();
     }
 
@@ -38,6 +37,7 @@ public class Jewel : MonoBehaviour
     {
         if (magetinZone)
         {
+            Debug.Log("»£√‚");
             Vector2 directionToMagnet = magnetTrans.position - trans.position;
             float distance = Vector2.Distance(magnetTrans.position, trans.position);
             float magnetDistanceStr = (distanceStretch / distance) * magnetStrength;
@@ -59,6 +59,13 @@ public class Jewel : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag.CompareTo("MagneticField") == 0)
+        {
+            magnetTrans = player.transform;
+            magetinZone = true;
+
+        }
+
         if (collision.gameObject.tag.CompareTo("Player") == 0)
         {
             if (this.jewelType == Jewel_type.blue)
@@ -76,18 +83,15 @@ public class Jewel : MonoBehaviour
             EffectManager.Instance.PlayVFX(EffectManager.VFX_list.SPARK1, this.gameObject);
             SoundManager.Instance.PlaySFX(SoundManager.SFX_list.JEWEL_GET);
         }
-        if (collision.gameObject.tag.CompareTo("MagneticField") == 0)
-        {
-            magnetTrans = collision.transform;
-            magetinZone = true;
 
-        }
+
+
     }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "MagneticField" && looseMagnet)
+    /*    private void OnTriggerExit2D(Collider2D collision)
         {
-            magetinZone = false;
-        }
-    }
+            if (collision.CompareTag("MagneticField") && looseMagnet)
+            {
+                magetinZone = false;
+            }
+        }*/
 }

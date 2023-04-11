@@ -13,6 +13,7 @@ public class BulletPool : MonoBehaviour
     {
         Instance = this;
         Initialize(20);
+
     }
     private Bullet CreateNewBullet()
     {

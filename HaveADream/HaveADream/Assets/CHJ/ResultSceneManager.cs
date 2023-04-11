@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ResultSceneManager : MonoBehaviour
 {
+    [SerializeField] GameObject resultWindow;
     private SceneManager sm = null;
     void Start()
     {
@@ -18,6 +19,12 @@ public class ResultSceneManager : MonoBehaviour
     private void OnEnable()
     {
         ResultSave();
+        Time.timeScale = 0;
+    }
+    private void OnDisable()
+    {
+        resultWindow.SetActive(false);
+        Time.timeScale = 1;
     }
 
     // 결과 저장

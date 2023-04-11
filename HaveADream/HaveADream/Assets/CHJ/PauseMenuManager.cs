@@ -6,6 +6,8 @@ public class PauseMenuManager : Singleton<PauseMenuManager>
 
     private SceneManager sm = null;
     public bool isGamePlaying = false;
+
+
     void Start()
     {
         // ΩÃ±€≈Ê
@@ -17,6 +19,7 @@ public class PauseMenuManager : Singleton<PauseMenuManager>
     {
         PauseMenuUI_OFF();
     }
+
     public void PauseMenuUI_ON()
     {
         Time.timeScale = 0;

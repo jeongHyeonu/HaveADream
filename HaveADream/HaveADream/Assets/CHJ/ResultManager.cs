@@ -26,6 +26,8 @@ public class ResultManager : MonoBehaviour
     {
         if (collision.gameObject.tag.CompareTo("Player") == 0)
         {
+
+
             StartCoroutine("SpawnBoss");
 
 
@@ -40,9 +42,9 @@ public class ResultManager : MonoBehaviour
         textBossWarning.SetActive(false);   //문구 사라짐
         boss.SetActive(true);               //보스 등장
         boss.GetComponent<Boss>().ChangeState(BossState.MoveToAppearPoint);
-        yield return new WaitForSeconds(5f);
-        sm.Scene_Change_Result();
 
     }
+
+
 
 }

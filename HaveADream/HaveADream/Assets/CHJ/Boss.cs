@@ -19,9 +19,16 @@ public class Boss : MonoBehaviour
     [SerializeField] GameObject explosionPrefab;
     [SerializeField] int projectile;
 
+    [SerializeField] GameObject ResultWindow;
+
     private void Awake()
     {
         movement2D = GetComponent<Movement2D>();
+    }
+    private void OnEnable()
+    {
+        string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
+        projectile = (int)StageDataManager.Instance.GetStageInfo(key)["dreapiece_req_count"];
     }
     void Start()
     {
@@ -75,10 +82,16 @@ public class Boss : MonoBehaviour
         {
             //Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             //Destroy(explosionPrefab);
-
+            Time.timeScale = 0.5f;
+            Time.fixedDeltaTime = Time.timeScale * 0.02f;
             gameObject.SetActive(false);
-            sm.Scene_Change_Result();
+
+            Invoke("SetResultWindow", 2f);
             //sm.Scene_Change_Result();
         }
+    }
+    public void SetResultWindow()
+    {
+        ResultWindow.SetActive(true);
     }
 }

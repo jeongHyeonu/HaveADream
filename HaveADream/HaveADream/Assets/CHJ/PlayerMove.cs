@@ -31,11 +31,8 @@ public class PlayerMove : Singleton<PlayerMove>
 
     public GameObject MagneticField;
 
+    [SerializeField] GameObject ResultWindow;
     [SerializeField] GameObject Player;
-
-    [SerializeField] GameObject DP;
-    [SerializeField] GameObject BJW;
-    //[SerializeField] GameObject RJW;
 
     //날개 스킬 변수
     private const int maxWingCnt = 4;
@@ -45,8 +42,10 @@ public class PlayerMove : Singleton<PlayerMove>
 
     [SerializeField] GameObject bossProjectile;
 
-    [SerializeField] int maxBulletsPerShot = 10; // 발사할 총알 수 제한
+    [SerializeField] int maxBulletsPerShot; // 발사할 총알 수 제한
     private int bulletsFired = 0; // 발사된 총알 수
+
+    //[SerializeField] GameObject resultWindow;
 
     //총알 발사 카메라
     private Camera mainCam;
@@ -132,6 +131,8 @@ public class PlayerMove : Singleton<PlayerMove>
         HpBarFilled.fillAmount = 1.0f;
         wingCnt = 0;
         bulletsFired = 0;
+        string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
+        maxBulletsPerShot = (int)StageDataManager.Instance.GetStageInfo(key)["dreapiece_req_count"];
     }
 
     void Start()
@@ -152,11 +153,11 @@ public class PlayerMove : Singleton<PlayerMove>
     {
         if (isTouching == false)
         {
-            this.GetComponent<Rigidbody2D>().AddForce(Vector3.down * 19f * speed);
+            this.GetComponent<Rigidbody2D>().AddForce(Vector3.down * 18f * speed);
         }
         else
         {
-            this.GetComponent<Rigidbody2D>().AddForce(Vector3.up * 19f * speed);
+            this.GetComponent<Rigidbody2D>().AddForce(Vector3.up * 18f * speed);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -168,7 +169,7 @@ public class PlayerMove : Singleton<PlayerMove>
             //hp바
             if (HpBarFilled.fillAmount <= 0.0f)
             {
-                sm.Scene_Change_Result();
+                ResultWindow.SetActive(true);
             }
             //실드
             if (isShield)
@@ -233,16 +234,16 @@ public class PlayerMove : Singleton<PlayerMove>
         var bullet = BulletPool.GetObject();
         bullet.Shoot();
         bulletsFired++;
-
-        if (bulletsFired >= maxBulletsPerShot)
+        if (bulletsFired == maxBulletsPerShot)
         {
             CancelInvoke("shootBossProjectile");
 
         }
+
     }
     void ShootBullet()
     {
-        if (bulletsFired <= maxBulletsPerShot)
+        if (bulletsFired < maxBulletsPerShot)
         {
             InvokeRepeating("shootBossProjectile", 2f, 0.25f);
 
