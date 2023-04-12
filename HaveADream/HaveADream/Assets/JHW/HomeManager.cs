@@ -22,10 +22,30 @@ partial class HomeManager : Singleton<HomeManager>
 
     public void PlayButton_OnClick()
     {
-        sm.Scene_Change_StageSelect();
+        // 플레이 버튼, 홈->스테이지 페이드 전환
+        Fade_HomeToStage();
     }
 
-
+    void Fade_HomeToStage()
+    {
+        float loadingTime = 0.5f;
+        GameObject FadeImg = GameObject.Find("LoadingBackground");
+        for (int i = 0; i < FadeImg.transform.childCount; i++)
+        {
+            FadeImg.transform.GetChild(i).gameObject.SetActive(true);
+            FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(1f, loadingTime).OnComplete( () => { 
+                if(i==5)
+                sm.Scene_Change_StageSelect(); 
+            });
+            FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(0f, loadingTime).SetDelay(loadingTime).OnComplete(() => {
+                FadeImg.transform.GetChild(0).gameObject.SetActive(false);
+                FadeImg.transform.GetChild(1).gameObject.SetActive(false);
+                FadeImg.transform.GetChild(2).gameObject.SetActive(false);
+                FadeImg.transform.GetChild(3).gameObject.SetActive(false);
+                FadeImg.transform.GetChild(4).gameObject.SetActive(false);
+            });
+        }
+    }
 
 
     public void Home_OpenAnials()

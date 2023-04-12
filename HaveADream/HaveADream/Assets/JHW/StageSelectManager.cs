@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
@@ -34,6 +35,27 @@ namespace JHW
             jerryAnim = userMarker.GetComponent<Animator>();
             userMarker.SetActive(true);
             jerryAnim.SetBool("isJerryMoving", false);
+        }
+
+        void Fade_StageToHome()
+        {
+            float loadingTime = 0.5f;
+            GameObject FadeImg = GameObject.Find("LoadingBackground");
+            for (int i = 0; i < FadeImg.transform.childCount; i++)
+            {
+                FadeImg.transform.GetChild(i).gameObject.SetActive(true);
+                FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(1f, loadingTime).OnComplete(() => {
+                    if (i == 5)
+                        sm.Scene_Change_Home();
+                });
+                FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(0f, loadingTime).SetDelay(loadingTime).OnComplete(() => {
+                    FadeImg.transform.GetChild(0).gameObject.SetActive(false);
+                    FadeImg.transform.GetChild(1).gameObject.SetActive(false);
+                    FadeImg.transform.GetChild(2).gameObject.SetActive(false);
+                    FadeImg.transform.GetChild(3).gameObject.SetActive(false);
+                    FadeImg.transform.GetChild(4).gameObject.SetActive(false);
+                });
+            }
         }
 
         public void OnEnableStageSelect() // 스테이지 선택 씬 활성화시
@@ -85,8 +107,8 @@ namespace JHW
             // 사운드
             SoundManager.Instance.PlayBGM(SoundManager.BGM_list.Home_BGM);
 
-            sm.Scene_Change_Home();
-
+            // 스테이지->홈 페이드 전환
+            Fade_StageToHome();
         }
 
 
@@ -295,7 +317,7 @@ namespace JHW
 
 
 
-            StartCoroutine(targetStage.GetComponent<RoadCreater>().RoadColorChange(roadCnt)); // 클리어한 스테이지 따라서 도로 노란색으로 색칠
+            //StartCoroutine(targetStage.GetComponent<RoadCreater>().RoadColorChange(roadCnt)); // 클리어한 스테이지 따라서 도로 노란색으로 색칠
 
             
         }
@@ -418,8 +440,8 @@ namespace JHW
             userMarker.transform.SetParent(this.transform.GetChild(currentEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0),false);
 
             // 이펙트 출력되는 경우가 있어서.. 끄기
-            EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle2);
-            EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle3);
+            //EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle2);
+            //EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle3);
 
             userMarker.transform.DOLocalMove(this.transform.GetChild(currentEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1).transform.localPosition, 0f); // 원래 위치로
             //userMarker.transform.localScale = new Vector3(70f, 70f, 70f); // 가끔 사이즈가 1이 되서 안보이게 되는 경우가 있어서.. ㅠ
@@ -449,8 +471,8 @@ namespace JHW
             userMarker.transform.SetParent(this.transform.GetChild(currentEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0), false);
 
             // 이펙트 출력되는 경우가 있어서.. 끄기
-            EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle2);
-            EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle3);
+            //EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle2);
+            //EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle3);
 
             userMarker.transform.DOLocalMove(this.transform.GetChild(currentEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1).transform.localPosition, 0f); // 원래 위치로
             //userMarker.transform.localScale = new Vector3(70f, 70f, 70f); // 가끔 사이즈가 1이 되서 안보이게 되는 경우가 있어서.. ㅠ
@@ -518,8 +540,8 @@ namespace JHW
                 isMarkerMoving = false; 
                 jerryAnim.SetBool("isJerryMoving", isMarkerMoving);
                 // 이펙트 제거
-                EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle3);
-                EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle2);
+                //EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle3);
+                //EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle2);
                 // 스테이지 정보창 오픈
                 OpenStageInfoPanel();
                 return; 
@@ -552,20 +574,20 @@ namespace JHW
                     if (_dest != userClickedStage) _dest.transform.DOShakeScale(1f,0.5f); 
                 });// ()=> { userMarker.transform.position = originVec; }); // 쥐제리 이동
 
-            // 이펙트
-            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.SetParent(userMarker.transform);
-            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.localScale = Vector3.one;
-            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.localPosition = new Vector3(0, 0, -1);
-            if (!isJerryRight) EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).GetComponent<Transform>().localScale = new Vector3(-1, 1, 1);
-            else EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).GetComponent<Transform>().localScale = Vector3.one;
-            EffectManager.Instance.PlayParticle(EffectManager.particle_list.FlyEffectParticle3);
-            // 이펙트
-            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.SetParent(userMarker.transform);
-            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.localScale = Vector3.one;
-            EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.localPosition = new Vector3(0, 0, -1);
-            if (!isJerryRight) EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).GetComponent<Transform>().localScale = new Vector3(-1, 1, 1);
-            else EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).GetComponent<Transform>().localScale = Vector3.one;
-            EffectManager.Instance.PlayParticle(EffectManager.particle_list.FlyEffectParticle2);
+            //// 이펙트
+            //EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.SetParent(userMarker.transform);
+            //EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.localScale = Vector3.one;
+            //EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).transform.localPosition = new Vector3(0, 0, -1);
+            //if (!isJerryRight) EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).GetComponent<Transform>().localScale = new Vector3(-1, 1, 1);
+            //else EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle3).GetComponent<Transform>().localScale = Vector3.one;
+            //EffectManager.Instance.PlayParticle(EffectManager.particle_list.FlyEffectParticle3);
+            //// 이펙트
+            //EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.SetParent(userMarker.transform);
+            //EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.localScale = Vector3.one;
+            //EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).transform.localPosition = new Vector3(0, 0, -1);
+            //if (!isJerryRight) EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).GetComponent<Transform>().localScale = new Vector3(-1, 1, 1);
+            //else EffectManager.Instance.GetParticleObject(EffectManager.particle_list.FlyEffectParticle2).GetComponent<Transform>().localScale = Vector3.one;
+            //EffectManager.Instance.PlayParticle(EffectManager.particle_list.FlyEffectParticle2);
 
             Invoke("UserMarkerMove", moveTime);
         }

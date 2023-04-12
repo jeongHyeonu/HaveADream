@@ -1002,7 +1002,6 @@ GameObject:
   - component: {fileID: 1865133256}
   - component: {fileID: 1865133259}
   - component: {fileID: 1865133258}
-  - component: {fileID: 1865133257}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -1089,39 +1088,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1865133257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1865133255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c16e1aee2cb05244bb4b8588a63ec4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StageList:
-  - {fileID: 6640795336185416267}
-  - {fileID: 1236283165759234471}
-  - {fileID: 7167744318695973304}
-  - {fileID: 772900320700846785}
-  - {fileID: 3905744137969721987}
-  - {fileID: 6182840059250785617}
-  - {fileID: 4845890224764713882}
-  - {fileID: 4128630945154997704}
-  - {fileID: 837291907050936366}
-  - {fileID: 3909885967300788939}
-  - {fileID: 8256817343533691147}
-  - {fileID: 2795773077886190006}
-  - {fileID: 647157178892994880}
-  - {fileID: 3659417267578614408}
-  - {fileID: 8628041712185289734}
-  - {fileID: 7673973601654679445}
-  - {fileID: 2186512541523931619}
-  - {fileID: 1634136320475032837}
-  roadObject: {fileID: 3043555010015100540, guid: d3f610370a160cb4dba5314c635acbf4, type: 3}
-  roadList: {fileID: 17280736}
 --- !u!1 &1911074907
 GameObject:
   m_ObjectHideFlags: 0
@@ -10881,7 +10847,6 @@ GameObject:
   - component: {fileID: 3579927901182548952}
   - component: {fileID: 1939901305433885768}
   - component: {fileID: 6049397348303529835}
-  - component: {fileID: 1564842355}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -10962,34 +10927,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1564842355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3051457056814047954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c16e1aee2cb05244bb4b8588a63ec4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StageList:
-  - {fileID: 1671829992148045927}
-  - {fileID: 2935721842478987946}
-  - {fileID: 7415777334141770598}
-  - {fileID: 5415324127922157123}
-  - {fileID: 3492816501423665594}
-  - {fileID: 380968240984569964}
-  - {fileID: 1280391798045877301}
-  - {fileID: 3402140067658219611}
-  - {fileID: 6810133456327840936}
-  - {fileID: 6078568816685299151}
-  - {fileID: 3154128062030321009}
-  - {fileID: 4211506704527129594}
-  - {fileID: 187229939115923792}
-  roadObject: {fileID: 3043555010015100540, guid: d3f610370a160cb4dba5314c635acbf4, type: 3}
-  roadList: {fileID: 95879651}
 --- !u!1 &3095079862045993543
 GameObject:
   m_ObjectHideFlags: 0
@@ -21676,7 +21613,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7472017210431095487
 RectTransform:
   m_ObjectHideFlags: 0
