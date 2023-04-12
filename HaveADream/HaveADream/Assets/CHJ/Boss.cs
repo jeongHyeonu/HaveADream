@@ -10,6 +10,9 @@ public class Boss : MonoBehaviour
     private float bossAppearPoint = 0f;
     private BossState bossState = BossState.MoveToAppearPoint;
     private Movement2D movement2D;
+    private Boss boss;
+
+    private SpriteRenderer renderer;
 
     //[SerializeField] Transform returnTransform;
 
@@ -19,6 +22,7 @@ public class Boss : MonoBehaviour
     [SerializeField] GameObject explosionPrefab;
     [SerializeField] int projectile;
     [SerializeField] GameObject ResultWindow;
+
 
     // 보스 처치 시 슬로우 효과 걸리게
     private void slowBoss_ON()
@@ -33,9 +37,14 @@ public class Boss : MonoBehaviour
     private void Awake()
     {
         movement2D = GetComponent<Movement2D>();
+        boss = GetComponent<Boss>();
+        renderer = GetComponent<SpriteRenderer>();
     }
     private void OnEnable()
     {
+
+        gameObject.SetActive(true);
+        renderer.enabled = true;
         string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
         projectile = (int)StageDataManager.Instance.GetStageInfo(key)["dreapiece_req_count"];
     }
@@ -86,6 +95,9 @@ public class Boss : MonoBehaviour
             //총알수=피격수 시 호출
             if (DataManager.Instance.bossAttackScore == projectile)
             {
+
+                boss.OnDie();
+                renderer.enabled = false; //렌더러 비활성화
                 Time.timeScale = 0.5f;
                 Time.fixedDeltaTime = Time.timeScale * 0.02f;
 
@@ -104,6 +116,10 @@ public class Boss : MonoBehaviour
         hudText.GetComponent<DamageText>().damage = damage;
 
 
+    }
+    public void OnDie()
+    {
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
     }
     public void SetResultWindow()
     {
