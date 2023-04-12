@@ -22,6 +22,8 @@ public class ResultStar : Singleton<ResultStar>
     }
     void Update()
     {
+        string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
+        DPScore = (int)StageDataManager.Instance.GetStageInfo(key)["dreapiece_req_count"];
         //gameObject.SetActive(true);
         CheckStar();
         //별 0개인 경우
@@ -42,13 +44,13 @@ public class ResultStar : Singleton<ResultStar>
             Star2.SetActive(false);
             Star3.SetActive(false);
         }
-        else if (DataManager.Instance.ResultStars == 2)
+        else if (DataManager.Instance.DreamPieceScore < DPScore && DataManager.Instance.ResultStars == 2)
         {
             Star1.gameObject.SetActive(true);
             Star2.gameObject.SetActive(true);
             Star3.gameObject.SetActive(false);
         }
-        else if (DataManager.Instance.ResultStars == 2 && DataManager.Instance.DreamPieceScore >= DPScore)
+        else if (DataManager.Instance.DreamPieceScore >= DPScore && DataManager.Instance.ResultStars == 2)
         {
             Star1.gameObject.SetActive(true);
             Star2.gameObject.SetActive(true);

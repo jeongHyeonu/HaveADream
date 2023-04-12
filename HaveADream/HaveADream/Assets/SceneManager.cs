@@ -50,6 +50,7 @@ public class SceneManager : Singleton<SceneManager>
         UIGroupManager.Instance.TopUI_On();
         SkillManager.Instance.UI_Off(); // ��ų UI OFF
         DistanceManager.Instance.DistanceUI_OFF(); // �Ÿ� ǥ�� ����
+        //DistanceBarManager.Instance.DistanceBarUI_OFF();
         HomeScene.SetActive(true);
     }
     public void Scene_Change_StageSelect()    // �������� ���� ������ ��ȯ
@@ -77,7 +78,7 @@ public class SceneManager : Singleton<SceneManager>
         BackgroundManager.Instance.EraseBackground();// ���â ��ȯ ���� �����÷��� ��� �����
         Scene_init();
         SkillManager.Instance.UI_Off(); // ��ų UI OFF
-        DistanceBarManager.Instance.DistanceBarUI_OFF();
+        //DistanceBarManager.Instance.DistanceBarUI_OFF();
         DistanceManager.Instance.DistanceUI_OFF(); // �Ÿ� ǥ�� ����
         ResultScene.SetActive(true);
     }

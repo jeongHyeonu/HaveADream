@@ -11,6 +11,7 @@ TagManager:
   - BossProjectile
   - Wing
   - Block
+  - DreamPiece
   layers:
   - Default
   - TransparentFX

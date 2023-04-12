@@ -18,8 +18,6 @@ public class Boss : MonoBehaviour
 
     [SerializeField] GameObject explosionPrefab;
     [SerializeField] int projectile;
-
-
     [SerializeField] GameObject ResultWindow;
 
     // 보스 처치 시 슬로우 효과 걸리게
@@ -31,8 +29,6 @@ public class Boss : MonoBehaviour
     {
         Time.timeScale = 1f;
     }
-
-
 
     private void Awake()
     {
@@ -82,8 +78,22 @@ public class Boss : MonoBehaviour
     {
         if (collision.gameObject.tag.CompareTo("BossProjectile") == 0)
         {
+
             DataManager.Instance.bossAttackScore++;
             TakeDamage(-50);
+
+
+            //총알수=피격수 시 호출
+            if (DataManager.Instance.bossAttackScore == projectile)
+            {
+                Time.timeScale = 0.5f;
+                Time.fixedDeltaTime = Time.timeScale * 0.02f;
+
+                Invoke("SetResultWindow", 1.5f);
+                DistanceManager.Instance.DistanceUI_OFF();
+                //sm.Scene_Change_Result();
+            }
+
         }
     }
     public void TakeDamage(int damage)
@@ -93,22 +103,7 @@ public class Boss : MonoBehaviour
         hudText.transform.position = hudPos.position;
         hudText.GetComponent<DamageText>().damage = damage;
 
-        //총알수=피격수 시 호출
-        if (DataManager.Instance.bossAttackScore == projectile)
-        {
 
-            //Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            //Destroy(explosionPrefab);
-            Time.timeScale = 0.5f;
-            Time.fixedDeltaTime = Time.timeScale * 0.02f;
-            //보스 슬로우 연출 추가하기
-
-
-            gameObject.SetActive(false);
-
-            Invoke("SetResultWindow", 2f);
-            //sm.Scene_Change_Result();
-        }
     }
     public void SetResultWindow()
     {

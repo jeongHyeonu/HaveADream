@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Jewel : MonoBehaviour
 {
-    [SerializeField] GameObject player;
+    public GameObject targetj;
+
     public enum Jewel_type
     {
         blue,
@@ -13,7 +14,7 @@ public class Jewel : MonoBehaviour
 
     //자석
     private float magnetStrength = 5f;
-    private float distanceStretch = 7.5f;
+    private float distanceStretch = 10f;
     private int magnetDirection = 1;
     private bool looseMagnet = true;
 
@@ -27,21 +28,17 @@ public class Jewel : MonoBehaviour
     {
         this.gameObject.SetActive(false);
     }
-    void Awake()
-    {
-        trans = transform;
-        rb = trans.GetComponent<Rigidbody2D>();
-    }
 
     void FixedUpdate()
     {
         if (magetinZone)
         {
-            Debug.Log("호출");
+            transform.position = Vector2.MoveTowards(transform.position, targetj.transform.position, 0.1f);
+            /*Debug.Log("호출");
             Vector2 directionToMagnet = magnetTrans.position - trans.position;
             float distance = Vector2.Distance(magnetTrans.position, trans.position);
             float magnetDistanceStr = (distanceStretch / distance) * magnetStrength;
-            rb.AddForce(magnetDistanceStr * (directionToMagnet * magnetDirection), ForceMode2D.Force);
+            rb.AddForce(magnetDistanceStr * (directionToMagnet * magnetDirection), ForceMode2D.Force);*/
         }
     }
 
@@ -49,6 +46,8 @@ public class Jewel : MonoBehaviour
     {
         // 활성화 시 15초 뒤 비활성화
         Invoke("SetActiveFalseJewel", 15f);
+        targetj = null;
+        magetinZone = false;
     }
 
     private void OnDisable()
@@ -61,7 +60,7 @@ public class Jewel : MonoBehaviour
     {
         if (collision.gameObject.tag.CompareTo("MagneticField") == 0)
         {
-            magnetTrans = player.transform;
+            magnetTrans = collision.transform;
             magetinZone = true;
 
         }
@@ -87,11 +86,11 @@ public class Jewel : MonoBehaviour
 
 
     }
-    /*    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("MagneticField") && looseMagnet)
         {
-            if (collision.CompareTag("MagneticField") && looseMagnet)
-            {
-                magetinZone = false;
-            }
-        }*/
+            magetinZone = false;
+        }
+    }
 }
