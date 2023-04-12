@@ -39,7 +39,6 @@ public class ResultSceneManager : MonoBehaviour
         int stageNum = int.Parse(epiData.Split("-")[1]);
 
         int userGainStar = DataManager.Instance.ResultStars; // 유저가 획득한 별 개수
-        userGainStar = 3;// 테스트 및 데이터 연동 확인을 위해 획득한 별 개수 3으로 설정
         switch (epiNum)
         {
 
