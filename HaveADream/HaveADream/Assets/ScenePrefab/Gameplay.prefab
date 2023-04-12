@@ -4031,7 +4031,7 @@ MonoBehaviour:
   bossAppearPoint: 7
   hudDamageText: {fileID: 3371642261946046560, guid: 9c0d49765b600de42887ea84f4dd0795, type: 3}
   hudPos: {fileID: 5600422686282419600}
-  explosionPrefab: {fileID: 6789386130752233107, guid: ba944e1560159a84cbf93a2825b6fc7e, type: 3}
+  explosionPrefab: {fileID: 533955530948200006, guid: 7441271185c6430448354b44f5cee93f, type: 3}
   projectile: 10
   ResultWindow: {fileID: 6955475081746463299}
 --- !u!61 &1619653973
