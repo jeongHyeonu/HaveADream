@@ -25,8 +25,8 @@ partial class OptionManager : Singleton<OptionManager>
     public float sound_volume = 1f;
     private bool alert_able = true;
     private bool skillUI_direction_isRight = true;
-    private Color buttonOnColor = new Color(1f,1f,0.6f,1f);
-    private Color buttonOffColor = new Color(1f,1f,1f,.5f);
+    private Color buttonOnColor = new Color(1f,1f,1f,1f);
+    private Color buttonOffColor = new Color(1f,1f,1f,.2f);
 
     // 활성화시 색 변경
     private void OnEnable()
@@ -109,6 +109,7 @@ partial class OptionManager : Singleton<OptionManager>
             BGM_OffButton.GetComponent<Image>().color = buttonOffColor;
         }
         SoundManager.Instance.volume_BGM = music_volume;
+        SoundManager.Instance.BGM_volumeControl();
     }
 
     public void SoundSlider_OnChange()
