@@ -127,7 +127,7 @@ MonoBehaviour:
   - sfx_name: 1
     audio: {fileID: 8300000, guid: 061f56763f09a3b45a83c533c76c1758, type: 3}
   - sfx_name: 2
-    audio: {fileID: 8300000, guid: 061f56763f09a3b45a83c533c76c1758, type: 3}
+    audio: {fileID: 8300000, guid: 16923879bd275ca44a6d688a1a8d43e3, type: 3}
   - sfx_name: 3
     audio: {fileID: 8300000, guid: 82e0d809910eaa149bed811aa08bce67, type: 3}
   - sfx_name: 4

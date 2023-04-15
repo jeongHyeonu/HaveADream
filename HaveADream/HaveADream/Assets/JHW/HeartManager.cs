@@ -53,6 +53,7 @@ public class HeartManager : Singleton<HeartManager>
     {
         secondsLeftToRefresh -= Time.deltaTime;
 
+        if (pfl == null) return;
         if (pfl.isLogined == false) return; // 로그인안되있으면 실행X
         if (!isDataLoaded) { StartCoroutine("getUserHeartPeriod"); isDataLoaded = true; } // 데이터 로드 안했다면 서버로부터 데이터 불러오기 // ? 코루틴으로 일정주기 실행해야하나..?
 
