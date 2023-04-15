@@ -22,7 +22,7 @@ public class ResultManager : MonoBehaviour
         string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
         bossDistance = (int)StageDataManager.Instance.GetStageInfo(key)["stage"];
 
-        gameObject.transform.position = new Vector2(gameObject.transform.position.x + (bossDistance * 1.15f), 0f);
+        gameObject.transform.position = new Vector2(gameObject.transform.position.x + (bossDistance * 1.12f), 0f);
     }
 
 
