@@ -69,14 +69,21 @@ namespace JHW
             string userCurrentStage = UserDataManager.Instance.GetUserData_userCurrentStage();
             string[] userCurrentStages = userCurrentStage.Split('-');
             this.transform.GetChild(int.Parse(userCurrentStages[0].ToCharArray())).gameObject.SetActive(true); // 에피소드 맵 활성화
-            userMarker.transform.SetParent(GameObject.Find("Stage" + userCurrentStage).transform); // 스테이지 버튼에 쥐제리 위치
+            Transform targetTf = GameObject.Find("Stage" + userCurrentStage).transform;
+            userMarker.transform.SetParent(targetTf); // 스테이지 버튼에 쥐제리 위치
             userMarker.transform.localPosition = Vector2.zero;
             //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 사이즈
 
             Init_StageSelect_By_UserInfo(int.Parse(userCurrentStages[0].ToCharArray())); // 스테이지 정보 불러오기
 
             // 플레이어 위치로 지도 위치시키기
-            Invoke("PlayerPosOnMap", 0.01f);
+            //Invoke("PlayerPosOnMap", 0.01f);
+            // 클릭한 스테이지로 카메라 이동 (사실은 sliderView가 움직임)
+            float screen_y = Screen.height;
+            float screen_x = Screen.width;
+            float camera_x = -screen_x / 2 + targetTf.transform.localPosition.x + 150f;// 뒤에 150 더하는건 쥐제리 (유저마커)크기
+            float camera_y = -targetTf.transform.localPosition.y - screen_y / 2 + 100f;
+            targetTf.transform.parent.GetComponent<RectTransform>().transform.localPosition = new Vector3(-camera_x, camera_y);
 
             // 사운드
             SoundManager.Instance.PlayBGM(SoundManager.BGM_list.StageSelect_BGM);
@@ -211,7 +218,13 @@ namespace JHW
             if (UserDataManager.Instance.GetUserData_userCurrentStage() == userCurStage) return; // 선택한 스테이지 위치가 전에 선택했던 스테이지와 동일하면 실행 X
             UserDataManager.Instance.setUserData_userCurrentStage(userCurStage); // 유저가 마지막으로 선택한 스테이지 위치 갱신
 
-
+            // 클릭한 스테이지로 카메라 이동 (사실은 sliderView가 움직임)
+            float screen_y = Screen.height;
+            float screen_x = Screen.width;
+            float camera_x = userClickedStage.transform.parent.GetComponent<RectTransform>().rect.width/2 - (screen_x) + userClickedStage.transform.localPosition.x;// 뒤에 150 더하는건 쥐제리 (유저마커)크기
+            float camera_y = -userClickedStage.transform.localPosition.y - screen_y/2 + 200f;
+            Debug.Log("X = " + camera_x + " / Y = " + camera_y);
+            userClickedStage.transform.parent.GetComponent<RectTransform>().transform.localPosition = new Vector3(-camera_x, camera_y);
 
             // 게임플레이로 전환
             // sm.Scene_Change_GamePlay();
@@ -359,6 +372,8 @@ namespace JHW
         {
             // 하트 부족으로 플레이 불가능할때
             if (UserDataManager.Instance.GetUserData_heart() == 0) return;
+
+
 
             // 정보창 닫기
             StageInfo.SetActive(false);

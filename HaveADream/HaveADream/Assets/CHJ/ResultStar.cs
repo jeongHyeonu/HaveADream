@@ -57,6 +57,7 @@ public class ResultStar : Singleton<ResultStar>
             Star1.gameObject.SetActive(true);
             Star2.gameObject.SetActive(true);
             Star3.gameObject.SetActive(true);
+            DataManager.Instance.ResultStars = 3;
         }
     }
 

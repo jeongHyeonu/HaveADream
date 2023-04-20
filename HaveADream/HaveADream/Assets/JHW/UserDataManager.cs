@@ -203,6 +203,7 @@ partial class UserDataManager : Singleton<UserDataManager>
 
         // 플레이어 로그인여부
         PlayFabLogin.Instance.isLogined = true;
+
     }
 
     public void SaveData(UserData userData) // userData를 null 로 줄 경우 UserData의 데이터를 새로 json으로 저장, null 아니면 지정된 값으로 데이터 저장

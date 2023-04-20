@@ -191,6 +191,7 @@ public class SoundManager : Singleton<SoundManager>
     // 배경 볼륨조절
     public void BGM_volumeControl()
     {
+        this.transform.GetChild(0).GetChild(0).GetComponent<AudioSource>().volume = volume_BGM;
     }
 
     // 효과음 볼륨조절

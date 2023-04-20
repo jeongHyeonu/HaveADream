@@ -87,6 +87,10 @@ partial class PlayFabLogin {
                 UserDataManager.Instance.LoadDataOnComplete(content);
             }
 
+
+            // 타이틀화면 띄우기
+            TitleScreen.Instance.OpenTitleScreen();
+
         }, (error) => {
             Debug.Log("Got error retrieving user data:");
             Debug.Log(error.GenerateErrorReport());
