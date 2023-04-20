@@ -10,6 +10,7 @@ public class ResultSceneManager : MonoBehaviour
         sm = SceneManager.Instance;
 
     }
+    //홈으로 가기
     public void ReturnHomeBtn_OnClick()
     {
         sm.Scene_Change_Home();
@@ -17,6 +18,24 @@ public class ResultSceneManager : MonoBehaviour
         // 사운드
         SoundManager.Instance.PlayBGM(SoundManager.BGM_list.Home_BGM);
     }
+    //다시하기
+    public void ReplayBtn_OnClick()
+    {
+        sm.Scene_Change_GamePlay();
+
+        // 사운드
+        SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_2);
+    }
+
+    //나가기
+    public void ReturnStageBtn_OnClick()
+    {
+        sm.Scene_Change_StageSelect();
+
+        // 사운드
+        SoundManager.Instance.PlayBGM(SoundManager.BGM_list.StageSelect_BGM);
+    }
+
 
     // 결과창 켜질때 유저데이터 저장
     private void OnEnable()

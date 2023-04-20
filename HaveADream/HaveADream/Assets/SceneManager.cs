@@ -49,7 +49,7 @@ public class SceneManager : Singleton<SceneManager>
         Scene_init();
         UIGroupManager.Instance.TopUI_On();
         SkillManager.Instance.UI_Off(); // ��ų UI OFF
-        DistanceManager.Instance.DistanceUI_OFF(); // �Ÿ� ǥ�� ����
+        //DistanceManager.Instance.DistanceUI_OFF(); // �Ÿ� ǥ�� ����
         //DistanceBarManager.Instance.DistanceBarUI_OFF();
         HomeScene.SetActive(true);
     }
@@ -65,7 +65,7 @@ public class SceneManager : Singleton<SceneManager>
         Scene_init();
         UIGroupManager.Instance.TopUI_Off();
         SkillManager.Instance.UI_On(); // ��ų UI ON
-        DistanceManager.Instance.DistanceUI_ON();
+        //DistanceManager.Instance.DistanceUI_ON();
         PlayScene.SetActive(true);
         DistanceBarManager.Instance.DistanceBarUI_ON();
         JewelManager.Instance.StageInfo_jewel_getData(); // ���� �� �ҷ����� �� ���� ����
@@ -78,7 +78,7 @@ public class SceneManager : Singleton<SceneManager>
         BackgroundManager.Instance.EraseBackground();// ���â ��ȯ ���� �����÷��� ��� �����
         Scene_init();
         SkillManager.Instance.UI_Off(); // ��ų UI OFF
-        //DistanceBarManager.Instance.DistanceBarUI_OFF();
+        DistanceBarManager.Instance.DistanceBarUI_OFF();
         DistanceManager.Instance.DistanceUI_OFF(); // �Ÿ� ǥ�� ����
         ResultScene.SetActive(true);
     }

@@ -16,9 +16,18 @@ public class DistanceManager : Singleton<DistanceManager>
         return bossDistance;
     }
 
+    private void OnEnable()
+    {
+        DistanceUI_ON();
+
+    }
+    private void OnDisable()
+    {
+        DistanceUI_OFF();
+    }
     public void DistanceUI_ON()
     {
-        DistanceUI.SetActive(true);
+        //DistanceUI.SetActive(true);
 
         // 초기 이동거리 0으로 세팅
         distance = 0;
@@ -43,7 +52,7 @@ public class DistanceManager : Singleton<DistanceManager>
     {
         if (isGamePlaying == false || isBossArrived == true) return; // 게임 실행중이면 실행X / 또는 보스까지 도착했을시 실행 X
 
-        distance += MapMove.Instance.mapSpeed * Time.deltaTime * 4f;
+        distance += MapMove.Instance.mapSpeed * Time.deltaTime * 4.15f;
 
         if (bossDistance <= distance)// 보스까지 도달시
         {
