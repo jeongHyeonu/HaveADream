@@ -6,6 +6,8 @@ public class PauseMenuManager : Singleton<PauseMenuManager>
 
     private SceneManager sm = null;
     public bool isGamePlaying = false;
+
+
     void Start()
     {
         // ½Ì±ÛÅæ
@@ -17,6 +19,7 @@ public class PauseMenuManager : Singleton<PauseMenuManager>
     {
         PauseMenuUI_OFF();
     }
+
     public void PauseMenuUI_ON()
     {
         Time.timeScale = 0;
@@ -33,5 +36,8 @@ public class PauseMenuManager : Singleton<PauseMenuManager>
     public void ReturnHomeBtn_OnClick()
     {
         sm.Scene_Change_Home();
+
+        // »ç¿îµå
+        SoundManager.Instance.PlayBGM(SoundManager.BGM_list.Home_BGM);
     }
 }

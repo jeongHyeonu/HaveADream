@@ -10,6 +10,9 @@ public class Boss : MonoBehaviour
     private float bossAppearPoint = 0f;
     private BossState bossState = BossState.MoveToAppearPoint;
     private Movement2D movement2D;
+    private Boss boss;
+
+    private SpriteRenderer renderer;
 
     //[SerializeField] Transform returnTransform;
 
@@ -18,6 +21,7 @@ public class Boss : MonoBehaviour
 
     [SerializeField] GameObject explosionPrefab;
     [SerializeField] int projectile;
+    [SerializeField] GameObject ResultWindow;
 
 
     // 보스 처치 시 슬로우 효과 걸리게
@@ -30,11 +34,19 @@ public class Boss : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-
-
     private void Awake()
     {
         movement2D = GetComponent<Movement2D>();
+        boss = GetComponent<Boss>();
+        renderer = GetComponent<SpriteRenderer>();
+    }
+    private void OnEnable()
+    {
+
+        gameObject.SetActive(true);
+        renderer.enabled = true;
+        string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
+        projectile = (int)StageDataManager.Instance.GetStageInfo(key)["dreapiece_req_count"];
     }
     void Start()
     {
@@ -75,8 +87,25 @@ public class Boss : MonoBehaviour
     {
         if (collision.gameObject.tag.CompareTo("BossProjectile") == 0)
         {
+
             DataManager.Instance.bossAttackScore++;
             TakeDamage(-50);
+
+
+            //총알수=피격수 시 호출
+            if (DataManager.Instance.bossAttackScore == projectile)
+            {
+
+                boss.OnDie();
+                renderer.enabled = false; //렌더러 비활성화
+                Time.timeScale = 0.5f;
+                Time.fixedDeltaTime = Time.timeScale * 0.02f;
+
+                Invoke("SetResultWindow", 1.5f);
+                DistanceManager.Instance.DistanceUI_OFF();
+                //sm.Scene_Change_Result();
+            }
+
         }
     }
     public void TakeDamage(int damage)
@@ -86,14 +115,14 @@ public class Boss : MonoBehaviour
         hudText.transform.position = hudPos.position;
         hudText.GetComponent<DamageText>().damage = damage;
 
-        //총알수=피격수 시 호출
-        if (DataManager.Instance.bossAttackScore == projectile)
-        {
-            //보스 슬로우 연출 추가하기
 
-            gameObject.SetActive(false);
-            sm.Scene_Change_Result();
-            //sm.Scene_Change_Result();
-        }
+    }
+    public void OnDie()
+    {
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+    }
+    public void SetResultWindow()
+    {
+        ResultWindow.SetActive(true);
     }
 }

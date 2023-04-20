@@ -28,7 +28,7 @@ partial class SkillManager : Singleton<SkillManager>
         absorbSkill.GetComponent<Button>().interactable = false;
         shieldSkill.GetComponent<Button>().interactable = false;
 
-        
+
         ChangeSkillUIAddress(); // 스킬 좌/우 위치 변경
     }
 
@@ -70,7 +70,7 @@ partial class SkillManager : Singleton<SkillManager>
         jewelCntText.GetComponent<TextMeshProUGUI>().text = "x" + jewelCnt;
 
         // 슬라이더 변경
-        SkillSlider.GetComponent<Slider>().value = (float)jewelCnt/maxJewelCnt;
+        SkillSlider.GetComponent<Slider>().value = (float)jewelCnt / maxJewelCnt;
     }
 
     private void SpeedSkill_RollBack()
@@ -141,7 +141,7 @@ partial class SkillManager : Singleton<SkillManager>
     public void AbsorbSkill_OnClick()
     {
         PlayerMove.Instance.Magnet();
-        Invoke("AbsorbSkill_RollBack", 3f);
+        Invoke("AbsorbSkill_RollBack", 1.0f);
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
         this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
@@ -196,13 +196,13 @@ partial class SkillManager : Singleton<SkillManager>
 # region 옵션창
 partial class SkillManager
 {
-    public void ChangeSkillUIAddress(int _dirrection=1)
+    public void ChangeSkillUIAddress(int _dirrection = 1)
     {
         _dirrection = PlayerPrefs.GetInt("isSkillUI_Right", 1);
         switch (_dirrection)
         {
             case 0:
-                Vector3 vec = new Vector3(-this.transform.GetChild(0).GetComponent<RectTransform>().rect.width/1.7f, 0f, 0f);
+                Vector3 vec = new Vector3(-this.transform.GetChild(0).GetComponent<RectTransform>().rect.width / 1.7f, 0f, 0f);
                 this.transform.GetChild(0).transform.localPosition = vec;
                 break;
             case 1:

@@ -32,6 +32,7 @@ public class DistanceManager : Singleton<DistanceManager>
     public void DistanceUI_OFF()
     {
         DistanceUI.SetActive(false);
+        isBossArrived = false;
         isGamePlaying = false;
     }
 
@@ -43,6 +44,7 @@ public class DistanceManager : Singleton<DistanceManager>
         if (isGamePlaying == false || isBossArrived == true) return; // 게임 실행중이면 실행X / 또는 보스까지 도착했을시 실행 X
 
         distance += MapMove.Instance.mapSpeed * Time.deltaTime * 4f;
+
         if (bossDistance <= distance)// 보스까지 도달시
         {
             isBossArrived = true;

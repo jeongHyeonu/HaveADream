@@ -45,11 +45,12 @@ public class SceneManager : Singleton<SceneManager>
 
     public void Scene_Change_Home()    // Ȩ ������ ��ȯ
     {
-        if(PlayScene.activeSelf==true)BackgroundManager.Instance.EraseBackground();// ���� �����÷���->�Ͻ�����->Ȩ ���� ��ȯ�ɶ� ���â ��ȯ ���� �����÷��� ��� �����
+        if (PlayScene.activeSelf == true) BackgroundManager.Instance.EraseBackground();// ���� �����÷���->�Ͻ�����->Ȩ ���� ��ȯ�ɶ� ���â ��ȯ ���� �����÷��� ��� �����
         Scene_init();
         UIGroupManager.Instance.TopUI_On();
         SkillManager.Instance.UI_Off(); // ��ų UI OFF
         DistanceManager.Instance.DistanceUI_OFF(); // �Ÿ� ǥ�� ����
+        //DistanceBarManager.Instance.DistanceBarUI_OFF();
         HomeScene.SetActive(true);
     }
     public void Scene_Change_StageSelect()    // �������� ���� ������ ��ȯ
@@ -71,12 +72,13 @@ public class SceneManager : Singleton<SceneManager>
         DreamPieceManager.Instance.StageInfo_dreamPiece_getData(); // ������ �� �ҷ����� �� ������ ����
         WingManager.Instance.StageInfo_wing_getData(); // ���� �� �ҷ����� �� ���� ����
     }
+    //Result 사용 X
     public void Scene_Change_Result()    // ���ȭ�� ������ ��ȯ
     {
         BackgroundManager.Instance.EraseBackground();// ���â ��ȯ ���� �����÷��� ��� �����
         Scene_init();
         SkillManager.Instance.UI_Off(); // ��ų UI OFF
-        DistanceBarManager.Instance.DistanceBarUI_OFF();
+        //DistanceBarManager.Instance.DistanceBarUI_OFF();
         DistanceManager.Instance.DistanceUI_OFF(); // �Ÿ� ǥ�� ����
         ResultScene.SetActive(true);
     }

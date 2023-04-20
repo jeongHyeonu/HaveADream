@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Jewel : MonoBehaviour
 {
-    [SerializeField] GameObject target;
-    [SerializeField] float speed = 5.0f;
+    public GameObject targetj;
+
     public enum Jewel_type
     {
         blue,
@@ -14,7 +14,7 @@ public class Jewel : MonoBehaviour
 
     //자석
     private float magnetStrength = 5f;
-    private float distanceStretch = 7.5f;
+    private float distanceStretch = 10f;
     private int magnetDirection = 1;
     private bool looseMagnet = true;
 
@@ -28,20 +28,17 @@ public class Jewel : MonoBehaviour
     {
         this.gameObject.SetActive(false);
     }
-    void Awake()
-    {
-        trans = this.transform;
-        rb = trans.GetComponent<Rigidbody2D>();
-    }
 
     void FixedUpdate()
     {
         if (magetinZone)
         {
+            transform.position = Vector2.MoveTowards(transform.position, targetj.transform.position, 0.3f);
+            /*Debug.Log("호출");
             Vector2 directionToMagnet = magnetTrans.position - trans.position;
             float distance = Vector2.Distance(magnetTrans.position, trans.position);
             float magnetDistanceStr = (distanceStretch / distance) * magnetStrength;
-            rb.AddForce(magnetDistanceStr * (directionToMagnet * magnetDirection), ForceMode2D.Force);
+            rb.AddForce(magnetDistanceStr * (directionToMagnet * magnetDirection), ForceMode2D.Force);*/
         }
     }
 
@@ -49,6 +46,8 @@ public class Jewel : MonoBehaviour
     {
         // 활성화 시 15초 뒤 비활성화
         Invoke("SetActiveFalseJewel", 15f);
+        targetj = null;
+        magetinZone = false;
     }
 
     private void OnDisable()
@@ -59,6 +58,13 @@ public class Jewel : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag.CompareTo("MagneticField") == 0)
+        {
+            magnetTrans = collision.transform;
+            magetinZone = true;
+
+        }
+
         if (collision.gameObject.tag.CompareTo("Player") == 0)
         {
             if (this.jewelType == Jewel_type.blue)
@@ -76,16 +82,13 @@ public class Jewel : MonoBehaviour
             EffectManager.Instance.PlayVFX(EffectManager.VFX_list.SPARK1, this.gameObject);
             SoundManager.Instance.PlaySFX(SoundManager.SFX_list.JEWEL_GET);
         }
-        if (collision.gameObject.tag.CompareTo("MagneticField") == 0)
-        {
-            magnetTrans = collision.transform;
-            magetinZone = true;
 
-        }
+
+
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "MagneticField" && looseMagnet)
+        if (collision.CompareTag("MagneticField") && looseMagnet)
         {
             magetinZone = false;
         }

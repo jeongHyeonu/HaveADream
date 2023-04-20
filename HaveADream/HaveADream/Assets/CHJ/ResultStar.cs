@@ -7,17 +7,28 @@ public class ResultStar : Singleton<ResultStar>
     [SerializeField] GameObject Star2;
     [SerializeField] GameObject Star3;
 
-    [SerializeField] int DPScore = 6;
+    [SerializeField] int DPScore; // 보스까지 거리
 
-    void Start()
+    //스테이지 데이터 받아와야 함
+
+    private void OnEnable()
     {
-        gameObject.SetActive(true);
+        string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
+        DPScore = (int)StageDataManager.Instance.GetStageInfo(key)["dreapiece_req_count"];
         CheckStar();
-        //별 0개인 경우
+
     }
-    private void Update()
+    private void OnDisable()
     {
-        CheckStar();
+        //DPScore = 0;
+    }
+    void Update()
+    {
+        /*string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
+        DPScore = (int)StageDataManager.Instance.GetStageInfo(key)["dreapiece_req_count"];*/
+        //gameObject.SetActive(true);
+
+        //별 0개인 경우
     }
     void CheckStar()
     {
@@ -35,17 +46,18 @@ public class ResultStar : Singleton<ResultStar>
             Star2.SetActive(false);
             Star3.SetActive(false);
         }
-        else if (DataManager.Instance.ResultStars == 2)
+        else if (DataManager.Instance.DreamPieceScore < DPScore && DataManager.Instance.ResultStars == 2)
         {
             Star1.gameObject.SetActive(true);
             Star2.gameObject.SetActive(true);
-            Star3.gameObject.SetActive(true);
+            Star3.gameObject.SetActive(false);
         }
-        else if (DataManager.Instance.ResultStars == 2 && DataManager.Instance.DreamPieceScore >= DPScore)
+        else if (DataManager.Instance.DreamPieceScore >= DPScore && DataManager.Instance.ResultStars == 2)
         {
             Star1.gameObject.SetActive(true);
             Star2.gameObject.SetActive(true);
             Star3.gameObject.SetActive(true);
+            DataManager.Instance.ResultStars = 3;
         }
     }
 

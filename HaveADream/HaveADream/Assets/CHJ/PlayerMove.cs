@@ -31,11 +31,10 @@ public class PlayerMove : Singleton<PlayerMove>
 
     public GameObject MagneticField;
 
-    [SerializeField] GameObject Player;
+    [SerializeField] GameObject shieldSprite;
 
-    [SerializeField] GameObject DP;
-    [SerializeField] GameObject BJW;
-    //[SerializeField] GameObject RJW;
+    [SerializeField] GameObject ResultWindow;
+    [SerializeField] GameObject Player;
 
     //날개 스킬 변수
     private const int maxWingCnt = 4;
@@ -43,10 +42,10 @@ public class PlayerMove : Singleton<PlayerMove>
 
     public int resultStarCnt = 0;
 
-    [SerializeField] GameObject bossProjectile;
-
-    [SerializeField] int maxBulletsPerShot = 10; // 발사할 총알 수 제한
+    [SerializeField] int maxBulletsPerShot; // 발사할 총알 수 제한
     private int bulletsFired = 0; // 발사된 총알 수
+
+    //[SerializeField] GameObject resultWindow;
 
     //총알 발사 카메라
     private Camera mainCam;
@@ -105,7 +104,8 @@ public class PlayerMove : Singleton<PlayerMove>
         //this.gameObject.layer = 21;
 
         //실드 작동 확인
-        sr.color = new Color(0.3f, 0.4f, 0.7f, 1f);
+        //sr.color = new Color(0.3f, 0.4f, 0.7f, 1f);
+        shieldSprite.SetActive(true);
         isShield = true;
     }
 
@@ -124,7 +124,7 @@ public class PlayerMove : Singleton<PlayerMove>
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-
+        GetStageData();
     }
     private void OnEnable()
     {
@@ -132,15 +132,24 @@ public class PlayerMove : Singleton<PlayerMove>
         HpBarFilled.fillAmount = 1.0f;
         wingCnt = 0;
         bulletsFired = 0;
+        GetStageData();
+
+
+
+    }
+    void GetStageData()
+    {
+        string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
+        maxBulletsPerShot = (int)StageDataManager.Instance.GetStageInfo(key)["dreapiece_req_count"];
     }
 
     void Start()
     {
 
         sm = SceneManager.Instance;
-        targetPosition = transform.position + Vector3.right * 2f; // 목표 위치 설정
-        mainCam = Camera.main;
+        targetPosition = transform.position + (Vector3.right * 2f); // 목표 위치 설정
     }
+
 
     void Update()
     {
@@ -152,12 +161,17 @@ public class PlayerMove : Singleton<PlayerMove>
     {
         if (isTouching == false)
         {
-            this.GetComponent<Rigidbody2D>().AddForce(Vector3.down * 19f * speed);
+            this.GetComponent<Rigidbody2D>().AddForce(Vector3.down * 18f * speed);
         }
         else
         {
-            this.GetComponent<Rigidbody2D>().AddForce(Vector3.up * 19f * speed);
+            this.GetComponent<Rigidbody2D>().AddForce(Vector3.up * 18f * speed);
         }
+    }
+
+    private void OnDisable()
+    {
+        maxBulletsPerShot = 0;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -168,13 +182,14 @@ public class PlayerMove : Singleton<PlayerMove>
             //hp바
             if (HpBarFilled.fillAmount <= 0.0f)
             {
-                sm.Scene_Change_Result();
+                ResultWindow.SetActive(true);
             }
             //실드
             if (isShield)
             {
                 HpBarFilled.fillAmount += 0.25f;
                 DataManager.Instance.HealthCurrent += 2.5f;
+                shieldSprite.SetActive(false);
                 isShield = false;
             }
 
@@ -197,7 +212,16 @@ public class PlayerMove : Singleton<PlayerMove>
         if (collision.gameObject.tag == "Result2Star")
         {
             DataManager.Instance.ResultStars += 1;
-            ShootBullet();
+
+            if (DataManager.Instance.DreamPieceScore < maxBulletsPerShot)
+            {
+                ResultWindow.SetActive(true);
+                DistanceManager.Instance.DistanceUI_OFF();
+            }
+            else if (DataManager.Instance.DreamPieceScore >= maxBulletsPerShot)
+            {
+                Invoke("ShootBullet", 1f);
+            }
         }
     }
     void OnDamaged()
@@ -235,6 +259,7 @@ public class PlayerMove : Singleton<PlayerMove>
         bullet.Shoot();
         bulletsFired++;
 
+
         // 사운드
         SoundManager.Instance.PlaySFX(SoundManager.SFX_list.PlayerAttack);
 
@@ -243,12 +268,13 @@ public class PlayerMove : Singleton<PlayerMove>
             CancelInvoke("shootBossProjectile");
 
         }
+
     }
     void ShootBullet()
     {
         if (bulletsFired <= maxBulletsPerShot)
         {
-            InvokeRepeating("shootBossProjectile", 2f, 0.25f);
+            InvokeRepeating("shootBossProjectile", 2f, 0.3f);
 
         }
         //멈추기
