@@ -33,7 +33,7 @@ public class DreamPiece : MonoBehaviour
         //rb = target.GetComponent<Rigidbody2D>();
         if (magetinZone)
         {
-            transform.position = Vector2.MoveTowards(transform.position, target.transform.position, 0.1f);
+            transform.position = Vector2.MoveTowards(transform.position, target.transform.position, 0.3f);
             /*Debug.Log("»£√‚");
             Vector2 directionToMagnet = magnetTrans.position - trans.position;
             float distance = Vector2.Distance(magnetTrans.position, trans.position);

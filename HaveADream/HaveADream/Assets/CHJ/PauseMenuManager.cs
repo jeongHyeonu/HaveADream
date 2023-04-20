@@ -36,5 +36,8 @@ public class PauseMenuManager : Singleton<PauseMenuManager>
     public void ReturnHomeBtn_OnClick()
     {
         sm.Scene_Change_Home();
+
+        // »ç¿îµå
+        SoundManager.Instance.PlayBGM(SoundManager.BGM_list.Home_BGM);
     }
 }

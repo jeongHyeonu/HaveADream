@@ -15,6 +15,8 @@ public class ResultStar : Singleton<ResultStar>
     {
         string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
         DPScore = (int)StageDataManager.Instance.GetStageInfo(key)["dreapiece_req_count"];
+        CheckStar();
+
     }
     private void OnDisable()
     {
@@ -22,10 +24,10 @@ public class ResultStar : Singleton<ResultStar>
     }
     void Update()
     {
-        string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
-        DPScore = (int)StageDataManager.Instance.GetStageInfo(key)["dreapiece_req_count"];
+        /*string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
+        DPScore = (int)StageDataManager.Instance.GetStageInfo(key)["dreapiece_req_count"];*/
         //gameObject.SetActive(true);
-        CheckStar();
+
         //별 0개인 경우
     }
     void CheckStar()

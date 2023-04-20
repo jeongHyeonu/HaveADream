@@ -11,10 +11,10 @@ public class ResultManager : MonoBehaviour
 
     private void OnEnable()
     {
+
         textBossWarning.SetActive(false);
         boss.SetActive(false);
         GetStageData();
-
     }
 
     private void GetStageData()

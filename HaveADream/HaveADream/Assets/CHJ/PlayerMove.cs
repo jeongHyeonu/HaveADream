@@ -31,6 +31,8 @@ public class PlayerMove : Singleton<PlayerMove>
 
     public GameObject MagneticField;
 
+    [SerializeField] GameObject shieldSprite;
+
     [SerializeField] GameObject ResultWindow;
     [SerializeField] GameObject Player;
 
@@ -102,7 +104,8 @@ public class PlayerMove : Singleton<PlayerMove>
         //this.gameObject.layer = 21;
 
         //실드 작동 확인
-        sr.color = new Color(0.3f, 0.4f, 0.7f, 1f);
+        //sr.color = new Color(0.3f, 0.4f, 0.7f, 1f);
+        shieldSprite.SetActive(true);
         isShield = true;
     }
 
@@ -186,6 +189,7 @@ public class PlayerMove : Singleton<PlayerMove>
             {
                 HpBarFilled.fillAmount += 0.25f;
                 DataManager.Instance.HealthCurrent += 2.5f;
+                shieldSprite.SetActive(false);
                 isShield = false;
             }
 
