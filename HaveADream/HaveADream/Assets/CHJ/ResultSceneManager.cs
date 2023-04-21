@@ -67,11 +67,11 @@ public class ResultSceneManager : MonoBehaviour
     // 결과창 켜질때 유저데이터 저장
     private void OnEnable()
     {
-        ResultSave();
         Time.timeScale = 0;
     }
     private void OnDisable()
     {
+        ResultSave();
         resultWindow.SetActive(false);
         Time.timeScale = 1;
     }
@@ -87,7 +87,7 @@ public class ResultSceneManager : MonoBehaviour
         int userGainStar = DataManager.Instance.ResultStars; // 유저가 획득한 별 개수
         switch (epiNum)
         {
-
+            
             case 1:
                 Episode1Data data1 = UserDataManager.Instance.GetUserData_userEpi1Data()[stageNum - 1]; // 유저 데이터
                 if (data1.star < userGainStar) // 데이터 저장
