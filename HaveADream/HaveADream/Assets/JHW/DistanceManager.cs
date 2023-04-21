@@ -27,7 +27,7 @@ public class DistanceManager : Singleton<DistanceManager>
     }
     public void DistanceUI_ON()
     {
-        //DistanceUI.SetActive(true);
+        DistanceUI.SetActive(true);
 
         // 초기 이동거리 0으로 세팅
         distance = 0;

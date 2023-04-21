@@ -33,7 +33,7 @@ public class Jewel : MonoBehaviour
     {
         if (magetinZone)
         {
-            transform.position = Vector2.MoveTowards(transform.position, targetj.transform.position, 0.3f);
+            transform.position = Vector2.MoveTowards(transform.position, targetj.transform.position, 0.35f);
             /*Debug.Log("»£√‚");
             Vector2 directionToMagnet = magnetTrans.position - trans.position;
             float distance = Vector2.Distance(magnetTrans.position, trans.position);

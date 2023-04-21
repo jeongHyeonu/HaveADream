@@ -33,7 +33,7 @@ public class DreamPiece : MonoBehaviour
         //rb = target.GetComponent<Rigidbody2D>();
         if (magetinZone)
         {
-            transform.position = Vector2.MoveTowards(transform.position, target.transform.position, 0.3f);
+            transform.position = Vector2.MoveTowards(transform.position, target.transform.position, 0.35f);
             /*Debug.Log("호출");
             Vector2 directionToMagnet = magnetTrans.position - trans.position;
             float distance = Vector2.Distance(magnetTrans.position, trans.position);
@@ -46,7 +46,7 @@ public class DreamPiece : MonoBehaviour
     {
         if (collision.gameObject.tag.CompareTo("MagneticField") == 0)
         {
-            Debug.Log("호출");
+            //Debug.Log("호출");
             //자석 켜기
             magnetTrans = collision.transform;
             magetinZone = true;

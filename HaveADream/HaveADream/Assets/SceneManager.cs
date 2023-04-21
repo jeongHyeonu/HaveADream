@@ -57,6 +57,7 @@ public class SceneManager : Singleton<SceneManager>
     {
         Scene_init();
         UIGroupManager.Instance.TopUI_On();
+        SkillManager.Instance.UI_Off();
         StageSelectScene.SetActive(true);
         JHW.StageSelectManager.Instance.OnEnableStageSelect();
     }

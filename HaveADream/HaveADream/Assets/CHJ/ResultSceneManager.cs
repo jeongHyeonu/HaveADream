@@ -1,9 +1,12 @@
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class ResultSceneManager : MonoBehaviour
 {
     [SerializeField] GameObject resultWindow;
     private SceneManager sm = null;
+    [SerializeField] int currentStageNumber;
+
     void Start()
     {
         // 싱글톤
@@ -23,8 +26,31 @@ public class ResultSceneManager : MonoBehaviour
     {
         sm.Scene_Change_GamePlay();
 
+        int currentStageNumber = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[1]);
+        
+
         // 사운드
-        SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_2);
+        // 음악 재생
+        switch (currentStageNumber)
+        {
+            case 1:
+            case 2:
+            case 5:
+            case 6:
+            case 9:
+            case 10:
+            case 13:
+                SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_1);
+                break;
+            case 3:
+            case 4:
+            case 7:
+            case 8:
+            case 11:
+            case 12:
+                SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_2);
+                break;
+        }
     }
 
     //나가기
@@ -32,6 +58,7 @@ public class ResultSceneManager : MonoBehaviour
     {
         sm.Scene_Change_StageSelect();
 
+        
         // 사운드
         SoundManager.Instance.PlayBGM(SoundManager.BGM_list.StageSelect_BGM);
     }
