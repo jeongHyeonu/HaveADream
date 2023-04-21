@@ -12,6 +12,7 @@ partial class HomeManager : Singleton<HomeManager>
     [SerializeField] GameObject Animals = null;
     [SerializeField] GameObject AnimalsBackground = null;
 
+
     void Start()
     {
         // 싱글톤 받아오기
@@ -20,6 +21,7 @@ partial class HomeManager : Singleton<HomeManager>
         SoundManager.Instance.PlayBGM(SoundManager.BGM_list.Home_BGM);
     }
 
+    
     public void PlayButton_OnClick()
     {
         // 플레이 버튼, 홈->스테이지 페이드 전환
@@ -58,8 +60,9 @@ partial class HomeManager : Singleton<HomeManager>
         Animals.transform.GetChild(1).gameObject.SetActive(true);
         if (epi1[12].isClearStage == true) // 에피1-13 (에피1 마지막스테이지까지) 클리어했다면
         {
+            Animals.transform.GetChild(1).GetComponent<Image>().color = new Color(0f,0f,0f,0f); // 자물쇠 아이콘 비활성화
             Animals.transform.GetChild(1).GetChild(0).gameObject.SetActive(true); // 동물 이미지 활성화
-            Animals.transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = "사자"; // 텍스트 내용 변경
+            Animals.transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = "\n사자"; // 텍스트 내용 변경
         }
         else
         {
@@ -69,7 +72,7 @@ partial class HomeManager : Singleton<HomeManager>
                 if (epi1[i].isClearStage) progressNum++;
                 else
                 {
-                    Animals.transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = "<size=10>스테이지 1 클리어 시 해금</size>\n진행도 : " + progressNum + "/" + epi1.Count; // 텍스트 내용 변경
+                    Animals.transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = "<size=10>에피소드1을 클리어하세요</size>\n진행도 : " + progressNum + "/" + epi1.Count; // 텍스트 내용 변경
                     return;
                 }
             }
@@ -81,6 +84,7 @@ partial class HomeManager : Singleton<HomeManager>
         Animals.transform.GetChild(2).gameObject.SetActive(true);
         if (epi2[17].isClearStage == true) // 에피2-18 (에피2 마지막스테이지까지) 클리어했다면
         {
+            Animals.transform.GetChild(2).GetComponent<Image>().color = new Color(0f, 0f, 0f, 0f); // 자물쇠 아이콘 비활성화
             Animals.transform.GetChild(2).GetChild(0).gameObject.SetActive(true); // 동물 이미지 활성화
             Animals.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().text = "물범"; // 텍스트 내용 변경
         }
@@ -92,7 +96,7 @@ partial class HomeManager : Singleton<HomeManager>
                 if (epi2[i].isClearStage) progressNum++;
                 else
                 {
-                    Animals.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().text = "<size=10>스테이지 2 클리어 시 해금</size>\n진행도 : " + progressNum + "/" + epi2.Count; // 텍스트 내용 변경
+                    Animals.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().text = "<size=10>에피소드2를 클리어하세요</size>\n진행도 : " + progressNum + "/" + epi2.Count; // 텍스트 내용 변경
                     return;
                 }
             }
@@ -171,6 +175,23 @@ partial class HomeManager : Singleton<HomeManager>
     {
         AnimalsBackground.GetComponent<Button>().interactable = false;
         _isClicked = false;
+    }
+}
+#endregion
+
+#region 홈 타일
+partial class HomeManager : Singleton<HomeManager>
+{
+    [SerializeField] GameObject homeTile;
+
+    private void OnEnable()
+    {
+        // 홈화면 활성화시 해금한 동물 보여주기
+        Home_OpenAnials();
+
+        //UX
+        homeTile.GetComponent<Image>().DOColor(new Color(1f, 1f, 1f, 0.05f), 5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+        homeTile.transform.DOLocalMove(new Vector2(-75f, 75f), 20f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutFlash);
     }
 }
 #endregion
