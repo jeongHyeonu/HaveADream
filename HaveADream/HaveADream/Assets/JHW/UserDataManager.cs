@@ -120,13 +120,13 @@ partial class UserDataManager : Singleton<UserDataManager>
     }
     public void setUserData_epi2Data(string _stageName, bool _clearFlag, int _userGainStar)
     {
-        Episode1Data data = epi1Data.Find(x => x.mapName == _stageName);
+        Episode2Data data = epi2Data.Find(x => x.mapName == _stageName);
         data.isClearStage = _clearFlag;
         data.star = _userGainStar;
     }
     public void setUserData_epi3Data(string _stageName, bool _clearFlag, int _userGainStar)
     {
-        Episode1Data data = epi1Data.Find(x => x.mapName == _stageName);
+        Episode3Data data = epi3Data.Find(x => x.mapName == _stageName);
         data.isClearStage = _clearFlag;
         data.star = _userGainStar;
     }
@@ -196,7 +196,7 @@ partial class UserDataManager : Singleton<UserDataManager>
         UIGroupManager.Instance.ChangeHeartUI();
 
         // 홈 화면 해금한 동물 오픈
-        HomeManager.Instance.Home_OpenAnials();
+        //HomeManager.Instance.Home_OpenAnials();
 
         // 로딩창 비활성화
         this.transform.GetChild(0).gameObject.SetActive(false);

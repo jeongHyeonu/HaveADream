@@ -45,6 +45,8 @@ namespace JHW
             {
                 FadeImg.transform.GetChild(i).gameObject.SetActive(true);
                 FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(1f, loadingTime).OnComplete(() => {
+                    // 현재 열려있는 에피소드 지도 닫기
+                    this.transform.GetChild(curEpiNum).gameObject.SetActive(false);
                     if (i == 5)
                         sm.Scene_Change_Home();
                 });
@@ -64,12 +66,16 @@ namespace JHW
             // 월드버튼 활성화
             returnToWorldBtn.SetActive(true);
 
+            
+
             // 스테이지 선택 창 활성화 시
             // 유저가 마지막으로 눌렀던 스테이지, 현재 스테이지 체크 후 그 위치로 플레이어(쥐제리) 위치시키기
             string userCurrentStage = UserDataManager.Instance.GetUserData_userCurrentStage();
             string[] userCurrentStages = userCurrentStage.Split('-');
             this.transform.GetChild(int.Parse(userCurrentStages[0].ToCharArray())).gameObject.SetActive(true); // 에피소드 맵 활성화
+            returnToWorldBtn.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Episode " + int.Parse(userCurrentStages[0].ToCharArray()); // 좌측상단 에피소드 번호
             Transform targetTf = GameObject.Find("Stage" + userCurrentStage).transform;
+            userClickedStage = GameObject.Find("Stage" + userCurrentStage);
             userMarker.transform.SetParent(targetTf); // 스테이지 버튼에 쥐제리 위치
             userMarker.transform.localPosition = Vector2.zero;
             //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 사이즈
@@ -79,11 +85,9 @@ namespace JHW
             // 플레이어 위치로 지도 위치시키기
             //Invoke("PlayerPosOnMap", 0.01f);
             // 클릭한 스테이지로 카메라 이동 (사실은 sliderView가 움직임)
-            float screen_y = Screen.height;
-            float screen_x = Screen.width;
-            float camera_x = -screen_x / 2 + targetTf.transform.localPosition.x + 150f;// 뒤에 150 더하는건 쥐제리 (유저마커)크기
-            float camera_y = -targetTf.transform.localPosition.y - screen_y / 2 + 100f;
-            targetTf.transform.parent.GetComponent<RectTransform>().transform.localPosition = new Vector3(-camera_x, camera_y);
+            float camera_x = userClickedStage.transform.localPosition.x - userClickedStage.transform.parent.parent.GetComponent<RectTransform>().rect.width / 2 + 100f; // r
+            float camera_y = -userClickedStage.transform.localPosition.y - userClickedStage.transform.parent.parent.GetComponent<RectTransform>().rect.height / 2;
+            userClickedStage.transform.parent.GetComponent<RectTransform>().transform.localPosition = new Vector3(-camera_x, camera_y);
 
             // 사운드
             SoundManager.Instance.PlayBGM(SoundManager.BGM_list.StageSelect_BGM);
@@ -114,6 +118,8 @@ namespace JHW
             // 사운드
             SoundManager.Instance.PlayBGM(SoundManager.BGM_list.Home_BGM);
 
+
+
             // 스테이지->홈 페이드 전환
             Fade_StageToHome();
         }
@@ -127,22 +133,41 @@ namespace JHW
             // 정보창 열려있으면 끄기
             StageInfo.SetActive(false);
 
-            // 월드맵으로 돌아가기 버튼 켜기
-            returnToWorldBtn.SetActive(true);
-
-            // 플레이어 위치는 걍 n-1 로 고정
-            UserDataManager.Instance.setUserData_userCurrentStage(episodeNumber.ToString() + "-1");
-            userMarker.transform.SetParent(this.transform.GetChild(episodeNumber).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1));
-
-            userMarker.transform.DOLocalMove(Vector2.zero, 0f); // 원래 위치로
-            //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
-
-            this.transform.GetChild(episodeNumber).gameObject.SetActive(true);
-            this.transform.GetChild(0).gameObject.SetActive(false);
-            Init_StageSelect_By_UserInfo(episodeNumber);
-
             // 사운드
             SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
+
+            float loadingTime = 0.5f;
+            GameObject FadeImg = GameObject.Find("LoadingBackground");
+            for (int i = 0; i < FadeImg.transform.childCount; i++)
+            {
+                FadeImg.transform.GetChild(i).gameObject.SetActive(true);
+                FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(1f, loadingTime).OnComplete(() => {
+                    // 월드맵으로 돌아가기 버튼 켜기
+                    returnToWorldBtn.SetActive(true);
+
+                    // 플레이어 위치는 걍 n-1 로 고정
+                    UserDataManager.Instance.setUserData_userCurrentStage(curEpiNum.ToString() + "-1");
+                    userMarker.transform.SetParent(this.transform.GetChild(curEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1));
+
+                    userMarker.transform.DOLocalMove(Vector2.zero, 0f); // 원래 위치로
+                    //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
+
+                    this.transform.GetChild(episodeNumber).gameObject.SetActive(true);
+                    this.transform.GetChild(0).gameObject.SetActive(false);
+                    Init_StageSelect_By_UserInfo(episodeNumber);
+
+
+                });
+                FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(0f, loadingTime).SetDelay(loadingTime).OnComplete(() => {
+                    FadeImg.transform.GetChild(0).gameObject.SetActive(false);
+                    FadeImg.transform.GetChild(1).gameObject.SetActive(false);
+                    FadeImg.transform.GetChild(2).gameObject.SetActive(false);
+                    FadeImg.transform.GetChild(3).gameObject.SetActive(false);
+                    FadeImg.transform.GetChild(4).gameObject.SetActive(false);
+                });
+            }
+
+
         }
 
 
@@ -206,6 +231,8 @@ namespace JHW
             userClickedStage = this.transform.GetChild(curEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(currentStageNumber).gameObject;
             userClickedStage.transform.DOScale(1.4f, 0.5f);
 
+            userCurStage = curEpiNum.ToString() + "-" + currentStageNumber.ToString();
+
             //UX - 쥐제리 아이콘
             //for(int i=)
             //userMarker.transform.SetParent(userClickedStage.transform.parent);
@@ -214,16 +241,13 @@ namespace JHW
             GetButtonObjectToMove(currentStageNumber);
             UserMarkerMove();
 
-            userCurStage = curEpiNum.ToString() + "-" + currentStageNumber.ToString();
+            
             if (UserDataManager.Instance.GetUserData_userCurrentStage() == userCurStage) return; // 선택한 스테이지 위치가 전에 선택했던 스테이지와 동일하면 실행 X
             UserDataManager.Instance.setUserData_userCurrentStage(userCurStage); // 유저가 마지막으로 선택한 스테이지 위치 갱신
 
             // 클릭한 스테이지로 카메라 이동 (사실은 sliderView가 움직임)
-            float screen_y = Screen.height;
-            float screen_x = Screen.width;
-            float camera_x = userClickedStage.transform.parent.GetComponent<RectTransform>().rect.width/2 - (screen_x) + userClickedStage.transform.localPosition.x;// 뒤에 150 더하는건 쥐제리 (유저마커)크기
-            float camera_y = -userClickedStage.transform.localPosition.y - screen_y/2 + 200f;
-            Debug.Log("X = " + camera_x + " / Y = " + camera_y);
+            float camera_x = userClickedStage.transform.localPosition.x - userClickedStage.transform.parent.parent.GetComponent<RectTransform>().rect.width / 2;
+            float camera_y = -userClickedStage.transform.localPosition.y - userClickedStage.transform.parent.parent.GetComponent<RectTransform>().rect.height / 2;
             userClickedStage.transform.parent.GetComponent<RectTransform>().transform.localPosition = new Vector3(-camera_x, camera_y);
 
             // 게임플레이로 전환
@@ -250,6 +274,15 @@ namespace JHW
             //지도화면 닫고 스테이지 선택창으로
             this.transform.GetChild(0).gameObject.SetActive(false);
             this.transform.GetChild(curEpiNum).gameObject.SetActive(true);
+
+
+            // 플레이어 위치는 걍 n-1 로 고정
+            UserDataManager.Instance.setUserData_userCurrentStage(curEpiNum.ToString() + "-1");
+            userMarker.transform.SetParent(this.transform.GetChild(curEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1));
+
+            // 좌측상단 에피소드 번호
+            returnToWorldBtn.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Episode " + curEpiNum; 
+
 
             // 사운드
             SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
@@ -295,7 +328,7 @@ namespace JHW
                         roadCnt++;
                     }
                     // 만약 스테이지 다 깼으면 다음 스테이지 가는 버튼 활성화
-                    if (_stageIdx == episode1Datas.Count) targetStage.transform.GetChild(_stageIdx + 1).gameObject.SetActive(true);
+                    if(episode1Datas[episode1Datas.Count-1].star==3) targetStage.transform.GetChild(_stageIdx + 1).gameObject.SetActive(true);
 
                     break;
 
@@ -323,7 +356,7 @@ namespace JHW
                         roadCnt++;
                     }
                     // 만약 스테이지 다 깼으면 다음 스테이지 가는 버튼 활성화
-                    if (_stageIdx == episode2Datas.Count) targetStage.transform.GetChild(_stageIdx + 1).gameObject.SetActive(true);
+                    if (episode2Datas[episode2Datas.Count - 1].star == 3) targetStage.transform.GetChild(_stageIdx + 1).gameObject.SetActive(true);
 
                     break;
             }
@@ -355,6 +388,7 @@ namespace JHW
                     break;
                 case 2:
                     List<Episode2Data> epi2 = UserDataManager.Instance.GetUserData_userEpi2Data();
+                    Debug.Log(userCurStage);
                     starCnt = epi2.Find(x => x.mapName == userCurStage).star;
                     break;
             }
@@ -462,6 +496,9 @@ namespace JHW
             //userMarker.transform.localScale = new Vector3(70f, 70f, 70f); // 가끔 사이즈가 1이 되서 안보이게 되는 경우가 있어서.. ㅠ
             //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
 
+            // 좌측상단 UI 에피소드 번호
+            returnToWorldBtn.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Episode " + currentEpiNum; 
+
             Init_StageSelect_By_UserInfo(currentEpiNum);
 
             // 사운드
@@ -494,6 +531,9 @@ namespace JHW
             //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
 
             Init_StageSelect_By_UserInfo(currentEpiNum);
+
+            // 좌측상단 UI 에피소드 번호
+            returnToWorldBtn.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Episode " + currentEpiNum;
 
             // 사운드
             SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
@@ -550,6 +590,7 @@ namespace JHW
         // 쥐제리 marker 를 큐에 담긴 오브젝트 위치로 이동
         private void UserMarkerMove()
         {
+            Debug.Log(userMarkerPositionList.Count);
             // Marker가 다 움직일 경우
             if (userMarkerPositionList.Count == 0) { 
                 isMarkerMoving = false; 
