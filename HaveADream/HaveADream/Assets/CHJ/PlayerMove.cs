@@ -50,6 +50,8 @@ public class PlayerMove : Singleton<PlayerMove>
     //총알 발사 카메라
     private Camera mainCam;
 
+
+
     public float GetPlayerSpeed() { return speed; }
 
     //스킬 사용중 무적 상태를 위한 함수
@@ -132,6 +134,9 @@ public class PlayerMove : Singleton<PlayerMove>
         HpBarFilled.fillAmount = 1.0f;
         wingCnt = 0;
         bulletsFired = 0;
+        //실드 초기화
+        isShield = false;
+        shieldSprite.SetActive(false);
         GetStageData();
 
 
@@ -179,6 +184,7 @@ public class PlayerMove : Singleton<PlayerMove>
         if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
             OnDamaged();
+
             //hp바
             if (HpBarFilled.fillAmount <= 0.0f)
             {
@@ -189,8 +195,8 @@ public class PlayerMove : Singleton<PlayerMove>
             {
                 HpBarFilled.fillAmount += 0.25f;
                 DataManager.Instance.HealthCurrent += 2.5f;
-                shieldSprite.SetActive(false);
                 isShield = false;
+                shieldSprite.SetActive(false);
             }
 
         }
@@ -272,7 +278,7 @@ public class PlayerMove : Singleton<PlayerMove>
     }
     void ShootBullet()
     {
-        if (bulletsFired <= maxBulletsPerShot)
+        if (bulletsFired < maxBulletsPerShot)
         {
             InvokeRepeating("shootBossProjectile", 2f, 0.3f);
 

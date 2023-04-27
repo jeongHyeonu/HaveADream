@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
@@ -44,13 +43,15 @@ namespace JHW
             for (int i = 0; i < FadeImg.transform.childCount; i++)
             {
                 FadeImg.transform.GetChild(i).gameObject.SetActive(true);
-                FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(1f, loadingTime).OnComplete(() => {
+                FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(1f, loadingTime).OnComplete(() =>
+                {
                     // 현재 열려있는 에피소드 지도 닫기
                     this.transform.GetChild(curEpiNum).gameObject.SetActive(false);
                     if (i == 5)
                         sm.Scene_Change_Home();
                 });
-                FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(0f, loadingTime).SetDelay(loadingTime).OnComplete(() => {
+                FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(0f, loadingTime).SetDelay(loadingTime).OnComplete(() =>
+                {
                     FadeImg.transform.GetChild(0).gameObject.SetActive(false);
                     FadeImg.transform.GetChild(1).gameObject.SetActive(false);
                     FadeImg.transform.GetChild(2).gameObject.SetActive(false);
@@ -59,14 +60,37 @@ namespace JHW
                 });
             }
         }
-
+        void Fade_StageToPlay()
+        {
+            float loadingTime = 0.5f;
+            GameObject FadeImg = GameObject.Find("LoadingBackground");
+            for (int i = 0; i < FadeImg.transform.childCount; i++)
+            {
+                FadeImg.transform.GetChild(i).gameObject.SetActive(true);
+                FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(1f, 0.1f).OnComplete(() =>
+                {
+                    // 현재 열려있는 에피소드 지도 닫기
+                    this.transform.GetChild(curEpiNum).gameObject.SetActive(false);
+                    /*if (i == 5)
+                        sm.Scene_Change_GamePlay();*/
+                });
+                FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(0f, loadingTime).SetDelay(loadingTime).OnComplete(() =>
+                {
+                    FadeImg.transform.GetChild(0).gameObject.SetActive(false);
+                    FadeImg.transform.GetChild(1).gameObject.SetActive(false);
+                    FadeImg.transform.GetChild(2).gameObject.SetActive(false);
+                    FadeImg.transform.GetChild(3).gameObject.SetActive(false);
+                    FadeImg.transform.GetChild(4).gameObject.SetActive(false);
+                });
+            }
+        }
         public void OnEnableStageSelect() // 스테이지 선택 씬 활성화시
         {
 
             // 월드버튼 활성화
             returnToWorldBtn.SetActive(true);
 
-            
+
 
             // 스테이지 선택 창 활성화 시
             // 유저가 마지막으로 눌렀던 스테이지, 현재 스테이지 체크 후 그 위치로 플레이어(쥐제리) 위치시키기
@@ -99,7 +123,7 @@ namespace JHW
             // 캔버스(지도) 위치 플레이어 기준으로 설정
             ScrollRect sr = userMarker.transform.parent.parent.parent.parent.GetComponent<ScrollRect>();
             float user_y = -Camera.main.WorldToScreenPoint(userMarker.transform.position).y / userMarker.transform.parent.parent.parent.parent.GetComponent<ScrollRect>().content.rect.height;
-            float user_x = userMarker.transform.position.x*50 / userMarker.transform.parent.parent.parent.parent.GetComponent<ScrollRect>().content.rect.width;
+            float user_x = userMarker.transform.position.x * 50 / userMarker.transform.parent.parent.parent.parent.GetComponent<ScrollRect>().content.rect.width;
             userMarker.transform.parent.parent.parent.parent.GetComponent<ScrollRect>().horizontalScrollbar.value = user_x;
             userMarker.transform.parent.parent.parent.parent.GetComponent<ScrollRect>().verticalScrollbar.value = 0.5f;
         }
@@ -141,7 +165,8 @@ namespace JHW
             for (int i = 0; i < FadeImg.transform.childCount; i++)
             {
                 FadeImg.transform.GetChild(i).gameObject.SetActive(true);
-                FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(1f, loadingTime).OnComplete(() => {
+                FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(1f, loadingTime).OnComplete(() =>
+                {
                     // 월드맵으로 돌아가기 버튼 켜기
                     returnToWorldBtn.SetActive(true);
 
@@ -158,7 +183,8 @@ namespace JHW
 
 
                 });
-                FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(0f, loadingTime).SetDelay(loadingTime).OnComplete(() => {
+                FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(0f, loadingTime).SetDelay(loadingTime).OnComplete(() =>
+                {
                     FadeImg.transform.GetChild(0).gameObject.SetActive(false);
                     FadeImg.transform.GetChild(1).gameObject.SetActive(false);
                     FadeImg.transform.GetChild(2).gameObject.SetActive(false);
@@ -241,7 +267,7 @@ namespace JHW
             GetButtonObjectToMove(currentStageNumber);
             UserMarkerMove();
 
-            
+
             if (UserDataManager.Instance.GetUserData_userCurrentStage() == userCurStage) return; // 선택한 스테이지 위치가 전에 선택했던 스테이지와 동일하면 실행 X
             UserDataManager.Instance.setUserData_userCurrentStage(userCurStage); // 유저가 마지막으로 선택한 스테이지 위치 갱신
 
@@ -281,7 +307,7 @@ namespace JHW
             userMarker.transform.SetParent(this.transform.GetChild(curEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1));
 
             // 좌측상단 에피소드 번호
-            returnToWorldBtn.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Episode " + curEpiNum; 
+            returnToWorldBtn.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Episode " + curEpiNum;
 
 
             // 사운드
@@ -328,7 +354,7 @@ namespace JHW
                         roadCnt++;
                     }
                     // 만약 스테이지 다 깼으면 다음 스테이지 가는 버튼 활성화
-                    if(episode1Datas[episode1Datas.Count-1].star==3) targetStage.transform.GetChild(_stageIdx + 1).gameObject.SetActive(true);
+                    if (episode1Datas[episode1Datas.Count - 1].star == 3) targetStage.transform.GetChild(_stageIdx + 1).gameObject.SetActive(true);
 
                     break;
 
@@ -365,7 +391,7 @@ namespace JHW
 
             //StartCoroutine(targetStage.GetComponent<RoadCreater>().RoadColorChange(roadCnt)); // 클리어한 스테이지 따라서 도로 노란색으로 색칠
 
-            
+
         }
     }
 
@@ -404,19 +430,17 @@ namespace JHW
 
         public void StageStartButton_OnClick()
         {
+
+
             // 하트 부족으로 플레이 불가능할때
             if (UserDataManager.Instance.GetUserData_heart() == 0) return;
 
-
+            Fade_StageToPlay();
 
             // 정보창 닫기
             StageInfo.SetActive(false);
 
-            // 게임 플레이로 전환
-            sm.Scene_Change_GamePlay();
 
-            // 맵 생성
-            BackgroundManager.Instance.GenerateBackground(curEpiNum);
 
             // 클릭한 버튼 크기 원래대로
             userClickedStage.transform.localScale = Vector2.one;
@@ -428,6 +452,11 @@ namespace JHW
 
             // 사운드
             SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
+
+            // 게임 플레이로 전환
+            sm.Scene_Change_GamePlay();
+            // 맵 생성
+            BackgroundManager.Instance.GenerateBackground(curEpiNum);
 
             // 음악 재생
             switch (currentStageNumber)
@@ -450,6 +479,7 @@ namespace JHW
                     SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_2);
                     break;
             }
+
         }
 
         public void StageInfoExitButton_OnClick()
@@ -486,7 +516,7 @@ namespace JHW
 
             // 플레이어 위치는 걍 n-1 로 고정
             UserDataManager.Instance.setUserData_userCurrentStage(currentEpiNum.ToString() + "-1");
-            userMarker.transform.SetParent(this.transform.GetChild(currentEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0),false);
+            userMarker.transform.SetParent(this.transform.GetChild(currentEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0), false);
 
             // 이펙트 출력되는 경우가 있어서.. 끄기
             //EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle2);
@@ -497,7 +527,7 @@ namespace JHW
             //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
 
             // 좌측상단 UI 에피소드 번호
-            returnToWorldBtn.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Episode " + currentEpiNum; 
+            returnToWorldBtn.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = "Episode " + currentEpiNum;
 
             Init_StageSelect_By_UserInfo(currentEpiNum);
 
@@ -556,9 +586,9 @@ namespace JHW
         public Queue<GameObject> GetButtonObjectToMove(int _userClickedStage)
         {
             int currentEpisode = GetCurrentEpisodeNumber();
-            
+
             int userCurrentStageNumber = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[1]);
-            
+
             if (userCurrentStageNumber == _userClickedStage) return userMarkerPositionList;
 
             // 제리 이동방향 결정
@@ -568,7 +598,7 @@ namespace JHW
             switch (currentEpisode)
             {
                 case 1:
-                    if (userCurrentStageNumber < _userClickedStage) 
+                    if (userCurrentStageNumber < _userClickedStage)
                         for (int i = userCurrentStageNumber + 1; i <= _userClickedStage; i++)
                             userMarkerPositionList.Enqueue(Episode1_Content.transform.GetChild(i).gameObject);
                     else
@@ -592,15 +622,16 @@ namespace JHW
         {
             Debug.Log(userMarkerPositionList.Count);
             // Marker가 다 움직일 경우
-            if (userMarkerPositionList.Count == 0) { 
-                isMarkerMoving = false; 
+            if (userMarkerPositionList.Count == 0)
+            {
+                isMarkerMoving = false;
                 jerryAnim.SetBool("isJerryMoving", isMarkerMoving);
                 // 이펙트 제거
                 //EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle3);
                 //EffectManager.Instance.StopParticle(EffectManager.particle_list.FlyEffectParticle2);
                 // 스테이지 정보창 오픈
                 OpenStageInfoPanel();
-                return; 
+                return;
             }
 
 
@@ -626,8 +657,9 @@ namespace JHW
             userMarker.transform.SetParent(_dest.transform.parent);
             Vector2 originPos = userMarker.transform.localPosition;
             userMarker.transform.DOLocalMove(_dest.transform.localPosition, moveTime).From(originPos, false).SetEase(Ease.Linear)
-                .OnComplete(()=> {
-                    if (_dest != userClickedStage) _dest.transform.DOShakeScale(1f,0.5f); 
+                .OnComplete(() =>
+                {
+                    if (_dest != userClickedStage) _dest.transform.DOShakeScale(1f, 0.5f);
                 });// ()=> { userMarker.transform.position = originVec; }); // 쥐제리 이동
 
             //// 이펙트
