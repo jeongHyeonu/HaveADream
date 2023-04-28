@@ -85,7 +85,9 @@ public class OcclusionManager : Singleton<OcclusionManager>
             if (mapPresetQueue.Count == 0) return;
 
             // 큐에 생성된 장애물 빼기
-            mapPresetQueue.Dequeue().SetActive(false);
+            // 프리셋 301~ 에서 실행되는 경우 제외
+            if(!collision.transform.parent.name.Contains("Map3"))
+                mapPresetQueue.Dequeue().SetActive(false);
 
             // 맵 프리셋의 첫번째 프리셋은 반드시 등장시킬 것! (없으면 다음 장애물 생성 못함)
             if (presetCnt++ == 0) return;

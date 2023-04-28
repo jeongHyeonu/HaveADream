@@ -17,8 +17,11 @@ public class EndlessPlatformSpawn : MonoBehaviour
 
     private void OnEnable()
     {
+        
+
         platformList = new LinkedList<SpriteRenderer>();
         lastPos = playerCam.position;
+        delta = Vector2.zero;
 
         for (int i = 0; i < platforms.Length; ++i)
         {
@@ -32,6 +35,12 @@ public class EndlessPlatformSpawn : MonoBehaviour
         platformList.AddLast(newObj.GetComponent<SpriteRenderer>());
 
         spawnInView();
+    }
+
+    private void OnDisable()
+    {
+        platformList.Clear();
+        BackgroundPool.transform.parent.transform.position = new Vector2(0, 0);
     }
 
     private void updateDelta()

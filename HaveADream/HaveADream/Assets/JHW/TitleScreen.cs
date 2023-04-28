@@ -17,7 +17,7 @@ public class TitleScreen : Singleton<TitleScreen>
         {
             titleObject.transform.GetChild(1).gameObject.SetActive(true);
             titleObject.transform.GetChild(0).gameObject.transform.DOScale(new Vector2(1.1f, 1.1f), 3f).SetLoops(-1, LoopType.Yoyo);
-            titleObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().DOColor(new Color(0.5f, 0.7f, 1f), 1f).From(new Color(0f, 0f, .5f)).SetLoops(-1, LoopType.Yoyo);
+            titleObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().DOColor(new Color(0.5f, 0.5f, .5f), 1f).From(new Color(0f, 0f, .0f)).SetLoops(-1, LoopType.Yoyo);
             isActive = true;
         });
     }
