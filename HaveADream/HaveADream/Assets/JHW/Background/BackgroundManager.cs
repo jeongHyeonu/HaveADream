@@ -28,6 +28,10 @@ public class BackgroundManager : Singleton<BackgroundManager>
         }
     }
 
+    private void OnDisable()
+    {
+        EraseBackground(); // 배경제거
+    }
 
 
     public void EraseBackground()
