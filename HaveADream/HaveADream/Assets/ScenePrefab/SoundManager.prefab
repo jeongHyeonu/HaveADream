@@ -140,5 +140,7 @@ MonoBehaviour:
     audio: {fileID: 0}
   - sfx_name: 8
     audio: {fileID: 0}
-  - sfx_name: 5
+  - sfx_name: 9
     audio: {fileID: 0}
+  - sfx_name: 10
+    audio: {fileID: 8300000, guid: e39801f401a247c4f87aafb746344647, type: 3}

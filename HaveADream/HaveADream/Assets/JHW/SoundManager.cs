@@ -54,6 +54,7 @@ public class SoundManager : Singleton<SoundManager>
         SKill3,
         Skill4,
         Skill5,
+        PlayerDamaged2,
     }
 
     // 배경음 목록

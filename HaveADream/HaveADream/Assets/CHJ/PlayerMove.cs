@@ -185,6 +185,14 @@ public class PlayerMove : Singleton<PlayerMove>
         {
             OnDamaged();
 
+            Debug.Log(collision.transform.parent.name);
+
+            // 사운드
+            if (collision.transform.parent.name.Contains("Map1")) // 장애물 101~136
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.PlayerDamaged);
+            if (collision.transform.parent.name.Contains("Map3")) // 장애물 301~309
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.PlayerDamaged2);
+
             //hp바
             if (HpBarFilled.fillAmount <= 0.0f)
             {
@@ -244,8 +252,7 @@ public class PlayerMove : Singleton<PlayerMove>
             MapMove.Instance.mapSpeed = 5f;
             wingCnt = 0;
         }
-        // 사운드
-        SoundManager.Instance.PlaySFX(SoundManager.SFX_list.PlayerDamaged);
+
 
         sr.color = new Color(1, 1, 1, 0.4f);
         Invoke("OffDamaged", 2f);

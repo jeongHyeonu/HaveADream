@@ -62,6 +62,7 @@ namespace JHW
         }
         void Fade_StageToPlay()
         {
+            bool isActive = false;
             float loadingTime = 0.5f;
             GameObject FadeImg = GameObject.Find("LoadingBackground");
             for (int i = 0; i < FadeImg.transform.childCount; i++)
@@ -71,8 +72,50 @@ namespace JHW
                 {
                     // 현재 열려있는 에피소드 지도 닫기
                     this.transform.GetChild(curEpiNum).gameObject.SetActive(false);
-                    /*if (i == 5)
-                        sm.Scene_Change_GamePlay();*/
+                    if (isActive==false)
+                    {
+                        isActive = true;
+                        // 정보창 닫기
+                        StageInfo.SetActive(false);
+
+
+
+                        // 클릭한 버튼 크기 원래대로
+                        userClickedStage.transform.localScale = Vector2.one;
+
+                        // 유저 데이터에서 하트 감소(서버 데이터 및 prefab 데이터 둘 다) 감소시킨후 UI 변경
+                        PlayFabLogin.Instance.SubtractHeart();
+                        UserDataManager.Instance.SetUserData_heart(UserDataManager.Instance.GetUserData_heart() - 1);
+                        UIGroupManager.Instance.ChangeHeartUI();
+
+
+                        // 게임 플레이로 전환
+                        sm.Scene_Change_GamePlay();
+                        // 맵 생성
+                        BackgroundManager.Instance.GenerateBackground(curEpiNum);
+
+                        // 음악 재생
+                        switch (currentStageNumber)
+                        {
+                            case 1:
+                            case 2:
+                            case 5:
+                            case 6:
+                            case 9:
+                            case 10:
+                            case 13:
+                                SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_1);
+                                break;
+                            case 3:
+                            case 4:
+                            case 7:
+                            case 8:
+                            case 11:
+                            case 12:
+                                SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_2);
+                                break;
+                        }
+                    }
                 });
                 FadeImg.transform.GetChild(i).GetComponent<Image>().DOFade(0f, loadingTime).SetDelay(loadingTime).OnComplete(() =>
                 {
@@ -222,10 +265,22 @@ namespace JHW
             // 에피소드 1 해금여부 - 검사안하고 바로 interactable = true
             TargetButton.transform.GetChild(0).GetComponent<Button>().interactable = true;
             // 에피소드 2 해금여부
-            if (UserDataManager.Instance.GetUserData_userEpi1Data().Find(x => x.mapName == "1-13").isClearStage == true) TargetButton.transform.GetChild(1).GetComponent<Button>().interactable = true;
+            if (UserDataManager.Instance.GetUserData_userEpi1Data().Find(x => x.mapName == "1-13").star == 3)
+            {
+                TargetButton.transform.GetChild(1).GetComponent<Button>().interactable = true;
+                TargetButton.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(1f,1f,1f);
+                TargetButton.transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color(1f, 1f, 1f);
+                TargetButton.transform.GetChild(1).GetChild(2).gameObject.SetActive(false);
+            }
             else TargetButton.transform.GetChild(1).GetComponent<Button>().interactable = false;
             // 에피소드 3 해금여부
-            if (UserDataManager.Instance.GetUserData_userEpi2Data().Find(x => x.mapName == "2-18").isClearStage == true) TargetButton.transform.GetChild(2).GetComponent<Button>().interactable = true;
+            if (UserDataManager.Instance.GetUserData_userEpi2Data().Find(x => x.mapName == "2-18").star == 3)
+            {
+                TargetButton.transform.GetChild(2).GetComponent<Button>().interactable = true;
+                TargetButton.transform.GetChild(2).GetChild(0).GetComponent<Image>().color = new Color(1f, 1f, 1f);
+                TargetButton.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color(1f, 1f, 1f);
+                TargetButton.transform.GetChild(2).GetChild(2).gameObject.SetActive(false);
+            }
             else TargetButton.transform.GetChild(2).GetComponent<Button>().interactable = false;
 
             curEpiNum = GetCurrentEpisodeNumber();
@@ -431,55 +486,13 @@ namespace JHW
         public void StageStartButton_OnClick()
         {
 
+            // 사운드
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
 
             // 하트 부족으로 플레이 불가능할때
             if (UserDataManager.Instance.GetUserData_heart() == 0) return;
 
             Fade_StageToPlay();
-
-            // 정보창 닫기
-            StageInfo.SetActive(false);
-
-
-
-            // 클릭한 버튼 크기 원래대로
-            userClickedStage.transform.localScale = Vector2.one;
-
-            // 유저 데이터에서 하트 감소(서버 데이터 및 prefab 데이터 둘 다) 감소시킨후 UI 변경
-            PlayFabLogin.Instance.SubtractHeart();
-            UserDataManager.Instance.SetUserData_heart(UserDataManager.Instance.GetUserData_heart() - 1);
-            UIGroupManager.Instance.ChangeHeartUI();
-
-            // 사운드
-            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
-
-            // 게임 플레이로 전환
-            sm.Scene_Change_GamePlay();
-            // 맵 생성
-            BackgroundManager.Instance.GenerateBackground(curEpiNum);
-
-            // 음악 재생
-            switch (currentStageNumber)
-            {
-                case 1:
-                case 2:
-                case 5:
-                case 6:
-                case 9:
-                case 10:
-                case 13:
-                    SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_1);
-                    break;
-                case 3:
-                case 4:
-                case 7:
-                case 8:
-                case 11:
-                case 12:
-                    SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_2);
-                    break;
-            }
-
         }
 
         public void StageInfoExitButton_OnClick()
