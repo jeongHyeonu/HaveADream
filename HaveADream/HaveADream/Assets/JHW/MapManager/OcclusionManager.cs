@@ -136,13 +136,16 @@ public class OcclusionManager : Singleton<OcclusionManager>
         int endPoint = currentObstaclePreset_1.transform.childCount;
 
         // 가까운 거리인지 체크하는 기준값
-        float crit = 10f;
+        float crit = 3f;
 
         // 장애물 프리셋 오브젝트들 검사
         // 시작점, 끝점 제외
         for (int i=1; i < endPoint-1; i++)
         {
-            float distance = Vector2.Distance(currentObstaclePreset_1.transform.GetChild(i).gameObject.transform.position, _checkPos);
+            float playerMove = GameObject.Find("Player").transform.position.x - GameObject.Find("Map").transform.position.x;
+            Vector2 _obstaclePos = new Vector2(currentObstaclePreset_1.transform.GetChild(i).gameObject.transform.position.x + playerMove, currentObstaclePreset_1.transform.GetChild(i).gameObject.transform.position.y);
+            float distance = Vector2.Distance(_obstaclePos, _checkPos);
+            Debug.Log(distance);
             if (crit > distance) return true;
         }
 

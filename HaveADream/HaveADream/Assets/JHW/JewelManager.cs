@@ -58,10 +58,12 @@ public class JewelManager : Singleton<JewelManager>
             float playerDistance = GameObject.Find("Player").transform.position.x - this.transform.position.x;
             float randomY = Random.Range(-height / 4, height / 4);
             Vector2 vec2 = new Vector2(width + playerDistance, randomY);
-            if (OcclusionManager.Instance.IsNearObjectOnObstacle(vec2)) // 만약 장애물과 가까운 거리에 생성시
-            {
-                vec2 = new Vector2(vec2.x + 10, vec2.y);
-            };
+            //if (OcclusionManager.Instance.IsNearObjectOnObstacle(vec2)) // 만약 장애물과 가까운 거리에 생성시
+            //{
+            //    // Y축 위치 다시 조정해서 다시 생성
+            //    randomY = Random.Range(-height / 4, height / 4);
+            //    vec2 = new Vector2(vec2.x, randomY);
+            //};
 
             // 오브젝트 풀링, 비활성화된 보석 찾아서 active 로 변경 및 위치조정
             GameObject blueJewel;
