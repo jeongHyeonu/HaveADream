@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DreamPieceManager : Singleton<DreamPieceManager>
@@ -34,9 +33,9 @@ public class DreamPieceManager : Singleton<DreamPieceManager>
 
     IEnumerator DreamPiece_Randominstantiate()
     {
-    // 꿈조각 카운트 증가 및
-    // 만약 꿈조각 최대 소환개수 초과시 생성 X
-    if (max_dreampiece_count <= dreamPieceCnt++)
+        // 꿈조각 카운트 증가 및
+        // 만약 꿈조각 최대 소환개수 초과시 생성 X
+        if (max_dreampiece_count <= dreamPieceCnt++)
         {
             StopCoroutine(DreamPiece_Randominstantiate());
             yield return null;
@@ -44,7 +43,7 @@ public class DreamPieceManager : Singleton<DreamPieceManager>
         else
         {
             // 0.5~1초 뒤에 보석 꿈조각 생성
-            float randomSpawnDelay = Random.Range(0.5f, 1f);
+            float randomSpawnDelay = Random.Range(0.75f, 1.1f);
             yield return new WaitForSeconds(randomSpawnDelay);
 
             // 랜덤 생성 위치 지정
@@ -56,7 +55,7 @@ public class DreamPieceManager : Singleton<DreamPieceManager>
             Vector2 vec2 = new Vector2(width + playerDistance, randomY);
             if (OcclusionManager.Instance.IsNearObjectOnObstacle(vec2)) // 만약 장애물과 가까운 거리에 생성시
             {
-                while(OcclusionManager.Instance.IsNearObjectOnObstacle(vec2)==false)
+                while (OcclusionManager.Instance.IsNearObjectOnObstacle(vec2) == false)
                     vec2 = new Vector2(vec2.x + 10, vec2.y);
             };
 

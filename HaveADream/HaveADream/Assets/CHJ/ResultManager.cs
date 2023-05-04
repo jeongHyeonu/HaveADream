@@ -49,7 +49,7 @@ public class ResultManager : MonoBehaviour
     private IEnumerator SpawnBoss()
     {
         textBossWarning.SetActive(true);    //보스 등장 문구
-        yield return new WaitForSeconds(1.0f);  //1초 대기
+        yield return new WaitForSeconds(0.5f);  //0.5초 대기
         textBossWarning.SetActive(false);   //문구 사라짐
         boss.SetActive(true);               //보스 등장
         boss.GetComponent<Boss>().ChangeState(BossState.MoveToAppearPoint);
