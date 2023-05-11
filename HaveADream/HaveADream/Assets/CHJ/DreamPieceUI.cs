@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,7 +31,7 @@ public class DreamPieceUI : MonoBehaviour
         /*startPos = dpUI; // 시작 위치는 UI 요소의 현재 위치로 설정
         targetPos = dpUI; // 목표 위치는 시작 위치로 설정*/
         distance = 0;
-        dpUI.anchoredPosition= Vector2.zero;
+        //dpUI.anchoredPosition = Vector2.zero;
 
         string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
         GoalScore = (int)StageDataManager.Instance.GetStageInfo(key)["dreapiece_req_count"];
@@ -40,7 +39,7 @@ public class DreamPieceUI : MonoBehaviour
         // 보스까지 거리 계산
         string key2 = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
         bossDistance = (int)StageDataManager.Instance.GetStageInfo(key2)["boss_distance"];
-        
+
     }
     private void OnDisable()
     {
@@ -55,7 +54,7 @@ public class DreamPieceUI : MonoBehaviour
 
             DpBar.fillAmount = DataManager.Instance.DreamPieceScore / GoalScore;
 
-            distance += MapMove.Instance.mapSpeed * Time.deltaTime * 4.09f;
+            /*distance += MapMove.Instance.mapSpeed * Time.deltaTime * 4.09f;
             moveSpeed = distance / bossDistance;
 
             dpUI.anchoredPosition = Vector2.Lerp(startPos.anchoredPosition, targetPos.anchoredPosition, moveSpeed);
@@ -69,9 +68,9 @@ public class DreamPieceUI : MonoBehaviour
                 distance = bossDistance;
 
 
-            }
+            }*/
 
-           
+
         }
     }
 }

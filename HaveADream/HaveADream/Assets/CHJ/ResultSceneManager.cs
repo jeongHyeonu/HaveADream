@@ -4,8 +4,15 @@ using UnityEngine;
 public class ResultSceneManager : MonoBehaviour
 {
     [SerializeField] GameObject resultWindow;
+    [SerializeField] GameObject getAnimalWindow1;
+    [SerializeField] GameObject getAnimalWindow2;
+
     private SceneManager sm = null;
+
+    [SerializeField] int currentEpisodeNumber;
     [SerializeField] int currentStageNumber;
+
+
 
     void Start()
     {
@@ -26,8 +33,8 @@ public class ResultSceneManager : MonoBehaviour
     {
         sm.Scene_Change_GamePlay();
 
-        int currentStageNumber = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[1]);
-        
+        //int currentStageNumber = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[1]);
+
 
         // 사운드
         // 음악 재생
@@ -58,7 +65,7 @@ public class ResultSceneManager : MonoBehaviour
     {
         sm.Scene_Change_StageSelect();
 
-        
+
         // 사운드
         SoundManager.Instance.PlayBGM(SoundManager.BGM_list.StageSelect_BGM);
     }
@@ -68,12 +75,40 @@ public class ResultSceneManager : MonoBehaviour
     private void OnEnable()
     {
         Time.timeScale = 0;
+
+        //getAnimalPanel();
     }
     private void OnDisable()
     {
         ResultSave();
         resultWindow.SetActive(false);
         Time.timeScale = 1;
+    }
+
+    private void getAnimalPanel()
+    {
+        currentStageNumber = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[1]);
+        currentEpisodeNumber = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[0]);
+
+        if (currentEpisodeNumber == 1)
+        {
+            if (currentStageNumber == 13)
+            {
+                if (DataManager.Instance.ResultStars == 3)
+                {
+                    getAnimalWindow1.SetActive(true);
+                }
+            }
+            else
+            {
+                resultWindow.SetActive(true);
+            }
+        }
+        else
+        {
+            resultWindow.SetActive(true);
+        }
+
     }
 
     // 결과 저장
@@ -87,7 +122,7 @@ public class ResultSceneManager : MonoBehaviour
         int userGainStar = DataManager.Instance.ResultStars; // 유저가 획득한 별 개수
         switch (epiNum)
         {
-            
+
             case 1:
                 Episode1Data data1 = UserDataManager.Instance.GetUserData_userEpi1Data()[stageNum - 1]; // 유저 데이터
                 if (data1.star < userGainStar) // 데이터 저장
