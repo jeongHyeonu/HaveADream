@@ -214,11 +214,11 @@ namespace JHW
                     returnToWorldBtn.SetActive(true);
 
                     // 플레이어 위치는 걍 n-1 로 고정
-                    UserDataManager.Instance.setUserData_userCurrentStage(curEpiNum.ToString() + "-1");
-                    userMarker.transform.SetParent(this.transform.GetChild(curEpiNum).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1));
+                    UserDataManager.Instance.setUserData_userCurrentStage(episodeNumber.ToString() + "-1");
+                    userMarker.transform.SetParent(this.transform.GetChild(episodeNumber).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1));
 
                     userMarker.transform.DOLocalMove(Vector2.zero, 0f); // 원래 위치로
-                    //userMarker.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
+                    userMarker.GetComponent<Transform>().localScale = new Vector2(80,80); // 원래 사이즈
 
                     this.transform.GetChild(episodeNumber).gameObject.SetActive(true);
                     this.transform.GetChild(0).gameObject.SetActive(false);
@@ -268,6 +268,8 @@ namespace JHW
             if (UserDataManager.Instance.GetUserData_userEpi1Data().Find(x => x.mapName == "1-13").star == 3)
             {
                 TargetButton.transform.GetChild(1).GetComponent<Button>().interactable = true;
+                TargetButton.transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
+                TargetButton.transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
                 TargetButton.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(1f,1f,1f);
                 TargetButton.transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color(1f, 1f, 1f);
                 TargetButton.transform.GetChild(1).GetChild(2).gameObject.SetActive(false);
@@ -277,6 +279,7 @@ namespace JHW
             if (UserDataManager.Instance.GetUserData_userEpi2Data().Find(x => x.mapName == "2-18").star == 3)
             {
                 TargetButton.transform.GetChild(2).GetComponent<Button>().interactable = true;
+                TargetButton.transform.GetChild(2).GetChild(0).gameObject.SetActive(true);
                 TargetButton.transform.GetChild(2).GetChild(0).GetComponent<Image>().color = new Color(1f, 1f, 1f);
                 TargetButton.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color(1f, 1f, 1f);
                 TargetButton.transform.GetChild(2).GetChild(2).gameObject.SetActive(false);
@@ -514,6 +517,9 @@ namespace JHW
                     break;
             }
             for (int i = 0; i < starCnt; i++) { StageInfo.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(i).GetChild(0).gameObject.SetActive(true); }
+
+            // 보스 이미지
+            StageInfo.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<Image>().sprite=StageDataManager.Instance.ClearBossImg[curEpiNum - 1];
 
             StageInfo.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = userCurStage; // 스테이지 번호
 

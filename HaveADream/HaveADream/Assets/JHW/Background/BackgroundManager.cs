@@ -13,6 +13,10 @@ public class BackgroundManager : Singleton<BackgroundManager>
 
     public void GenerateBackground(int epi_num)
     {
+        Background1.gameObject.SetActive(false);
+        Background2.gameObject.SetActive(false);
+        Background3.gameObject.SetActive(false);
+
         // ¸Ê »ý¼º
         switch (epi_num)
         {

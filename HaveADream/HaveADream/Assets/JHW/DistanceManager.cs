@@ -56,6 +56,8 @@ public class DistanceManager : Singleton<DistanceManager>
 
         if (bossDistance <= distance)// 보스까지 도달시
         {
+            if (isBossArrived) return; // 한번만 실행
+
             isBossArrived = true;
             distance = bossDistance;
             distance_text.SetText(bossDistance.ToString() + " m");

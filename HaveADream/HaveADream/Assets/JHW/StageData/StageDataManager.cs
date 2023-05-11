@@ -7,6 +7,9 @@ public class StageDataManager : Singleton<StageDataManager>
 {
     List<Dictionary<string, object>> data;
 
+    [SerializeField] public List<Sprite> BindBossImg;
+    [SerializeField] public List<Sprite> ClearBossImg;
+
     public Dictionary<string, object> stageInfoDict = new Dictionary<string, object>();
 
     // Start is called before the first frame update

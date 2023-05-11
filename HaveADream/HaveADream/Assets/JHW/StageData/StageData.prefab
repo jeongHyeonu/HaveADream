@@ -44,3 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80540d912cac59545907d702f722e57b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BindBossImg:
+  - {fileID: 21300000, guid: 494b85dd506e47a4a9d18b5e3e70d7b8, type: 3}
+  - {fileID: 21300000, guid: a28446aedac2e6747b3b99c85a8e7039, type: 3}
+  ClearBossImg:
+  - {fileID: 21300000, guid: 78ee04b18dd3aa64bbe024a66cfaf116, type: 3}
+  - {fileID: 21300000, guid: 8671def940bc9404387db2ed2943f79c, type: 3}

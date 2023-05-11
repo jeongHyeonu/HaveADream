@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum BossState { MoveToAppearPoint = 0, }
@@ -23,7 +24,6 @@ public class Boss : MonoBehaviour
     [SerializeField] int projectile;
     [SerializeField] GameObject ResultWindow;
 
-
     // 보스 처치 시 슬로우 효과 걸리게
     private void slowBoss_ON()
     {
@@ -47,6 +47,10 @@ public class Boss : MonoBehaviour
         renderer.enabled = true;
         string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
         projectile = (int)StageDataManager.Instance.GetStageInfo(key)["dreapiece_req_count"];
+
+        // 보스 이미지
+        int userCurEpi = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[0]); // 유저 현재 에피소드
+        this.GetComponent<SpriteRenderer>().sprite = StageDataManager.Instance.BindBossImg[userCurEpi - 1];
     }
     void Start()
     {
