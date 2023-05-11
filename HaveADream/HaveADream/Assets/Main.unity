@@ -304,6 +304,18 @@ PrefabInstance:
       propertyPath: playerCam
       value: 
       objectReference: {fileID: 519420032}
+    - target: {fileID: 7250796283006407933, guid: 86b3ebb8bcc82fd43b59bb68f51a6db6, type: 3}
+      propertyPath: playerCam
+      value: 
+      objectReference: {fileID: 519420032}
+    - target: {fileID: 7250796284074947208, guid: 86b3ebb8bcc82fd43b59bb68f51a6db6, type: 3}
+      propertyPath: playerCam
+      value: 
+      objectReference: {fileID: 519420032}
+    - target: {fileID: 7250796284339151317, guid: 86b3ebb8bcc82fd43b59bb68f51a6db6, type: 3}
+      propertyPath: playerCam
+      value: 
+      objectReference: {fileID: 519420032}
     - target: {fileID: 8823328829984816385, guid: 86b3ebb8bcc82fd43b59bb68f51a6db6, type: 3}
       propertyPath: playerCam
       value: 
