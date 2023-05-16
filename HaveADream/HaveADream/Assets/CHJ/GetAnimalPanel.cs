@@ -70,7 +70,6 @@ public class GetAnimalPanel : Singleton<GetAnimalPanel>
     {
         sm.Scene_Change_Home();
 
-
         // »ç¿îµå
         SoundManager.Instance.PlayBGM(SoundManager.BGM_list.Home_BGM);
     }

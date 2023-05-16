@@ -31,6 +31,8 @@ public class ResultSceneManager : MonoBehaviour
     //다시하기
     public void ReplayBtn_OnClick()
     {
+        resultWindow.SetActive(false);
+
         sm.Scene_Change_GamePlay();
 
         int currentStageMusic = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[1]);
@@ -75,13 +77,12 @@ public class ResultSceneManager : MonoBehaviour
     private void OnEnable()
     {
         Time.timeScale = 0;
-
+        resultWindow.SetActive(true);
         GetAnimalPanel();
     }
     private void OnDisable()
     {
         ResultSave();
-        resultWindow.SetActive(false);
         Time.timeScale = 1;
     }
 
@@ -98,20 +99,11 @@ public class ResultSceneManager : MonoBehaviour
                 {
                     getAnimalWindow1.SetActive(true);
                 }
-                else
-                {
-                    resultWindow.SetActive(true);
-                }
+
             }
-            else
-            {
-                resultWindow.SetActive(true);
-            }
+
         }
-        else
-        {
-            resultWindow.SetActive(true);
-        }
+
 
     }
 
