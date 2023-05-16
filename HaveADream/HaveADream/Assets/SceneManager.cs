@@ -68,6 +68,8 @@ public class SceneManager : Singleton<SceneManager>
         SkillManager.Instance.UI_On(); // ��ų UI ON
         //DistanceManager.Instance.DistanceUI_ON();
         PlayScene.SetActive(true);
+        GameObject.Find("ResultPanel")?.gameObject.SetActive(false);  // 결과창 떠있으면 비활성화
+        Time.timeScale = 1; // 일시정지 상태면 다시 실행
         DistanceBarManager.Instance.DistanceBarUI_ON();
         JewelManager.Instance.StageInfo_jewel_getData(); // ���� �� �ҷ����� �� ���� ����
         DreamPieceManager.Instance.StageInfo_dreamPiece_getData(); // ������ �� �ҷ����� �� ������ ����

@@ -62,8 +62,7 @@ public class DistanceBarManager : Singleton<DistanceBarManager>
     {
         if (isBossArrived == true) return;
 
-        distance += MapMove.Instance.mapSpeed * Time.deltaTime * 4.6f;
-
+        distance = DistanceManager.Instance.distance;
 
         if (bossDistance <= distance)// 보스까지 도달시
         {

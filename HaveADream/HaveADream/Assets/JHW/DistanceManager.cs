@@ -5,8 +5,8 @@ public class DistanceManager : Singleton<DistanceManager>
 {
     [SerializeField] public GameObject DistanceUI;
     [SerializeField] TextMeshProUGUI distance_text;
-    [SerializeField] float distance = 0f; // 유저 이동거리
-    [SerializeField] float bossDistance = 0f; // 보스까지 거리
+    [SerializeField] public float distance = 0f; // 유저 이동거리
+    [SerializeField] public float bossDistance = 0f; // 보스까지 거리
 
     public bool isGamePlaying = false;
     public bool isBossArrived = false; // 보스까지 도착시 true
