@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum BossState { MoveToAppearPoint = 0, }
@@ -105,8 +104,9 @@ public class Boss : MonoBehaviour
                 Time.timeScale = 0.5f;
                 Time.fixedDeltaTime = Time.timeScale * 0.02f;
 
-                Invoke("SetResultWindow", 1.5f);
+                Invoke("SetResultWindow", 1.25f);
                 DistanceManager.Instance.DistanceUI_OFF();
+                //SetResultWindow();
                 //sm.Scene_Change_Result();
             }
 
@@ -125,6 +125,7 @@ public class Boss : MonoBehaviour
     {
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
     }
+
     public void SetResultWindow()
     {
         ResultWindow.SetActive(true);

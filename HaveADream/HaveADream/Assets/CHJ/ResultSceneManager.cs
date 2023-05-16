@@ -33,12 +33,12 @@ public class ResultSceneManager : MonoBehaviour
     {
         sm.Scene_Change_GamePlay();
 
-        //int currentStageNumber = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[1]);
+        int currentStageMusic = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[1]);
 
 
         // 사운드
         // 음악 재생
-        switch (currentStageNumber)
+        switch (currentStageMusic)
         {
             case 1:
             case 2:
@@ -76,7 +76,7 @@ public class ResultSceneManager : MonoBehaviour
     {
         Time.timeScale = 0;
 
-        //getAnimalPanel();
+        GetAnimalPanel();
     }
     private void OnDisable()
     {
@@ -85,7 +85,7 @@ public class ResultSceneManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    private void getAnimalPanel()
+    private void GetAnimalPanel()
     {
         currentStageNumber = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[1]);
         currentEpisodeNumber = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[0]);
@@ -97,6 +97,10 @@ public class ResultSceneManager : MonoBehaviour
                 if (DataManager.Instance.ResultStars == 3)
                 {
                     getAnimalWindow1.SetActive(true);
+                }
+                else
+                {
+                    resultWindow.SetActive(true);
                 }
             }
             else
