@@ -35,6 +35,7 @@ public class DistanceManager : Singleton<DistanceManager>
         // 보스까지 거리 계산
         string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
         bossDistance = (int)StageDataManager.Instance.GetStageInfo(key)["boss_distance"];
+        GameObject.Find("Result2starZone").transform.position = new Vector3(70+bossDistance/5,0);
 
         isGamePlaying = true;
     }

@@ -24,6 +24,7 @@ public class OcclusionManager : Singleton<OcclusionManager>
     public int stageNum; // 유저가 선택한 스테이지 번호
 
     Queue<GameObject> mapPresetQueue1 = new Queue<GameObject>();// 생산된 맵 프리셋 담기
+    Queue<GameObject> mapPresetQueue2 = new Queue<GameObject>();// 생산된 맵 프리셋 담기
     Queue<GameObject> mapPresetQueue3 = new Queue<GameObject>();// 생산된 맵 프리셋 담기
 
     private void OnEnable()
@@ -51,6 +52,7 @@ public class OcclusionManager : Singleton<OcclusionManager>
     private void OnDisable()
     {
         for (int i = 0; i < mapPresetQueue1.Count; i++) mapPresetQueue1.Dequeue().SetActive(false);
+        for (int i = 0; i < mapPresetQueue2.Count; i++) mapPresetQueue2.Dequeue().SetActive(false);
         for (int i = 0; i < mapPresetQueue3.Count; i++) mapPresetQueue3.Dequeue().SetActive(false);
     }
 
@@ -67,34 +69,54 @@ public class OcclusionManager : Singleton<OcclusionManager>
             // 만약 보스까지 도달했다면 장애물 생성하지 마시오
             if (DistanceManager.Instance.isBossArrived) return;
 
-            // 맵 프리셋 101~136
-            currentObstaclePreset_1 = GetRandomMapPreset_1();
-            currentObstaclePreset_1.transform.position = new Vector2(MapPresetSpawnPoint.transform.position.x, MapPresetSpawnPoint.transform.position.y);
-            currentObstaclePreset_1.SetActive(true);
-
-            // 큐에 생성된 장애물 담기
-            mapPresetQueue1.Enqueue(currentObstaclePreset_1);
-
-            // 맵 프리셋 301~309// 스테이지에 따라 301~309 장애물 소환 x
-            if (stageNum >= 10)
+            if (mapPresetQueue1.Count < 2)
             {
-                GameObject targetObject_3 = GetRandomMapPreset_3();
-                targetObject_3.transform.position = MapPresetSpawnPoint.transform.position;
-                targetObject_3.SetActive(true);
+                // 맵 프리셋 101~136
+                currentObstaclePreset_1 = GetRandomMapPreset_1();
+                currentObstaclePreset_1.transform.position = new Vector2(MapPresetSpawnPoint.transform.position.x, MapPresetSpawnPoint.transform.position.y);
+                currentObstaclePreset_1.SetActive(true);
 
                 // 큐에 생성된 장애물 담기
-                mapPresetQueue3.Enqueue(targetObject_3);
+                mapPresetQueue1.Enqueue(currentObstaclePreset_1);
+            }
+
+            // 맵 프리셋 301~309// 스테이지에 따라 301~309 장애물 소환 x
+            if (epiNum==1 && stageNum >= 10)
+            {
+                if (mapPresetQueue3.Count < 2) //
+                {
+                    GameObject targetObject_3 = GetRandomMapPreset_3();
+                    targetObject_3.transform.position = MapPresetSpawnPoint.transform.position;
+                    targetObject_3.SetActive(true);
+
+                    // 큐에 생성된 장애물 담기
+                    mapPresetQueue3.Enqueue(targetObject_3);
+                }
+            }
+
+            // 맵 프리셋 201~203
+            
+            if (epiNum == 2 && stageNum==18)
+            {
+                if (mapPresetQueue2.Count < 2) // 
+                {
+                    GameObject targetObject_2 = GetRandomMapPreset_2();
+                    targetObject_2.transform.position = MapPresetSpawnPoint.transform.position;
+                    targetObject_2.SetActive(true);
+
+                    // 큐에 생성된 장애물 담기
+                    mapPresetQueue2.Enqueue(targetObject_2);
+                }
             }
         }
         if (collision.gameObject.layer == LayerMask.NameToLayer("MapPresetEndPoint")) // 프리셋 제거
         {
-            // 큐에 장애물 없으면 실행 X
-            if (mapPresetQueue1.Count == 0) return;
-            if (mapPresetQueue3.Count == 0) return;
 
+            // 큐에 장애물 없으면 실행 X
             // 큐에 생성된 장애물 빼기
-            if (collision.transform.parent.name.Contains("Map1")) mapPresetQueue1.Dequeue().SetActive(false);
-            if (collision.transform.parent.name.Contains("Map3")) mapPresetQueue3.Dequeue().SetActive(false);
+            if (mapPresetQueue1.Count != 0) if (collision.transform.parent.name.Contains("Map1")) mapPresetQueue1.Dequeue().SetActive(false);
+            if (mapPresetQueue2.Count != 0) if (collision.transform.parent.name.Contains("Map2")) mapPresetQueue2.Dequeue().SetActive(false);
+            if (mapPresetQueue3.Count != 0) if (collision.transform.parent.name.Contains("Map3")) mapPresetQueue3.Dequeue().SetActive(false);
 
             // 맵 프리셋의 첫번째 프리셋은 반드시 등장시킬 것! (없으면 다음 장애물 생성 못함)
             if (presetCnt++ == 0) return;
@@ -121,6 +143,18 @@ public class OcclusionManager : Singleton<OcclusionManager>
         }
         currentObstaclePreset_1 = MapPresets_1.transform.GetChild(randInt).gameObject;
         return currentObstaclePreset_1;
+    }
+
+    private GameObject GetRandomMapPreset_2()
+    {
+        int preset_2_Range = 3;
+
+        int randInt = Random.Range(0, preset_2_Range);
+        while (MapPresets_2.transform.GetChild(randInt).gameObject.activeSelf == true) // 중복제거
+        {
+            randInt = Random.Range(0, preset_2_Range);
+        }
+        return MapPresets_2.transform.GetChild(randInt).gameObject;
     }
 
     private GameObject GetRandomMapPreset_3()
