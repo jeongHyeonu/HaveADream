@@ -103,6 +103,18 @@ public class ResultSceneManager : MonoBehaviour
             }
 
         }
+        if (currentEpisodeNumber == 2)
+        {
+            if (currentStageNumber == 18)
+            {
+                if (DataManager.Instance.ResultStars == 3)
+                {
+                    getAnimalWindow2.SetActive(true);
+                }
+
+            }
+
+        }
 
 
     }
