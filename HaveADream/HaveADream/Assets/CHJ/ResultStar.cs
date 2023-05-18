@@ -49,7 +49,7 @@ public class ResultStar : Singleton<ResultStar>
             Star3.gameObject.SetActive(false);
             DataManager.Instance.ResultStars = 2;
         }
-        else if (DataManager.Instance.DreamPieceScore >= DPScore && DataManager.Instance.ResultStars == 2)
+        else if (DataManager.Instance.DreamPieceScore >= DPScore && DataManager.Instance.ResultStars >= 2)
         {
             Star1.gameObject.SetActive(true);
             Star2.gameObject.SetActive(true);

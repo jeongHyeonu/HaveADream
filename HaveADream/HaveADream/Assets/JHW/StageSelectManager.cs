@@ -114,6 +114,9 @@ namespace JHW
                             case 12:
                                 SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_2);
                                 break;
+                            default:
+                                SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_2);
+                                break;
                         }
                     }
                 });
