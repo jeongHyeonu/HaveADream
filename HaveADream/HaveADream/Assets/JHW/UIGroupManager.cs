@@ -29,7 +29,7 @@ public class UIGroupManager : Singleton<UIGroupManager>
         // 화면 우측상단 Heart, Gold, Diamond, Option UI 등장
         CollectionButton.SetActive(true);
         HeartUI.SetActive(true);
-        BroadcastButton.SetActive(true);
+        //BroadcastButton.SetActive(true);
         OptionButton.SetActive(true);
     }
 
@@ -42,7 +42,7 @@ public class UIGroupManager : Singleton<UIGroupManager>
     public void Background_OnClick()
     {
         CollectionManager.Instance.BackgroundClick();
-        BroadcastManager.Instance.BackgroundClick();
+        //BroadcastManager.Instance.BackgroundClick();
         OptionManager.Instance.BackgroundClick();
         HeartManager.Instance.BackgroundClick();
         if (HeartManager.Instance.isHeartClicked == true) HeartManager.Instance.isHeartClicked = false;

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,10 @@ partial class OptionManager : Singleton<OptionManager>
     [SerializeField] GameObject SkillUI;
     [SerializeField] GameObject GameMakersUI;
     [SerializeField] GameObject CollectionBackground;
+
+    [SerializeField] GameObject UI1;
+    [SerializeField] GameObject UI2;
+    [SerializeField] GameObject UI3;
 
     public float music_volume = 1f;
     public float sound_volume = 1f;
@@ -136,6 +141,32 @@ partial class OptionManager : Singleton<OptionManager>
     public void BackgroundClick()
     {
         OptionUI.SetActive(false);
+    }
+
+    public void NextButtonOnClick(int _num)
+    {
+        switch (_num)
+        {
+            case 1:
+                UI1.SetActive(true);
+                break;
+            case 2:
+                UI1.SetActive(false);
+                UI2.SetActive(true);
+                break;
+            case 3:
+                UI2.SetActive(false);
+                break;
+            case 4:
+                UI3.SetActive(true);
+                UI3.GetComponent<Image>().DOFade(1f, 1f).From(0f);
+                UI3.transform.GetChild(0).DOLocalMoveY(600f, 15f).From(-400f).SetEase(Ease.Linear).OnComplete(() => { UI3.SetActive(false); });
+                break;
+            case 5:
+                UI3.SetActive(false);
+                UI3.transform.GetChild(0).DOKill();
+                break;
+        }
     }
 }
 
