@@ -117,7 +117,6 @@ public class Boss : MonoBehaviour
         //데미지 텍스트 출력
         GameObject hudText = Instantiate(hudDamageText);
         hudText.transform.position = hudPos.position;
-        hudText.GetComponent<DamageText>().damage = damage;
 
 
     }

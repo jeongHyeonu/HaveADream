@@ -7,6 +7,7 @@ public class ResultScreen : Singleton<ResultScreen>
     bool isActive = false;
     public GameObject titleObject;
 
+
     private void OnEnable()
     {
 

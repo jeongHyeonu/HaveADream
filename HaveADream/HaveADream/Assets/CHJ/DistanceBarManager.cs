@@ -8,7 +8,7 @@ public class DistanceBarManager : Singleton<DistanceBarManager>
     [SerializeField] float distance = 0f; // 유저 이동거리
     [SerializeField] float bossDistance = 0f; // 보스까지 거리
 
-    private bool isGamePlaying = false;
+    
     private bool isBossArrived = false; // 보스까지 도착시 true
 
 
@@ -44,14 +44,14 @@ public class DistanceBarManager : Singleton<DistanceBarManager>
         string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
         bossDistance = (int)StageDataManager.Instance.GetStageInfo(key)["boss_distance"];
 
-        isGamePlaying = true;
+        
     }
 
     public void DistanceBarUI_OFF()
     {
         DistanceBarUI.SetActive(false);
         isBossArrived = false;
-        isGamePlaying = false;
+        
     }
 
 

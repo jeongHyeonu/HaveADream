@@ -8,6 +8,7 @@ public class ResultManager : MonoBehaviour
     [SerializeField] GameObject boss;   //보스 경고
     [SerializeField] float bossDistance = 0f; // 보스까지 거리
 
+    private bool hasStartedSpawnBoss = false;
 
     private void OnEnable()
     {
@@ -15,14 +16,19 @@ public class ResultManager : MonoBehaviour
         textBossWarning.SetActive(false);
         boss.SetActive(false);
         GetStageData();
+        hasStartedSpawnBoss = false;
     }
 
+    private void DisEnable()
+    {
+        hasStartedSpawnBoss = false;
+    }
     private void GetStageData()
     {
         string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
-        bossDistance = (int)StageDataManager.Instance.GetStageInfo(key)["stage"];
+        bossDistance = (int)StageDataManager.Instance.GetStageInfo(key)["boss_distance"];
 
-        gameObject.transform.position = new Vector2(gameObject.transform.position.x + (bossDistance * 1.12f), 0f);
+        gameObject.transform.position = new Vector2(bossDistance, 0f);
     }
 
 
@@ -33,10 +39,18 @@ public class ResultManager : MonoBehaviour
 
     }
 
-
+    void FixedUpdate()
+    {
+        if (!hasStartedSpawnBoss && DistanceManager.Instance.isBossArrived == true && 
+            DistanceManager.Instance.isGamePlaying == true)
+        {
+            StartCoroutine("SpawnBoss");
+            hasStartedSpawnBoss = true;
+        }
+    }
 
     // Update is called once per frame
-    private void OnTriggerEnter2D(Collider2D collision)
+    /*private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag.CompareTo("Player") == 0)
         {
@@ -44,7 +58,8 @@ public class ResultManager : MonoBehaviour
 
         }
 
-    }
+    }*/
+
 
     private IEnumerator SpawnBoss()
     {

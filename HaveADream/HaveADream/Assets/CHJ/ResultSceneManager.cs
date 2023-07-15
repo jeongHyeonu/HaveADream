@@ -88,8 +88,13 @@ public class ResultSceneManager : MonoBehaviour
 
     private void GetAnimalPanel()
     {
-        currentStageNumber = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[1]);
-        currentEpisodeNumber = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[0]);
+        // 스테이지 선택
+        // 유저가 선택한 스테이지 저장
+        string key = UserDataManager.Instance.GetUserData_userCurrentStage();
+
+        currentStageNumber = (int)StageDataManager.Instance.GetStageInfo(key)["episode"];
+        currentEpisodeNumber = (int)StageDataManager.Instance.GetStageInfo(key)["stage"];
+
 
         if (currentEpisodeNumber == 1)
         {

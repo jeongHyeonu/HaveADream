@@ -50,6 +50,8 @@ public class PlayerMove : Singleton<PlayerMove>
     //총알 발사 카메라
     private Camera mainCam;
 
+    //
+    private bool hasStartedSpawnBoss = false;
 
 
     public float GetPlayerSpeed() { return speed; }
@@ -111,6 +113,18 @@ public class PlayerMove : Singleton<PlayerMove>
         isShield = true;
     }
 
+    //추가 스킬1 : 속도 감소
+    public void DecreaseSpeed()
+    {
+        MapMove.Instance.mapSpeed -= 2.5f;
+    }
+
+    //추가 스킬 2 : 꿈조각 획득
+    public void GetJeweltoDreamPiece()
+    {
+        DataManager.Instance.DreamPieceScore += 5;
+    }
+
     public void setIsSkillBtn(bool flag)
     {
         isSkillBtn = flag;
@@ -138,10 +152,15 @@ public class PlayerMove : Singleton<PlayerMove>
         isShield = false;
         shieldSprite.SetActive(false);
         GetStageData();
-
-
+        hasStartedSpawnBoss = false;
 
     }
+    private void OnDisable()
+    {
+        maxBulletsPerShot = 0;
+        hasStartedSpawnBoss = false;
+    }
+
     void GetStageData()
     {
         string key = UserDataManager.Instance.GetUserData_userCurrentStage(); // 유저가 선택한 스테이지 key
@@ -158,7 +177,6 @@ public class PlayerMove : Singleton<PlayerMove>
 
     void Update()
     {
-        // 주석이 다 이상해졌는데 
         if (Input.GetMouseButton(0) && !isSkillBtn) isTouching = true;
         else isTouching = false;
     }
@@ -172,12 +190,33 @@ public class PlayerMove : Singleton<PlayerMove>
         {
             this.GetComponent<Rigidbody2D>().AddForce(Vector3.up * 18f * speed);
         }
+
+
+        if (!hasStartedSpawnBoss && DistanceManager.Instance.isBossArrived == true &&
+            DistanceManager.Instance.isGamePlaying == true)
+        {
+            DataManager.Instance.ResultStars += 1;
+
+            if (DataManager.Instance.DreamPieceScore < maxBulletsPerShot)
+            {
+                ResultWindow.SetActive(true);
+                DistanceManager.Instance.DistanceUI_OFF();
+            }
+            else if (DataManager.Instance.DreamPieceScore >= maxBulletsPerShot)
+            {
+                ShootBullet();
+                hasStartedSpawnBoss = true;
+            }
+
+        }
     }
 
-    private void OnDisable()
+    private void CallBullet()
     {
-        maxBulletsPerShot = 0;
+
     }
+
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //상자 충돌
@@ -189,9 +228,9 @@ public class PlayerMove : Singleton<PlayerMove>
 
             // 사운드
             if (collision.transform.parent.name.Contains("Map1")) // 장애물 101~136
-            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.PlayerDamaged);
+                SoundManager.Instance.PlaySFX(SoundManager.SFX_list.PlayerDamaged);
             if (collision.transform.parent.name.Contains("Map3")) // 장애물 301~309
-            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.PlayerDamaged2);
+                SoundManager.Instance.PlaySFX(SoundManager.SFX_list.PlayerDamaged2);
 
             //hp바
             if (HpBarFilled.fillAmount <= 0.0f)
@@ -225,7 +264,8 @@ public class PlayerMove : Singleton<PlayerMove>
         }
         if (collision.gameObject.tag == "Result2Star")
         {
-            DataManager.Instance.ResultStars += 1;
+
+            /*DataManager.Instance.ResultStars += 1;
 
             if (DataManager.Instance.DreamPieceScore < maxBulletsPerShot)
             {
@@ -235,7 +275,7 @@ public class PlayerMove : Singleton<PlayerMove>
             else if (DataManager.Instance.DreamPieceScore >= maxBulletsPerShot)
             {
                 Invoke("ShootBullet", 1f);
-            }
+            }*/
         }
     }
     void OnDamaged()
@@ -263,6 +303,21 @@ public class PlayerMove : Singleton<PlayerMove>
         gameObject.layer = 20;
         sr.color = new Color(1, 1, 1, 1);
     }
+    void ShootBullet()
+    {
+        if (bulletsFired < maxBulletsPerShot)
+        {
+            InvokeRepeating("shootBossProjectile", 2f, 0.3f);
+            Debug.Log("총알 발사");
+        }
+        //멈추기
+        else
+        {
+            CancelInvoke("shootBossProjectile");
+            hasStartedSpawnBoss = true;
+        }
+
+    }
 
     void shootBossProjectile()
     {
@@ -283,18 +338,5 @@ public class PlayerMove : Singleton<PlayerMove>
         }
 
     }
-    void ShootBullet()
-    {
-        if (bulletsFired < maxBulletsPerShot)
-        {
-            InvokeRepeating("shootBossProjectile", 2f, 0.3f);
-
-        }
-        //멈추기
-        else
-        {
-            CancelInvoke("shootBossProjectile");
-        }
-
-    }
+    
 }
