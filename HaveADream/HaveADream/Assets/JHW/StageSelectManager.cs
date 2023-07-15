@@ -164,7 +164,20 @@ namespace JHW
 
         }
 
-        private void PlayerPosOnMap()
+        public void OnEnableMapSelect() // 스테이지 선택 씬 활성화시
+        {
+
+            // 월드버튼 비활성화
+            returnToWorldBtn.SetActive(false);
+
+
+            // 맵 외에 다른거 다 꺼주고 맵 켜기
+            for (int i = 0; i < this.transform.childCount; i++) this.transform.GetChild(i).gameObject.SetActive(false);
+            this.transform.GetChild(0).gameObject.SetActive(true);
+            WorldButton_OnClick();
+        }
+
+            private void PlayerPosOnMap()
         {
             // 캔버스(지도) 위치 플레이어 기준으로 설정
             ScrollRect sr = userMarker.transform.parent.parent.parent.parent.GetComponent<ScrollRect>();
@@ -259,7 +272,7 @@ namespace JHW
                 userClickedStage.GetComponent<Transform>().localScale = Vector2.one; // 원래 사이즈
 
             // 쥐제리 위치
-            DOTween.KillAll();
+            if(curEpiNum!=0) userMarker.transform.DOKill();
             userMarker.transform.localPosition = Vector2.zero;
 
 
@@ -326,7 +339,7 @@ namespace JHW
                 userClickedStage.transform.DOScale(1.4f, 0.5f);
 
                 // 움직임 멈춤
-                DOTween.Kill(userMarker.transform);
+                userMarker.transform.DOKill();
                 jerryAnim.SetBool("isJerryMoving", false);
 
                 // 큐 초기화
@@ -389,6 +402,8 @@ namespace JHW
 
         public void BackToEpisode_OnClick()
         {
+            if (curEpiNum == 0) { HomeButton_OnClick(); return; } // 열린 에피소드 없으면 홈화면으로
+
             // 플레이어 마크(쥐제리)이동중이면 실행X
             if (isMarkerMoving == true) return;
 
@@ -418,6 +433,7 @@ namespace JHW
         private int GetCurrentEpisodeNumber() // 현재 열려있는 에피소드 번호 리턴
         {
             int num = 0;
+            if (this.transform.GetChild(0).gameObject.activeInHierarchy) return 0; // 지도 열린상태면 0 리턴
             while (true)
             {
                 if (this.transform.GetChild(++num).gameObject.activeSelf == true) return num;

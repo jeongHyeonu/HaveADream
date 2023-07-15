@@ -61,6 +61,14 @@ public class SceneManager : Singleton<SceneManager>
         StageSelectScene.SetActive(true);
         JHW.StageSelectManager.Instance.OnEnableStageSelect();
     }
+    public void Scene_Change_MapSelect()    // �������� ���� ������ ��ȯ
+    {
+        Scene_init();
+        UIGroupManager.Instance.TopUI_On();
+        SkillManager.Instance.UI_Off();
+        StageSelectScene.SetActive(true);
+        JHW.StageSelectManager.Instance.OnEnableMapSelect();
+    }
     public void Scene_Change_GamePlay()    // �����÷��� ������ ��ȯ
     {
         Scene_init();
