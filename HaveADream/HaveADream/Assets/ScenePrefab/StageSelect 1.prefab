@@ -15730,7 +15730,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 80, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3044184461959789091
 CanvasRenderer:
@@ -15760,7 +15760,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB2E4\uC74C\\n\uC2A4\uD14C\uC774\uC9C0"
+  m_text: "\uC5C5\uB370\uC774\uD2B8\uB97C \uAE30\uB2E4\uB824 \uC8FC\uC138\uC694!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 21dcdc627a9a688409f51e80d94b45e1, type: 2}
   m_sharedMaterial: {fileID: -2983962948746323612, guid: 21dcdc627a9a688409f51e80d94b45e1, type: 2}
@@ -15770,7 +15770,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -20745,19 +20745,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8297521067072999017}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1462763789808170235}
-        m_TargetAssemblyTypeName: JHW.StageSelectManager, Assembly-CSharp
-        m_MethodName: nextButton_OnClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 13
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &5629665180086020366
 GameObject:
   m_ObjectHideFlags: 0
@@ -21596,6 +21584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f04fdb3a8228ee43b02681f00275415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curEpiNum: 0
   userMarker: {fileID: 8559718665331178793}
   returnToWorldBtn: {fileID: 7973693129718595563}
   StageInfo: {fileID: 7488291435558548099}
@@ -26792,7 +26781,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Play
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c52428db3c7cb854fa0914f4f727d714, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6edcc790cfa4be64293829a9a76c84f1, type: 2}
   m_sharedMaterial: {fileID: 8065413331323416223, guid: c52428db3c7cb854fa0914f4f727d714, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -26856,7 +26845,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &7360397425153031704

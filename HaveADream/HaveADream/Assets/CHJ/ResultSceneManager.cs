@@ -1,4 +1,5 @@
 //using UnityEditor.SceneManagement;
+using JHW;
 using UnityEngine;
 
 public class ResultSceneManager : MonoBehaviour
@@ -34,6 +35,9 @@ public class ResultSceneManager : MonoBehaviour
         resultWindow.SetActive(false);
 
         sm.Scene_Change_GamePlay();
+
+        // 배경초기화
+        BackgroundManager.Instance.GenerateBackground(JHW.StageSelectManager.Instance.curEpiNum);
 
         int currentStageMusic = int.Parse(UserDataManager.Instance.GetUserData_userCurrentStage().Split("-")[1]);
 

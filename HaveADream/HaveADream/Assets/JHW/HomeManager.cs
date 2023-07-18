@@ -23,6 +23,11 @@ partial class HomeManager : Singleton<HomeManager>
         sm = SceneManager.Instance;
         // 음악 재생
         SoundManager.Instance.PlayBGM(SoundManager.BGM_list.Home_BGM);
+
+        // 유저 이름
+        string userName = PlayerPrefs.GetString("userName", "사용자 이름");
+        userName_input.text = userName;
+        userName_profile.text = userName;
     }
 
     
@@ -182,6 +187,7 @@ partial class HomeManager
     [SerializeField] GameObject PrevButton;
     [SerializeField] GameObject NextButton;
     [SerializeField] GameObject skillPanel;
+    [SerializeField] GameObject skillInfoUI;
     [SerializeField] Sprite lockedAnimal;
     [SerializeField] Sprite lockedSkill;
 
@@ -193,10 +199,18 @@ partial class HomeManager
     // 유저프로필사진
     [SerializeField] List<GameObject> UserImageList;
 
+    // 마지막 스테이지 
+    [SerializeField] TextMeshProUGUI lastStage;
+
+    // 유저 이름
+    [SerializeField] TMP_InputField userName_input;
+    [SerializeField] TextMeshProUGUI userName_profile;
+
     LinkedList<GameObject> animalList = new LinkedList<GameObject>();
     GameObject selectedObj = null;
     int cur_animalIndex = 0;
     int cleared_animalCount = 0;
+
 
     // 해금한 동물 오픈
     public void Home_OpenAnials()
@@ -215,6 +229,7 @@ partial class HomeManager
                 Animals.transform.GetChild(cleared_animalCount).GetChild(2).GetChild(0).GetComponent<Image>().sprite = skillSprite[5]; // 동물 스킬 이미지 변경
             Animals.transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = ""; // 텍스트 내용 변경
             monkeyProfileImage.GetComponent<Image>().sprite = StageDataManager.Instance.ClearBossImg[0];
+            lastStage.text = "1-13";
         }
         else
         {
@@ -226,6 +241,7 @@ partial class HomeManager
                 {
                     AnimalObjects.transform.GetChild(1).GetComponent<Image>().sprite = lockedAnimal;
                     Animals.transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = "<size=10>에피소드1을 클리어하세요</size>\n진행도 : " + progressNum + "/" + epi1.Count; // 텍스트 내용 변경
+                    lastStage.text = "1-" + progressNum;
                     break;
                 }
             }
@@ -242,6 +258,7 @@ partial class HomeManager
                 Animals.transform.GetChild(cleared_animalCount).GetChild(2) .GetChild(0).GetComponent<Image>().sprite = skillSprite[6]; // 동물 스킬
             Animals.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().text = ""; // 텍스트 내용 변경
             lionProfileImage.GetComponent<Image>().sprite = StageDataManager.Instance.ClearBossImg[1];
+            lastStage.text = "2-18";
         }
         else
         {
@@ -253,6 +270,7 @@ partial class HomeManager
                 {
                     AnimalObjects.transform.GetChild(2).GetComponent<Image>().sprite = lockedAnimal;
                     Animals.transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>().text = "<size=10>에피소드2를 클리어하세요</size>\n진행도 : " + progressNum + "/" + epi2.Count; // 텍스트 내용 변경
+                    lastStage.text = "2-" + progressNum;
                     break;
                 }
             }
@@ -389,6 +407,21 @@ partial class HomeManager
             UserImageList[i].GetComponent<Image>().sprite = obj.GetComponent<Image>().sprite;
         }
         UserProfile_ChangeUserImage(true);
+    }
+
+    // 사용자 이름 변경 
+    public void UserName_Change(TMP_InputField input)
+    {
+        PlayerPrefs.SetString("userName", input.text);
+        userName_input.text = input.text;
+        userName_profile.text = input.text;
+    }
+
+    // 스킬 ? 아이콘 클릭시 스킬 정보 화면
+    public void SkillInfo_OnOff(bool b)
+    {
+        SkillSelectUI.transform.GetChild(1).gameObject.SetActive(!b); // 하드코딩 죄송합니다.. 스킬 선택창 UI 활성/비활성화
+        skillInfoUI.SetActive(b); // 스킬 설명창 활성/비활성화
     }
 }
 #endregion

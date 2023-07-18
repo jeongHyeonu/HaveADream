@@ -13,7 +13,12 @@ public class DreamPieceManager : Singleton<DreamPieceManager>
     int dreamPieceCnt = 0; // 등장한 꿈조각 카운트
 
     int boss_distance = 0; // 보스까지 거리
+    GameObject player;
 
+    private void Start()
+    {
+        player = GameObject.Find("Player");
+    }
     // 유저가 선택한 스테이지로부터 꿈조각 수 불러오기
     public void StageInfo_dreamPiece_getData()
     {
@@ -51,7 +56,7 @@ public class DreamPieceManager : Singleton<DreamPieceManager>
             float height = 2 * Camera.main.orthographicSize;
             float width = height * Camera.main.aspect;
 
-            float playerDistance = GameObject.Find("Player").transform.position.x - this.transform.position.x;
+            float playerDistance = player.transform.position.x - this.transform.position.x;
             float randomY = Random.Range(-height / 4, height / 4);
             Vector2 vec2 = new Vector2(width + playerDistance, randomY);
             //if (OcclusionManager.Instance.IsNearObjectOnObstacle(vec2)) // 만약 장애물과 가까운 거리에 생성시

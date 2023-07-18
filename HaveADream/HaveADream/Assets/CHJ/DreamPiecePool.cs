@@ -14,7 +14,12 @@ public class ObjectInfo
 public class DreamPiecePool : MonoBehaviour
 {
     [SerializeField] GameObject DPPool;
+    GameObject player;
 
+    private void Start()
+    {
+        player = GameObject.Find("Player");
+    }
     private void OnEnable()
     {
         StartCoroutine(DP_Randominstantiate());
@@ -30,7 +35,7 @@ public class DreamPiecePool : MonoBehaviour
         float height = 2 * Camera.main.orthographicSize;
         float width = height * Camera.main.aspect;
 
-        float playerDistance = GameObject.Find("Player").transform.position.x - this.transform.position.x;
+        float playerDistance = player.transform.position.x - this.transform.position.x;
         float randomY = Random.Range(-height / 4, height / 4);
         Vector2 vec2 = new Vector2(width + playerDistance, randomY);
 

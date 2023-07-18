@@ -9,7 +9,7 @@ namespace JHW
     partial class StageSelectManager : Singleton<StageSelectManager>
     {
         private SceneManager sm = null;
-        private int curEpiNum; // 유저 현재 에피소드 번호
+        public int curEpiNum; // 유저 현재 에피소드 번호
         private string userCurStage; // 유저가 현재 선택한 스테이지
         private GameObject userClickedStage; // 유저가 현재 선택한 스테이지
         Sequence ratTween;
@@ -95,27 +95,16 @@ namespace JHW
                         BackgroundManager.Instance.GenerateBackground(curEpiNum);
 
                         // 음악 재생
-                        switch (currentStageNumber)
+                        switch (curEpiNum)
                         {
                             case 1:
-                            case 2:
-                            case 5:
-                            case 6:
-                            case 9:
-                            case 10:
-                            case 13:
                                 SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_1);
                                 break;
-                            case 3:
-                            case 4:
-                            case 7:
-                            case 8:
-                            case 11:
-                            case 12:
+                            case 2:
                                 SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_2);
                                 break;
                             default:
-                                SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_2);
+                                SoundManager.Instance.PlayBGM(SoundManager.BGM_list.GamePlayBGM_1);
                                 break;
                         }
                     }
@@ -175,6 +164,9 @@ namespace JHW
             for (int i = 0; i < this.transform.childCount; i++) this.transform.GetChild(i).gameObject.SetActive(false);
             this.transform.GetChild(0).gameObject.SetActive(true);
             WorldButton_OnClick();
+
+            // 사운드
+            SoundManager.Instance.PlayBGM(SoundManager.BGM_list.StageSelect_BGM);
         }
 
             private void PlayerPosOnMap()

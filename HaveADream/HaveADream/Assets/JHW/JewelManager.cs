@@ -16,6 +16,13 @@ public class JewelManager : Singleton<JewelManager>
 
     int boss_distance = 0; // 보스까지 거리
 
+    GameObject player;
+
+    private void Start()
+    {
+        player = GameObject.Find("Player");
+    }
+
     // 유저가 선택한 스테이지로부터 보석 수 불러오기
     public void StageInfo_jewel_getData()
     {
@@ -55,7 +62,7 @@ public class JewelManager : Singleton<JewelManager>
             float height = 2 * Camera.main.orthographicSize;
             float width = height * Camera.main.aspect;
 
-            float playerDistance = GameObject.Find("Player").transform.position.x - this.transform.position.x;
+            float playerDistance = player.transform.position.x - this.transform.position.x;
             float randomY = Random.Range(-height / 4, height / 4);
             Vector2 vec2 = new Vector2(width + playerDistance, randomY);
             //if (OcclusionManager.Instance.IsNearObjectOnObstacle(vec2)) // 만약 장애물과 가까운 거리에 생성시
@@ -102,13 +109,13 @@ public class JewelManager : Singleton<JewelManager>
             float height = 2 * Camera.main.orthographicSize;
             float width = height * Camera.main.aspect;
 
-            float playerDistance = GameObject.Find("Player").transform.position.x - this.transform.position.x;
+            float playerDistance = player.transform.position.x - this.transform.position.x;
             float randomY = Random.Range(-height / 4, height / 4);
             Vector2 vec2 = new Vector2(width + playerDistance, randomY);
-            if (OcclusionManager.Instance.IsNearObjectOnObstacle(vec2)) // 만약 장애물과 가까운 거리에 생성시 다시생성
-            {
-                vec2 = new Vector2(vec2.x + 10, vec2.y);
-            };
+            //if (OcclusionManager.Instance.IsNearObjectOnObstacle(vec2)) // 만약 장애물과 가까운 거리에 생성시 다시생성
+            //{
+            //    vec2 = new Vector2(vec2.x + 10, vec2.y);
+            //};
 
             // 오브젝트 풀링, 비활성화된 보석 찾아서 active 로 변경 및 위치조정
             GameObject redJewel;
