@@ -116,7 +116,7 @@ public class PlayerMove : Singleton<PlayerMove>
     //추가 스킬1 : 속도 감소
     public void DecreaseSpeed()
     {
-        MapMove.Instance.mapSpeed -= 2.5f;
+        MapMove.Instance.mapSpeed -= 1.5f;
     }
 
     //추가 스킬 2 : 꿈조각 획득
