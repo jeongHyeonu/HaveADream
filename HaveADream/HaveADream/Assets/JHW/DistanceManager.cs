@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class DistanceManager : Singleton<DistanceManager>
 {
-    [SerializeField] public GameObject DistanceUI;
-    [SerializeField] TextMeshProUGUI distance_text;
     [SerializeField] public float distance = 0f; // 유저 이동거리
     [SerializeField] public float bossDistance = 0f; // 보스까지 거리
 
@@ -27,7 +25,7 @@ public class DistanceManager : Singleton<DistanceManager>
     }
     public void DistanceUI_ON()
     {
-        DistanceUI.SetActive(true);
+        //DistanceUI.SetActive(true);
 
         // 초기 이동거리 0으로 세팅
         distance = 0;
@@ -42,7 +40,6 @@ public class DistanceManager : Singleton<DistanceManager>
     }
     public void DistanceUI_OFF()
     {
-        DistanceUI.SetActive(false);
         isBossArrived = false;
         isGamePlaying = false;
     }
@@ -62,9 +59,9 @@ public class DistanceManager : Singleton<DistanceManager>
 
             isBossArrived = true;
             distance = bossDistance;
-            distance_text.SetText(bossDistance.ToString() + " m");
+
         }
 
-        distance_text.SetText(Mathf.Round(distance).ToString() + " m");
+
     }
 }

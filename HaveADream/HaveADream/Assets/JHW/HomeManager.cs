@@ -359,6 +359,14 @@ partial class HomeManager
             for(int i = 0; i < 5; i++)
             {
                 SkillManager.Instance.transform.GetChild(0).GetChild(i).GetComponent<Image>().sprite = skillPanel.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite;
+                if (cur_animalIndex == 1)
+                {
+                    SkillManager.Instance.ChangeDecreaseSpeed = true;
+                }
+                else if (cur_animalIndex == 2)
+                {
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece = true;
+                }
             }
 
         }
