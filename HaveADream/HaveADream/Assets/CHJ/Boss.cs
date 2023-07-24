@@ -114,9 +114,10 @@ public class Boss : MonoBehaviour
     }
     public void TakeDamage(int damage)
     {
-        //데미지 텍스트 출력
+        // 데미지 텍스트 출력
         GameObject hudText = Instantiate(hudDamageText);
-        hudText.transform.position = hudPos.position;
+        Vector3 randomOffset = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0f);
+        hudText.transform.position = hudPos.position + randomOffset;
 
 
     }

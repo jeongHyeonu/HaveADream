@@ -55,7 +55,7 @@ public class JewelManager : Singleton<JewelManager>
         else
         {
             // 2~3초 뒤에 보석 랜덤 생성
-            float randomSpawnDelay = Random.Range(2f, 3f);
+            float randomSpawnDelay = Random.Range(2.5f, 5f);
             yield return new WaitForSeconds(randomSpawnDelay);
 
             // 랜덤 생성 위치 지정

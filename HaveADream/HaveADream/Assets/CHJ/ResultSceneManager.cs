@@ -1,5 +1,6 @@
 //using UnityEditor.SceneManagement;
 using JHW;
+using System.Collections;
 using UnityEngine;
 
 public class ResultSceneManager : MonoBehaviour
@@ -9,10 +10,6 @@ public class ResultSceneManager : MonoBehaviour
     [SerializeField] GameObject getAnimalWindow2;
 
     private SceneManager sm = null;
-
-    [SerializeField] int currentEpisodeNumber;
-    [SerializeField] int currentStageNumber;
-
 
 
     void Start()
@@ -92,33 +89,35 @@ public class ResultSceneManager : MonoBehaviour
 
     private void GetAnimalPanel()
     {
-        // 스테이지 선택
-        // 유저가 선택한 스테이지 저장
-        string key = UserDataManager.Instance.GetUserData_userCurrentStage();
+        string epiData = UserDataManager.Instance.GetUserData_userCurrentStage();
 
-        currentStageNumber = (int)StageDataManager.Instance.GetStageInfo(key)["episode"];
-        currentEpisodeNumber = (int)StageDataManager.Instance.GetStageInfo(key)["stage"];
+        int epiNum = int.Parse(epiData.Split("-")[0]);
+        int stageNum = int.Parse(epiData.Split("-")[1]);
 
 
-        if (currentEpisodeNumber == 1)
+        if (epiNum == 1)
         {
-            if (currentStageNumber == 13)
+            if (stageNum == 13)
             {
                 if (DataManager.Instance.ResultStars == 3)
                 {
+                    resultWindow.SetActive(false);
                     getAnimalWindow1.SetActive(true);
+                    StartCoroutine(StartFadeIn(getAnimalWindow1));
                 }
 
             }
 
         }
-        if (currentEpisodeNumber == 2)
+        if (epiNum == 2)
         {
-            if (currentStageNumber == 18)
+            if (stageNum == 18)
             {
                 if (DataManager.Instance.ResultStars == 3)
                 {
+                    resultWindow.SetActive(false);
                     getAnimalWindow2.SetActive(true);
+                    StartCoroutine(StartFadeIn(getAnimalWindow2));
                 }
 
             }
@@ -127,6 +126,39 @@ public class ResultSceneManager : MonoBehaviour
 
 
     }
+
+
+    private IEnumerator FadeIn(GameObject targetWindow)
+    {
+        CanvasGroup cg = targetWindow.GetComponent<CanvasGroup>();
+        if (cg == null)
+            yield break;
+
+        float startAlpha = 0.0f; // Completely transparent at the start
+        float endAlpha = 1.0f;
+        float duration = 2.0f; // Increase duration to make fade in slower
+        float elapsed = 0.0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float normalizedTime = elapsed / duration; // goes from 0 to 1
+                                                       // Update alpha
+            cg.alpha = Mathf.Lerp(startAlpha, endAlpha, normalizedTime);
+            yield return null;
+        }
+
+        cg.alpha = endAlpha; // ensure it's set to the end alpha
+    }
+
+    private IEnumerator StartFadeIn(GameObject targetWindow)
+    {
+        //targetWindow.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        StartCoroutine(FadeIn(targetWindow));
+    }
+
+
 
     // 결과 저장
     public void ResultSave()
