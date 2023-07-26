@@ -17,6 +17,8 @@ partial class HomeManager : Singleton<HomeManager>
     [SerializeField] GameObject UserProfileUI_obj1;
     [SerializeField] GameObject UserProfileUI_obj2;
 
+
+
     void Start()
     {
         // 싱글톤 받아오기
@@ -210,7 +212,7 @@ partial class HomeManager
     GameObject selectedObj = null;
     int cur_animalIndex = 0;
     int cleared_animalCount = 0;
-
+    private int selectedSkillIndex;
 
     // 해금한 동물 오픈
     public void Home_OpenAnials()
@@ -323,11 +325,21 @@ partial class HomeManager
         if (cur_animalIndex <= AnimalObjects.transform.childCount - 3) { AnimalObjects.transform.GetChild(cur_animalIndex + 2)?.DOScale(0f, .5f); AnimalObjects.transform.GetChild(cur_animalIndex + 2).GetComponent<Image>().DOFade(0f, .5f); }
     }
 
-
+    
     public void SkillSelect([SerializeField] GameObject _obj)
     {
         // 사운드
         SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Button);
+
+        // 선택된 스킬의 인덱스를 찾습니다.
+        for (int i = 0; i < skillObjectList.Count; i++)
+        {
+            if (skillObjectList[i] == _obj)
+            {
+                selectedSkillIndex = i;
+                break;
+            }
+        }
 
         // 잠긴 스킬 선택할 경우
         if (_obj.transform.GetChild(0).GetComponent<Image>().sprite == lockedSkill) 
@@ -359,18 +371,85 @@ partial class HomeManager
             for(int i = 0; i < 5; i++)
             {
                 SkillManager.Instance.transform.GetChild(0).GetChild(i).GetComponent<Image>().sprite = skillPanel.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite;
-                if (cur_animalIndex == 1)
+            }
+            if (cur_animalIndex == 1)
+            {
+                if (selectedSkillIndex == 0)
                 {
-                    SkillManager.Instance.ChangeDecreaseSpeed = true;
+                    SkillManager.Instance.ChangeDecreaseSpeed0 = true;
+                    
                 }
-                else if (cur_animalIndex == 2)
+                else if (selectedSkillIndex == 1)
                 {
-                    SkillManager.Instance.ChangeGetJeweltoDreamPiece = true;
+                    SkillManager.Instance.ChangeDecreaseSpeed0 = false;
+                    SkillManager.Instance.ChangeDecreaseSpeed1 = true;
+                   
                 }
+                else if (selectedSkillIndex == 2)
+                {
+                    SkillManager.Instance.ChangeDecreaseSpeed0 = false;
+                    SkillManager.Instance.ChangeDecreaseSpeed1 = false;
+                    SkillManager.Instance.ChangeDecreaseSpeed2 = true;
+                    
+                }
+                else if (selectedSkillIndex == 3)
+                {
+                    SkillManager.Instance.ChangeDecreaseSpeed0 = false;
+                    SkillManager.Instance.ChangeDecreaseSpeed1 = false;
+                    SkillManager.Instance.ChangeDecreaseSpeed2 = false;
+                    SkillManager.Instance.ChangeDecreaseSpeed3 = true;
+                    
+                }
+                else if (selectedSkillIndex == 4)
+                {
+                    SkillManager.Instance.ChangeDecreaseSpeed0 = false;
+                    SkillManager.Instance.ChangeDecreaseSpeed1 = false;
+                    SkillManager.Instance.ChangeDecreaseSpeed2 = false;
+                    SkillManager.Instance.ChangeDecreaseSpeed3 = false;
+                    SkillManager.Instance.ChangeDecreaseSpeed4 = true;
+                }
+
+            }
+            else if (cur_animalIndex == 2)
+            {
+                if (selectedSkillIndex == 0)
+                {
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece0 = true;
+                }
+                else if (selectedSkillIndex == 1)
+                {
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece0 = false;
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece1 = true;
+                }
+                else if (selectedSkillIndex == 2)
+                {
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece0 = false;
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece1 = false;
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece2 = true;
+                }
+                else if (selectedSkillIndex == 3)
+                {
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece0 = false;
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece1 = false;
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece2 = false;
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece3 = true;
+                }
+                else if (selectedSkillIndex == 4)
+                {
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece0 = false;
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece1 = false;
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece2 = false;
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece3 = false;
+                    SkillManager.Instance.ChangeGetJeweltoDreamPiece4 = true;
+                }
+
+
             }
 
         }
+
     }
+
 
 
     // 스킬선택 화면 온오프

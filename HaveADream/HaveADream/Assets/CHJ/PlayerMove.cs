@@ -53,8 +53,12 @@ public class PlayerMove : Singleton<PlayerMove>
     //
     private bool hasStartedSpawnBoss = false;
 
+    public int ChangeGetjewelCnt;
+
+
 
     public float GetPlayerSpeed() { return speed; }
+
 
     //스킬 사용중 무적 상태를 위한 함수
     public void ChangeLayer(GameObject obj, int newLayer)
@@ -73,6 +77,7 @@ public class PlayerMove : Singleton<PlayerMove>
     public void ChangeSpeed(float speed = 1)
     {
         this.speed = speed;
+        Debug.Log("스킬1");
     }
 
     //스킬2 : 안 보이게 되는 무적 부스터
@@ -84,7 +89,7 @@ public class PlayerMove : Singleton<PlayerMove>
         //Debug.Log("21로 전환되었나?");
         sr.color = new Color(0.7f, 0.4f, 0.4f, 1f);
         MapMove.Instance.mapSpeed = 12f;
-
+        Debug.Log("스킬2");
     }
 
 
@@ -93,6 +98,7 @@ public class PlayerMove : Singleton<PlayerMove>
     {
         DataManager.Instance.HealthCurrent += 1.0f;
         HpBarFilled.fillAmount += 0.1f;
+        Debug.Log("스킬3");
     }
 
     //스킬4 : 자석
@@ -100,6 +106,7 @@ public class PlayerMove : Singleton<PlayerMove>
     {
         //MagneticField.layer = 21;
         MagneticField.SetActive(true);
+        Debug.Log("스킬4");
     }
 
     //스킬5 : 방어막 (구현 완료, 건드리지 말 것)
@@ -111,18 +118,21 @@ public class PlayerMove : Singleton<PlayerMove>
         //sr.color = new Color(0.3f, 0.4f, 0.7f, 1f);
         shieldSprite.SetActive(true);
         isShield = true;
+        Debug.Log("스킬5");
     }
 
     //추가 스킬1 : 속도 감소
     public void DecreaseSpeed()
     {
-        MapMove.Instance.mapSpeed -= 1.5f;
+        MapMove.Instance.mapSpeed -= 2f;
+        Debug.Log("스킬6");
     }
 
     //추가 스킬 2 : 꿈조각 획득
     public void GetJeweltoDreamPiece()
     {
-        DataManager.Instance.DreamPieceScore += 5;
+        DataManager.Instance.DreamPieceScore += ChangeGetjewelCnt;
+        Debug.Log("스킬7");
     }
 
     public void setIsSkillBtn(bool flag)

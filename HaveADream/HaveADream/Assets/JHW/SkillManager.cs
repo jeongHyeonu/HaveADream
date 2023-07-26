@@ -21,8 +21,23 @@ partial class SkillManager : Singleton<SkillManager>
     private int jewelCnt = 0;
     // Start is called before the first frame update
 
-    public bool ChangeDecreaseSpeed = false;
-    public bool ChangeGetJeweltoDreamPiece = false;
+
+    public bool ChangeDecreaseSpeed0 = false;
+    public bool ChangeGetJeweltoDreamPiece0 = false;
+
+    public bool ChangeDecreaseSpeed1 = false;
+    public bool ChangeGetJeweltoDreamPiece1 = false;
+
+    public bool ChangeDecreaseSpeed2 = false;
+    public bool ChangeGetJeweltoDreamPiece2 = false;
+
+    public bool ChangeDecreaseSpeed3 = false;
+    public bool ChangeGetJeweltoDreamPiece3 = false;
+
+    public bool ChangeDecreaseSpeed4 = false;
+    public bool ChangeGetJeweltoDreamPiece4 = false;
+
+
 
     void Start()
     {
@@ -84,14 +99,30 @@ partial class SkillManager : Singleton<SkillManager>
 
     public void SpeedSkill_OnClick()
     {
+        if (ChangeDecreaseSpeed0)
+        {
+            PlayerMove.Instance.DecreaseSpeed();
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
 
-        this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
-        PlayerMove.Instance.ChangeSpeed(2f);
-        Invoke("SpeedSkill_RollBack", 3f);
-        ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+        }
+        else if (ChangeGetJeweltoDreamPiece0)
+        {
+            PlayerMove.Instance.ChangeGetjewelCnt = 1;
+            PlayerMove.Instance.GetJeweltoDreamPiece();
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+        }
+        else
+        {
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            PlayerMove.Instance.ChangeSpeed(2f);
+            Invoke("SpeedSkill_RollBack", 3f);
+            ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
 
-        //사운드
-        SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Skill2);
+            //사운드
+            SoundManager.Instance.PlaySFX(SoundManager.SFX_list.Skill2);
+        }
     }
     private void InvinsibleSkill_RollBack()
     {
@@ -124,32 +155,91 @@ partial class SkillManager : Singleton<SkillManager>
 
     public void InvinsibleSkill_OnClick()
     {
-        PlayerMove.Instance.ChangeInvisible();
-        Invoke("InvinsibleSkill_RollBack", 1f);
-        this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
-        this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
-
-        ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+        if (ChangeDecreaseSpeed1)
+        {
+            PlayerMove.Instance.DecreaseSpeed();
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+        }
+        else if (ChangeGetJeweltoDreamPiece1)
+        {
+            PlayerMove.Instance.ChangeGetjewelCnt = 2;
+            PlayerMove.Instance.GetJeweltoDreamPiece();
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+        }
+        else
+        {
+            PlayerMove.Instance.ChangeInvisible();
+            Invoke("InvinsibleSkill_RollBack", 1f);
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+        }
     }
     public void HealSkill_OnClick()
     {
-        PlayerMove.Instance.ChangeHealth();
-        this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
-        this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
-        this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
-        ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+        if (ChangeDecreaseSpeed2)
+        {
+            PlayerMove.Instance.DecreaseSpeed();
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+        }
+        else if (ChangeGetJeweltoDreamPiece2)
+        {
+            PlayerMove.Instance.ChangeGetjewelCnt = 3;
+            PlayerMove.Instance.GetJeweltoDreamPiece();
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+        }
+        else
+        {
+            PlayerMove.Instance.ChangeHealth();
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+        }
     }
     
     public void AbsorbSkill_OnClick()
     {
-        PlayerMove.Instance.Magnet();
-        Invoke("AbsorbSkill_RollBack", 1.0f);
-        this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
-        this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
-        this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
-        this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
-        ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+        if (ChangeDecreaseSpeed3)
+        {
+            PlayerMove.Instance.DecreaseSpeed();
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+        }
+        else if (ChangeGetJeweltoDreamPiece3)
+        {
+            PlayerMove.Instance.ChangeGetjewelCnt = 4;
+            PlayerMove.Instance.GetJeweltoDreamPiece();
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+        }
+        else
+        {
+            PlayerMove.Instance.Magnet();
+            Invoke("AbsorbSkill_RollBack", 1.0f);
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
+            ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
+        }
     }
+
     private void AbsorbSkill_RollBack()
     {
         PlayerMove.Instance.MagneticField.SetActive(false);
@@ -157,7 +247,7 @@ partial class SkillManager : Singleton<SkillManager>
 
     public void ShieldSkill_OnClick()
     {
-        if (ChangeDecreaseSpeed)
+        if (ChangeDecreaseSpeed4)
         {
             PlayerMove.Instance.DecreaseSpeed();
             this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
@@ -167,8 +257,9 @@ partial class SkillManager : Singleton<SkillManager>
             this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
             ChangeJewelCntText(); // 보석 수량 표시 텍스트 변경
         }
-        else if (ChangeGetJeweltoDreamPiece)
+        else if (ChangeGetJeweltoDreamPiece4)
         {
+            PlayerMove.Instance.ChangeGetjewelCnt = 5;
             PlayerMove.Instance.GetJeweltoDreamPiece();
             this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
             this.transform.GetChild(0).GetChild(--jewelCnt).GetComponent<Button>().interactable = false;
